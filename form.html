@@ -1,0 +1,680 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Find your investment focus · betterhomes</title>
+<meta name="description" content="Tell us about your priorities and plans and we'll personalise your UAE property investment handbook.">
+<meta name="theme-color" content="#1F343F">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   FONTS — IvyMode (display) ships in /fonts; DM Sans (text) from Google Fonts.
+   Same tokens as index.html so the two files read as one.
+   ============================================================ */
+@font-face{ font-family:"IvyMode"; font-weight:400; font-style:normal; font-display:swap; src:url("fonts/IvyMode-Regular.ttf") format("truetype"); }
+@font-face{ font-family:"IvyMode"; font-weight:600; font-style:normal; font-display:swap; src:url("fonts/IvyMode-SemiBold.ttf") format("truetype"); }
+@font-face{ font-family:"Ivy Mode"; font-weight:600; font-style:normal; font-display:swap;
+  src:url("fonts/IvyMode-Regular.woff2") format("woff2"), url("fonts/IvyMode-Regular.woff") format("woff"); }
+
+/* ============================================================
+   TOKENS — identical to index.html so the two files read as one
+   ============================================================ */
+:root{
+  --slate:#1f343f; --denim:#335c82; --powder:#7BA0B2; --sand:#e0bb9e; --mist:#ede8e4; --salmon:#f3777a;
+  --ink:var(--slate); --ink-2:#4B5E68; --line:rgba(31,52,63,.18); --line-light:rgba(255,255,255,.28);
+  --font-display:"IvyMode",Georgia,"Times New Roman",serif;
+  --font-body:"DM Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --top:3.7rem; --pad:4.3rem; --aside:34%;
+  --ease:cubic-bezier(.2,.7,.2,1);
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+html{ font-size:clamp(10.5px,min(.8333vw,1.4815vh),16px); scroll-padding-top:env(safe-area-inset-top,0px); height:100%; }
+*,*::before,*::after{ box-sizing:inherit; }
+body{ margin:0; height:100%; font-family:var(--font-body); color:var(--ink); background:var(--slate); line-height:1.45; -webkit-font-smoothing:antialiased; overflow:hidden; }
+h1,h2,h3{ font-family:var(--font-display); font-weight:400; margin:0; line-height:1.05; }
+p{ margin:0; }
+ul{ margin:0; padding:0; list-style:none; }
+button{ font:inherit; color:inherit; background:none; border:0; cursor:pointer; padding:0; }
+input,select{ font:inherit; color:inherit; }
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ outline:2px solid var(--salmon); outline-offset:3px; }
+@media (prefers-reduced-motion:reduce){ *{ transition:none!important; animation:none!important; } }
+
+/* ============================================================ FRAME */
+.app{ display:grid; grid-template-rows:var(--top) 1fr; height:100%; }
+.top{ display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:2rem; padding:0 2.4rem 0 1.6rem; background:#fff; border-bottom:1px solid var(--line); z-index:5; }
+.wordmark{ font-family:var(--font-display); font-weight:400; font-size:1.4rem; color:var(--slate); text-decoration:none; }
+.progress{ display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:.9rem; max-width:46rem; margin:0 auto; width:100%; font-size:.72rem; color:var(--slate); }
+.progress .track{ position:relative; height:1px; background:var(--line); }
+.progress .fill{ position:absolute; inset:0 auto 0 0; background:var(--slate); transition:width .5s var(--ease); }
+.progress .dot{ position:absolute; top:50%; width:.6rem; height:.6rem; background:var(--slate); transform:translate(-50%,-50%) rotate(45deg); transition:left .5s var(--ease); }
+.progress .dot.end{ left:100%; background:var(--sand); }
+.counter{ font-size:.7rem; color:var(--slate); white-space:nowrap; }
+
+.stage{ position:relative; display:grid; grid-template-columns:var(--aside) 1fr; overflow:hidden; background:var(--mist); }
+.aside{ position:relative; overflow:hidden; color:#fff; background:#000; display:flex; flex-direction:column; justify-content:space-between; padding:var(--pad) 3rem 4rem var(--pad); }
+.aside img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity .6s ease; }
+.aside img.ready{ opacity:.72; }
+.aside::after{ content:""; position:absolute; inset:0; background:linear-gradient(180deg,rgba(31,52,63,.15) 0%,rgba(31,52,63,.55) 60%,rgba(31,52,63,.9) 100%); }
+.aside > *{ position:relative; z-index:1; }
+.aside .section{ font-size:.78rem; opacity:.85; }
+.aside .big{ font-family:var(--font-display); font-size:7rem; line-height:.9; margin-top:1.2rem; }
+.aside .why{ font-size:.86rem; line-height:1.5; max-width:22rem; color:rgba(255,255,255,.82); }
+.aside .why b{ display:block; font-weight:600; color:#fff; margin-bottom:.4rem; font-size:.9rem; }
+
+.main{ position:relative; overflow:hidden; }
+.panel{ position:absolute; inset:0; overflow-y:auto; overscroll-behavior:contain; -webkit-overflow-scrolling:touch; padding:var(--pad) var(--pad) 8rem; }
+.panel.enter{ animation:slideIn .55s var(--ease); }
+.panel.exit{ animation:slideOut .45s var(--ease) forwards; pointer-events:none; }
+.panel.back.enter{ animation-name:slideInBack; } .panel.back.exit{ animation-name:slideOutBack; }
+@keyframes slideIn{ from{ opacity:0; transform:translateX(2.5rem);} to{ opacity:1; transform:none;} }
+@keyframes slideOut{ to{ opacity:0; transform:translateX(-2.5rem);} }
+@keyframes slideInBack{ from{ opacity:0; transform:translateX(-2.5rem);} to{ opacity:1; transform:none;} }
+@keyframes slideOutBack{ to{ opacity:0; transform:translateX(2.5rem);} }
+@keyframes fade{ from{ opacity:0; transform:translateY(.6rem);} }
+
+.q{ font-size:3rem; max-width:34ch; }
+.help{ font-size:1rem; color:var(--ink-2); margin-top:1rem; max-width:62ch; line-height:1.5; }
+.group-t{ font-family:var(--font-display); font-size:1.5rem; margin-top:2.4rem; padding-bottom:.6rem; border-bottom:1px solid var(--line); display:flex; justify-content:space-between; align-items:baseline; }
+.group-t small{ font-family:var(--font-body); font-size:.78rem; color:var(--ink-2); }
+.err{ display:none; margin-top:1.4rem; padding:.9rem 1.1rem; background:rgba(255,120,122,.14); border-left:2px solid var(--salmon); font-size:.86rem; animation:fade .3s var(--ease); }
+.err.on{ display:block; }
+.note{ margin-top:1.4rem; padding:1rem 1.2rem; background:rgba(255,255,255,.65); border-left:2px solid var(--sand); font-size:.86rem; line-height:1.5; max-width:66ch; }
+.note b{ display:block; font-weight:600; margin-bottom:.3rem; }
+
+/* options — one row per choice; the brand diamond is the selection mark */
+.opts{ margin-top:2rem; max-width:62rem; }
+.opts .opt{ display:grid; grid-template-columns:1.6rem 1fr; gap:1rem; align-items:center; width:100%; text-align:left; padding:1.05rem .9rem 1.05rem .4rem; border-top:.5px solid var(--slate); font-size:1.05rem; transition:background .2s; }
+.opts .opt:last-child{ border-bottom:.5px solid var(--slate); }
+.opts .opt:hover{ background:rgba(255,255,255,.55); }
+.opts .opt .d{ width:.75rem; height:.75rem; margin-left:.4rem; border:1px solid var(--slate); transform:rotate(45deg); transition:background .2s,transform .2s,border-color .2s; }
+.opts .opt[aria-pressed="true"]{ font-weight:600; background:#fff; border-radius:6px; }
+.opts .opt[aria-pressed="true"] .d{ background:var(--slate); transform:rotate(45deg) scale(1.25); }
+.opts .opt:disabled{ opacity:.35; cursor:default; } .opts .opt:disabled:hover{ background:none; }
+.opts.compact .opt{ padding:.8rem .9rem .8rem .4rem; font-size:.95rem; }
+.opts .opt .sub{ display:block; font-weight:400; font-size:.82rem; color:var(--ink-2); margin-top:.15rem; }
+
+/* chips for communities */
+.search{ margin-top:1.6rem; max-width:62rem; display:flex; gap:.6rem; align-items:center; }
+.search input{ flex:1; padding:.75rem 1rem; border:1px solid var(--line); background:#fff; font-size:.95rem; border-radius:3px; }
+.chips{ display:flex; flex-wrap:wrap; gap:.55rem; margin-top:1.2rem; max-width:62rem; }
+.chips button{ padding:.6rem 1.1rem; font-size:.84rem; font-weight:600; color:var(--slate); background:rgba(255,255,255,.7); border:1px solid var(--line); border-radius:6px; transition:background .2s,color .2s,border-color .2s; }
+.chips button:hover{ background:#fff; }
+.chips button[aria-pressed="true"]{ background:var(--slate); color:#fff; border-color:var(--slate); border-radius:6px; }
+.chips button[aria-pressed="true"]::after{ content:"×"; margin-left:.6rem; opacity:.7; }
+.chips .city{ width:100%; font-family:var(--font-display); font-size:1.2rem; color:var(--denim); margin:1rem 0 .2rem; display:flex; align-items:center; gap:.6rem; }
+.chips .city::before{ content:""; width:.6rem; height:.6rem; border:1px solid currentColor; transform:rotate(45deg); }
+.chips .empty{ font-size:.86rem; color:var(--ink-2); }
+.openchip{ margin-top:1.6rem; }
+.openchip .opt{ border-bottom:1px solid var(--line); }
+
+/* budget selectors */
+.range{ display:grid; grid-template-columns:1fr auto 1fr; gap:1rem; align-items:end; max-width:46rem; margin:1.6rem 0 0 2.6rem; animation:fade .35s var(--ease); }
+.range .to{ font-family:var(--font-display); font-size:1.4rem; padding-bottom:.6rem; color:var(--ink-2); }
+.field label{ display:block; font-size:.78rem; font-weight:600; margin-bottom:.4rem; }
+.sel{ position:relative; display:block; }
+.sel select{ appearance:none; -webkit-appearance:none; width:100%; padding:.75rem 2.4rem .75rem 1rem; font-size:.95rem; background:#fff; border:1px solid var(--line); border-radius:3px; cursor:pointer; }
+.sel select:has(option[value=""]:checked){ color:var(--ink-2); }
+.sel::after{ content:""; position:absolute; right:1rem; top:50%; width:.45rem; height:.45rem; border:solid var(--slate); border-width:0 1px 1px 0; transform:translateY(-70%) rotate(45deg); pointer-events:none; }
+
+/* contact */
+.form{ display:grid; grid-template-columns:1fr 1fr; gap:1.4rem 1.6rem; max-width:62rem; margin-top:2rem; }
+.form .full{ grid-column:1/-1; }
+.form input{ width:100%; padding:.8rem 1rem; border:1px solid var(--line); background:#fff; font-size:.95rem; border-radius:3px; }
+.form input[aria-invalid="true"]{ border-color:var(--salmon); }
+.form .phone{ display:grid; grid-template-columns:10rem 1fr; gap:.6rem; }
+.form .hint{ font-size:.78rem; color:var(--ink-2); margin-top:.4rem; }
+.consent{ margin-top:2rem; max-width:62rem; padding-top:1.4rem; border-top:1px solid var(--line); }
+.consent .privacy{ font-size:.86rem; color:var(--ink); line-height:1.5; max-width:70ch; }
+.consent .privacy a{ color:var(--denim); }
+.consent .tick{ display:grid; grid-template-columns:1.4rem 1fr; gap:.9rem; align-items:start; margin-top:1.2rem; cursor:pointer; font-size:.9rem; line-height:1.5; max-width:70ch; }
+.consent .tick input{ appearance:none; -webkit-appearance:none; width:1.1rem; height:1.1rem; margin:.25rem 0 0 .15rem; border:1px solid var(--slate); transform:rotate(45deg); cursor:pointer; transition:background .2s; }
+.consent .tick input:checked{ background:var(--slate); }
+
+/* intro */
+.intro .q{ font-size:4.2rem; max-width:18ch; }
+.intro .lede{ font-family:var(--font-display); font-size:1.9rem; margin-top:1.6rem; max-width:30ch; color:var(--denim); }
+.intro .help{ margin-top:1.4rem; }
+
+/* nav (same as the guide) */
+.nav{ position:absolute; right:3rem; bottom:2.6rem; z-index:6; display:flex; gap:.6rem; align-items:center; }
+.nav button,.nav a{ display:flex; align-items:center; gap:.75rem; padding:.65rem 1.4rem; font-size:1rem; border:1px solid var(--slate); border-radius:4px; background:rgba(243,119,122,.01); backdrop-filter:blur(11px); color:var(--slate); text-decoration:none; transition:background .2s; }
+.nav button:hover{ background:#fff; } .nav button:disabled{ opacity:.35; cursor:default; }
+.nav .primary{ background:var(--salmon); color:var(--slate); border-color:var(--salmon); font-weight:600; }
+.nav .primary:hover{ background:#f68a8c; border-color:#f68a8c; }
+.nav .skip{ border:0; background:none; backdrop-filter:none; font-size:.85rem; text-decoration:underline; text-underline-offset:.2em; }
+.stage.on-dark .nav button:not(.primary){ background:rgba(31,52,63,.45); color:#fff; border-color:rgba(255,255,255,.15); }
+.stage.on-dark .nav .skip{ color:#fff; background:none; }
+.stage.on-dark .nav .primary{ background:var(--salmon); color:var(--slate); border-color:var(--salmon); }
+
+/* result */
+.stage.on-dark{ background:#000; }
+.result{ color:#fff; --ink:#fff; --ink-2:rgba(255,255,255,.78); --line:rgba(255,255,255,.22); grid-column:1/-1; }
+.result .inner{ max-width:92rem; }
+.result .kicker{ font-size:.86rem; color:var(--ink-2); }
+.result h1{ font-size:4.4rem; margin-top:.6rem; }
+.result .desc{ font-size:1.1rem; line-height:1.5; max-width:62ch; margin-top:1.4rem; }
+.result .block{ margin-top:2.6rem; padding-top:1.6rem; border-top:1px solid var(--line); }
+.result .block h2{ font-size:2rem; color:var(--sand); }
+.result .block p{ font-size:.95rem; line-height:1.5; color:var(--ink-2); max-width:62ch; margin-top:.8rem; }
+.result .grid{ display:grid; grid-template-columns:1fr 1fr; gap:0 4rem; }
+.also{ display:flex; gap:.6rem; flex-wrap:wrap; margin-top:1rem; }
+.also span{ padding:.5rem 1rem; border:1px solid var(--line); border-radius:3px; font-size:.88rem; }
+.shares{ margin-top:1.4rem; max-width:48rem; }
+.shares .bar{ display:flex; height:.9rem; gap:3px; }
+.shares .bar span{ height:100%; transition:width .6s var(--ease); background:var(--powder); }
+.shares .bar span:first-child{ background:var(--sand); }
+.shares ul{ margin-top:1rem; }
+.shares li{ display:grid; grid-template-columns:1.2rem 1fr auto; gap:.8rem; align-items:center; padding:.7rem 0; border-top:1px solid var(--line); font-size:.95rem; }
+.shares li .d{ width:.65rem; height:.65rem; margin-left:.3rem; transform:rotate(45deg); background:var(--powder); }
+.shares li:first-child .d{ background:var(--sand); }
+.shares li .pct{ font-family:var(--font-display); font-size:1.7rem; }
+.shares .cap{ font-size:.78rem; color:var(--ink-2); margin-top:.8rem; }
+.glance{ display:grid; grid-template-columns:repeat(3,1fr); gap:1.4rem; margin-top:1.4rem; }
+.glance div{ padding:1.2rem 1.4rem; background:rgba(0,0,0,.5); border:1px solid rgba(255,255,255,.11); border-radius:6px; backdrop-filter:blur(16.5px); }
+.glance .l{ font-size:.76rem; color:var(--ink-2); }
+.glance .v{ font-family:var(--font-display); font-size:2rem; margin-top:.5rem; line-height:1.15; }
+.result .open{ margin-top:1.2rem; padding:.9rem 1.2rem; background:rgba(217,185,160,.14); border-left:2px solid var(--sand); font-size:.9rem; max-width:62ch; }
+
+/* ============================================================ RESPONSIVE */
+@media (max-width:1100px){
+  :root{ --pad:1.8rem; }
+  html{ font-size:13px; }
+  .stage{ grid-template-columns:1fr; grid-template-rows:auto 1fr; }
+  .aside{ padding:1.4rem var(--pad); flex-direction:row; align-items:center; gap:1.4rem; }
+  .aside .big{ font-size:2.4rem; margin:0; } .aside .why{ display:none; } .aside img{ display:none; }
+  .progress{ max-width:none; }
+  .q{ font-size:2.2rem; } .intro .q{ font-size:2.8rem; }
+  .nav{ right:1.2rem; bottom:1.2rem; }
+  .result h1{ font-size:3rem; } .result .grid,.glance{ grid-template-columns:1fr; } .form{ grid-template-columns:1fr; } .range{ margin-left:0; }
+}
+@media (max-width:640px){
+  html{ font-size:12.5px; }
+  .counter{ display:none; } .top{ grid-template-columns:auto 1fr; padding:0 1.4rem; }
+  .panel{ padding-bottom:7rem; }
+  .range{ grid-template-columns:1fr; } .range .to{ display:none; }
+  .form .phone{ grid-template-columns:8rem 1fr; }
+  .nav{ left:1.2rem; justify-content:flex-end; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <a class="wordmark" href="#" aria-label="betterhomes">betterhomes</a>
+    <div class="progress" aria-hidden="true">
+      <span>Your priorities</span>
+      <div class="track"><div class="fill" id="pfill"></div><div class="dot" id="pdot"></div><div class="dot end"></div></div>
+      <span>Your handbook</span>
+    </div>
+    <span class="counter" id="counter"></span>
+  </header>
+  <main class="stage" id="stage">
+    <aside class="aside" id="aside"></aside>
+    <section class="main" id="main"></section>
+    <nav class="nav" id="nav"></nav>
+  </main>
+</div>
+
+<script>
+/* ============================================================
+   CONFIG — the guide lives next to this file. Values are handed
+   over in the URL hash, which app.js already reads into state.
+   ============================================================ */
+const GUIDE_URL = "index.html";
+const VERSIONS = { form_version:"form_v1.0", algorithm_version:"goal_share_v1.0", copy_version:"lp_result_source_v1.0", guide_content_version:"guide_content_v1.0", consent_text_version:"consent_v1.0" };
+const SHARES = { single:100, main:70, pool:30, maxAdditional:2 };
+
+/* ============================================================ CATALOGUE (IDs from the algorithm sheet) */
+const MARKETS = [["dubai","Dubai"],["abu_dhabi","Abu Dhabi"],["both","Both Dubai and Abu Dhabi"],["undecided","I haven’t decided yet"]];
+const GOALS = [["rental_income","Earn rental income"],["capital_growth","Buy a property with potential to grow in value"],["uae_residency","Support my UAE residency plans"],["personal_use","Have a home for my own use"],["portfolio_diversification","Diversify my wider investments"]];
+const GOAL_LABEL = Object.fromEntries(GOALS);
+const ROUTES = [["completed_rent","Buy a completed property and rent it out"],["completed_resell","Buy a completed property to resell"],["off_plan_sell_before_handover","Buy off-plan and sell before handover"],["off_plan_rent_after_handover","Buy off-plan and rent it out after handover"],["off_plan_resell_after_handover","Buy off-plan and resell after handover"],["personal_use","Buy a home for my own use"],["undecided","I haven’t decided yet"]];
+const STAGES = [["completed","A completed home"],["off_plan","An off-plan home"],["both","I’m open to both"],["undecided","I haven’t decided yet"]];
+const TIMING = {
+  completed_rent: { q:"When would you like rental income to begin?", anchor:"purchase", opts:[["asap","As soon as possible after purchase"],["within_12m","Within 12 months of purchase"],["more_than_12m","More than 12 months after purchase"],["flexible","My timing is flexible"],["undecided","I haven’t decided yet"]] },
+  off_plan_rent_after_handover: { q:"When would you like rental income to begin?", anchor:"handover", opts:[["asap","As soon as possible after handover"],["within_12m","Within 12 months of handover"],["more_than_12m","More than 12 months after handover"],["flexible","My timing is flexible"],["undecided","I haven’t decided yet"]] },
+  completed_resell: { q:"When would you consider selling?", anchor:"purchase", opts:[["within_12m","Within 12 months of purchase"],["more_than_12m_to_3y","More than 12 months to 3 years after purchase"],["more_than_3y_to_5y","More than 3 to 5 years after purchase"],["more_than_5y","More than 5 years after purchase"],["opportunity_dependent","It depends on the opportunity"],["undecided","I haven’t decided yet"]] },
+  off_plan_sell_before_handover: { q:"When would you consider selling your off-plan purchase?", anchor:"purchase_before_handover", opts:[["within_12m","Within 12 months of purchase"],["more_than_12m_to_3y","More than 12 months to 3 years after purchase"],["more_than_3y_before_handover","More than 3 years after purchase, before handover"],["opportunity_and_progress_dependent","It depends on the opportunity and project progress"],["undecided","I haven’t decided yet"]] },
+  off_plan_resell_after_handover: { q:"When would you consider selling after handover?", anchor:"handover", opts:[["asap","As soon as possible after handover"],["within_12m","Within 12 months of handover"],["more_than_12m_to_3y","More than 12 months to 3 years after handover"],["more_than_3y_to_5y","More than 3 to 5 years after handover"],["more_than_5y","More than 5 years after handover"],["opportunity_dependent","It depends on the opportunity"],["undecided","I haven’t decided yet"]] },
+  personal_use: { q:"When would you like to start using the home?", help:"Think about when you would like to start using the home, from now.", anchor:"form_submission", opts:[["asap","As soon as possible"],["within_12m","Within 12 months"],["more_than_12m_to_3y","In more than 12 months to 3 years"],["more_than_3y","In more than 3 years"],["flexible","My timing is flexible"],["undecided","I haven’t decided yet"]] }
+};
+const AMOUNTS = [500000,750000,1000000,1500000,2000000,3000000,5000000,7500000,10000000,15000000,20000000,30000000];
+const FUNDING = [["own_funds","Use my own funds"],["own_funds_mortgage","Use my own funds and a mortgage"],["developer_payment_plan","Pay in stages through a developer payment plan"],["developer_plan_then_mortgage","Use a developer payment plan, then explore a mortgage at handover"],["multiple_options","I’m considering more than one option"],["undecided","I haven’t decided yet"]];
+const EXPERIENCE = [["uae","Yes, in the UAE"],["outside_uae","Yes, outside the UAE"],["first_investment","This would be my first property investment"],["prefer_not_to_say","Prefer not to say"]];
+/* Community names MUST mirror communities.js (`name` field) so the guide can pick them up by name. IDs are derived.
+   When a community is added, renamed or removed in communities.js, update this list too. */
+const COMMUNITIES = {
+  dubai: ["Marina","Emaar Beachfront","Palm Jumeirah","Jumeirah Lake Towers (JLT)","JBR (Jumeirah Beach Residence)","Tecom / Greens","Town Square / Cherrywoods","Damac Hills 2","Mira / Mira Oasis / Serena","Damac Hills","Tilal Al Ghaf (TAG)" /* CONFIRM — grid said "TAG (The Villa area group)"; profile data says Tilal Al Ghaf */,"Dubai Hills Estate","The Villa / Falcon City / Living Legends / Villanova / The Valley","The Sustainable City","Arabian Ranches 1 & 2 / Polo Homes","Arabian Ranches 3","Victory Heights & JGE (Jumeirah Golf Estates)","DIP / Green Community","Emirates Living (Meadows / Springs / Lakes)","JVT / Jumeirah Park / Jumeirah Islands","Jumeirah Village Circle (JVC)","Dubai South / Emaar South / Expo City","Al Furjan / Jebel Ali","Mudon","DIFC","Downtown / Old Town","Business Bay / SZR / Satwa","Meydan / Dubai Creek / Festival City / Culture Village / Sobha Hartland","Jumeirah / Al Barsha / Jumeirah Bay / La Mer / City Walk"],
+  abudhabi: ["Al Ghadeer","Al Reem Island","Masdar City","Al Raha Beach","Yas Island","Al Maryah Island","Saadiyat Island"]
+};
+const slug = (city, name) => city + "_" + name.toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_|_$/g, "");
+const CATALOGUE = Object.entries(COMMUNITIES).flatMap(([city, names]) => names.map(name => ({ id: slug(city, name), name, city })));
+const PHONE_CODES = [["+971","United Arab Emirates"],["+44","United Kingdom"],["+1","United States / Canada"],["+91","India"],["+92","Pakistan"],["+966","Saudi Arabia"],["+974","Qatar"],["+965","Kuwait"],["+973","Bahrain"],["+968","Oman"],["+20","Egypt"],["+961","Lebanon"],["+962","Jordan"],["+7","Russia / Kazakhstan"],["+86","China"],["+33","France"],["+49","Germany"],["+39","Italy"],["+34","Spain"],["+31","Netherlands"],["+41","Switzerland"],["+61","Australia"],["+27","South Africa"],["+234","Nigeria"],["+90","Türkiye"],["+98","Iran"],["+880","Bangladesh"],["+63","Philippines"],["+65","Singapore"],["+852","Hong Kong"]];
+
+/* Result copy — retained verbatim from the source profiles */
+const PROFILES = {
+  rental_income: { title:"Rental income", desc:"You want a property that can generate rental income, with a clear view of what remains after ownership and letting costs. The starting point is the rent comparable homes have actually achieved, alongside tenant demand and the costs of keeping the property let.", start:"Your chosen purchase route, when rent could begin and the costs you would need to cover before then.", inside:"Explore the market, compare buying approaches and communities, and understand what to check before you buy — with your priorities in view." },
+  capital_growth: { title:"Capital growth", desc:"You are looking for a property with potential to grow in value. The opportunity depends on what you pay today, what could support future demand and how you might eventually sell.", start:"Comparable completed sales, the reasons a future buyer might choose the property and the full cost of holding and selling it.", inside:"Explore the market, compare buying approaches and communities, and understand what to check before you buy — with your priorities in view." },
+  uae_residency: { title:"UAE residency", desc:"Property is part of your plans for a longer-term connection to the UAE. Your search needs to bring together the relevant residency requirements and a property that makes sense for how you intend to use or hold it.", start:"Confirming the requirements for the residency route you are considering, then comparing properties against your wider priorities.", inside:"Explore the market, compare buying approaches and communities, and understand what to check before you buy — with your priorities in view." },
+  personal_use: { title:"Personal use", desc:"You want a home that suits the way you plan to live or spend time in the UAE. Location, layout and everyday convenience lead the search, alongside the full cost of ownership.", start:"How you would use the home, when you need it and which features would make the greatest difference to daily life.", inside:"Explore the market, compare buying approaches and communities, and understand what to check before you buy — with your priorities in view." },
+  portfolio_diversification: { title:"Portfolio diversification", desc:"You are considering how UAE property could fit within your wider investments. The question is what this purchase would add to your existing exposure, income needs and future commitments.", start:"What you already hold, where your investments are concentrated and the role you want this property to play.", inside:"Explore the market, compare buying approaches and communities, and understand what to check before you buy — with your priorities in view." },
+  exploring: { title:"Still exploring", desc:"You don’t need a fixed plan to begin exploring. Your handbook will help you compare the main investment approaches, understand the buying process and consider what matters most to you.", start:"What you want from ownership: rental income, growth in value, a home to use, residency planning or a role within your wider investments.", inside:"Explore the market, compare buying approaches and communities, and understand what to check before you buy." }
+};
+
+/* ============================================================ STATE (raw answers only; results are derived) */
+const A = {
+  market:null, community_mode:"skipped", community_ids:[],
+  goal_choice:null, additional_goals:[],
+  purchase_route:null, own_use_stage:null, timing_code:null,
+  budget_mode:null, budget_min:undefined, budget_max:undefined,
+  funding_plan:null, experience_codes:[],
+  full_name:"", email:"", phone_cc:"", phone_num:"", marketing_opt_in:false
+};
+const UI = { step:"intro", dir:1, search:"", showErr:false };
+let submission = null;
+
+/* ============================================================ FLOW */
+function steps(){
+  const s = ["intro","market","communities","goals","route"];
+  if (A.purchase_route === "personal_use") s.push("stage");
+  if (A.purchase_route && A.purchase_route !== "undecided") s.push("timing");
+  s.push("budget","funding","experience","contact","result");
+  return s;
+}
+const QUESTION_STEPS = () => steps().filter(s => s !== "intro" && s !== "result");
+
+const ASIDE = {
+  market:{ section:"Where", why:["Why we ask","Your answer selects the city chapters and the community options you’ll see. It never changes your priorities."] },
+  communities:{ section:"Where", why:["Why we ask","If you already have places in mind, we’ll bring them to the front of the map. You can skip this and explore in the handbook."] },
+  goals:{ section:"What", why:["Why we ask","Your main priority leads the whole handbook. Other goals you add are reflected in the sections where they matter."] },
+  route:{ section:"How", why:["Why we ask","Your plan shapes which buying steps and timing considerations we show first. Every route stays available."] },
+  stage:{ section:"How", why:["Why we ask","Completed and off-plan homes follow different buying processes, so we’ll show the checks that apply."] },
+  timing:{ section:"When", why:["Why we ask","These are intentions, not deadlines. We use them to bring the relevant timing considerations forward."] },
+  budget:{ section:"How much", why:["Why we ask","The range you give is used to tailor the relevant checks and your plan summary. It doesn’t test affordability."] },
+  funding:{ section:"How much", why:["Why we ask","Own funds, mortgage or payment plan each come with different checks. We’ll show the ones that fit your plan."] },
+  experience:{ section:"You", why:["Why we ask","It helps us pitch the explanations. Every essential check stays in your handbook whatever you answer."] },
+  contact:{ section:"You", why:["Why we ask","Your name personalises the handbook, and your email is where we send your copy. Nothing else is required."] }
+};
+
+function valid(step){
+  switch(step){
+    case "market": return !!A.market;
+    case "communities": return true;
+    case "goals": return !!A.goal_choice;
+    case "route": return !!A.purchase_route;
+    case "stage": return !!A.own_use_stage;
+    case "timing": return !!A.timing_code;
+    case "budget": return A.budget_mode === "open" || A.budget_mode === "undecided" || (A.budget_mode === "range" && budgetOk());
+    case "funding": return !!A.funding_plan;
+    case "experience": return true;
+    case "contact": return contactOk().ok;
+    default: return true;
+  }
+}
+function budgetOk(){
+  const mn = A.budget_min, mx = A.budget_max;
+  if (mn === undefined || mx === undefined) return false;          // both selectors need an explicit choice
+  if (mn === 0 && mx === null) return false;                       // no-min + no-limit is not a range
+  if (mx !== null && mn > mx) return false;
+  return true;
+}
+function budgetError(){
+  if (A.budget_min === undefined || A.budget_max === undefined) return "Choose both a From and a To amount, or pick one of the open options below.";
+  if (A.budget_min === 0 && A.budget_max === null) return "No minimum and no upper limit together isn’t a range. Choose “I’m open to different price ranges” instead.";
+  if (A.budget_max !== null && A.budget_min > A.budget_max) return "Your From amount is higher than your To amount.";
+  return "";
+}
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+function phoneE164(){
+  if (!A.phone_num.trim()) return { blank:true };
+  const digits = A.phone_num.replace(/[\s().-]/g, "");
+  if (!A.phone_cc) return { error:"Choose a country code for your mobile number." };
+  if (!/^\d{6,14}$/.test(digits)) return { error:"Enter your mobile number with digits only, without the country code." };
+  return { value: A.phone_cc + digits.replace(/^0+/, "") };
+}
+function contactOk(){
+  const errs = {};
+  if (!A.full_name.trim()) errs.full_name = "Enter your name.";
+  if (!EMAIL_RE.test(A.email.trim())) errs.email = "Enter a valid email address so we can send your handbook.";
+  const ph = phoneE164();
+  if (ph.error) errs.phone = ph.error;
+  return { ok: Object.keys(errs).length === 0, errs };
+}
+
+/* ============================================================ DERIVED RESULT (reference implementation of the sheet) */
+function derive(){
+  const exploring = A.goal_choice === "exploring";
+  const main = exploring ? null : A.goal_choice;
+  const order = GOALS.map(g => g[0]);
+  const additional = exploring ? [] : A.additional_goals.filter(g => g !== main).sort((a, b) => order.indexOf(a) - order.indexOf(b)).slice(0, SHARES.maxAdditional);
+  let weights = null, chart = [];
+  if (main){
+    weights = Object.fromEntries(order.map(g => [g, 0]));
+    if (additional.length === 0) weights[main] = SHARES.single;
+    else { weights[main] = SHARES.main; additional.forEach(g => weights[g] = SHARES.pool / additional.length); }
+    chart = [main, ...additional].map(g => ({ goal: g, label: GOAL_LABEL[g], pct: weights[g] }));
+  }
+  const route = A.purchase_route;
+  const stage = route === "personal_use" ? A.own_use_stage : /^completed_/.test(route || "") ? "completed" : /^off_plan_/.test(route || "") ? "off_plan" : "undecided";
+  const t = route && route !== "undecided" ? TIMING[route] : null;
+  const funding_review_needed = stage === "completed" && ["developer_payment_plan","developer_plan_then_mortgage"].includes(A.funding_plan);
+  const review_flags = [];
+  if ([main, ...additional].includes("rental_income") && route === "off_plan_sell_before_handover") review_flags.push("rental_goal_with_pre_handover_sale");
+  const show_open_plans_message = !exploring && (route === "undecided" || ["multiple_options","undecided"].includes(A.funding_plan) || (route === "personal_use" && ["both","undecided"].includes(A.own_use_stage)));
+  return {
+    result_mode: exploring ? "exploring" : "focused",
+    goal_selection_mode: exploring ? "exploring" : "focused",
+    main_goal: main, additional_goals: additional, ordered_goals: main ? [main, ...additional] : [],
+    goal_weights: weights, chart_items: chart, result_copy_key: main || "exploring",
+    city_scope: A.market === "dubai" ? ["dubai"] : A.market === "abu_dhabi" ? ["abu_dhabi"] : ["dubai","abu_dhabi"],
+    purchase_stage: stage,
+    timing_variant: t ? route : null, timing_code: t ? route + "__" + A.timing_code : null, timing_anchor: t ? t.anchor : null,
+    funding_review_needed, review_flags, show_open_plans_message,
+    experience_status: A.experience_codes.length ? "answered" : "skipped"
+  };
+}
+
+/* ============================================================ LABELS */
+const label = (list, id) => (list.find(x => x[0] === id) || [])[1] || "";
+const aed = n => "AED " + n.toLocaleString("en-GB");
+function budgetLabel(){
+  if (A.budget_mode === "open") return "Open to different price ranges";
+  if (A.budget_mode !== "range") return "Still exploring";
+  const mn = A.budget_min, mx = A.budget_max;
+  if (mn === 0) return "Up to " + aed(mx);
+  if (mx === null) return "From " + aed(mn);
+  return aed(mn) + " – " + aed(mx);
+}
+const marketLabel = () => A.market === "undecided" ? "Still exploring" : label(MARKETS, A.market);
+const routeLabel = () => A.purchase_route === "undecided" ? "Still exploring" : label(ROUTES, A.purchase_route);
+
+/* ============================================================ RENDER HELPERS */
+const $ = (s, el = document) => el.querySelector(s);
+const h = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const opt = (field, id, text, on, extra = "") => `<button type="button" class="opt" role="${extra.includes("multi") ? "checkbox" : "radio"}" data-field="${field}" data-val="${h(id)}" aria-pressed="${on}" aria-checked="${on}" ${extra.includes("disabled") ? "disabled" : ""}><span class="d"></span><span>${h(text)}</span></button>`;
+const head = (q, help) => `<h1 class="q">${h(q)}</h1>${help ? `<p class="help">${h(help)}</p>` : ""}`;
+
+const PANELS = {
+  intro: () => `<div class="intro"><h1 class="q">Find your investment focus</h1>
+    <p class="lede">What do you want your next property to do for you?</p>
+    <p class="help">Tell us a little about your priorities and plans. We’ll use your answers to bring the most relevant parts of the UAE Property Investment Handbook into focus. It takes about two minutes.</p></div>`,
+
+  market: () => head("Where are you considering buying?") + `<div class="opts">${MARKETS.map(([id, t]) => opt("market", id, t, A.market === id)).join("")}</div>`,
+
+  communities: () => {
+    const cities = A.market === "dubai" ? ["dubai"] : A.market === "abu_dhabi" ? ["abudhabi"] : ["dubai","abudhabi"];
+    const q = UI.search.trim().toLowerCase();
+    const open = A.community_mode === "open_to_suggestions";
+    const groups = cities.map(city => {
+      const items = CATALOGUE.filter(c => c.city === city && (!q || c.name.toLowerCase().includes(q)));
+      if (!items.length) return "";
+      return `<span class="city">${city === "dubai" ? "Dubai" : "Abu Dhabi"}</span>` + items.map(c => `<button type="button" data-community="${c.id}" aria-pressed="${A.community_ids.includes(c.id)}">${h(c.name)}</button>`).join("");
+    }).join("");
+    return head("Any areas already in mind?", "Select the communities you are considering, or leave this open and explore them in your handbook.") +
+      `<div class="search"><input type="search" id="csearch" placeholder="Search for a community" value="${h(UI.search)}" aria-label="Search for a community" ${open ? "disabled" : ""}></div>
+       <div class="chips" style="${open ? "opacity:.35;pointer-events:none" : ""}">${groups || `<span class="empty">No communities match that search.</span>`}</div>
+       <div class="opts compact openchip">${opt("community_mode", "open_to_suggestions", "I’m open to suggestions", open)}</div>`;
+  },
+
+  goals: () => {
+    const main = A.goal_choice, named = main && main !== "exploring";
+    return head("What matters most to you in this purchase?", "Choose your main priority, then add up to two other goals that matter to you.") +
+      `<div class="group-t">Main priority</div><div class="opts" role="radiogroup">${GOALS.map(([id, t]) => opt("goal_choice", id, t, main === id)).join("")}${opt("goal_choice", "exploring", "I’m still exploring my options", main === "exploring")}</div>
+       ${named ? `<div class="group-t">Other priorities <small>Optional · up to two</small></div><div class="opts compact" role="group" style="animation:fade .35s var(--ease)">${GOALS.filter(([id]) => id !== main).map(([id, t]) => opt("additional_goals", id, t, A.additional_goals.includes(id), "multi" + (A.additional_goals.length >= 2 && !A.additional_goals.includes(id) ? " disabled" : ""))).join("")}</div>` : ""}`;
+  },
+
+  route: () => head("What are you considering doing with the property?", "Choose the plan closest to yours. It’s fine if you haven’t decided yet. Off-plan means buying a property before construction is complete.") +
+    `<div class="opts">${ROUTES.map(([id, t]) => opt("purchase_route", id, t, A.purchase_route === id)).join("")}</div>`,
+
+  stage: () => head("Are you considering a completed or off-plan home?") + `<div class="opts">${STAGES.map(([id, t]) => opt("own_use_stage", id, t, A.own_use_stage === id)).join("")}</div>`,
+
+  timing: () => { const t = TIMING[A.purchase_route]; return head(t.q, t.help) + `<div class="opts">${t.opts.map(([id, l]) => opt("timing_code", id, l, A.timing_code === id)).join("")}</div>`; },
+
+  budget: () => {
+    const sel = (id, val, items, placeholder) => `<label class="sel"><select data-budget="${id}" aria-label="${placeholder}"><option value="" ${val === undefined ? "selected" : ""}>${placeholder}</option>${items.map(([v, l]) => `<option value="${v}" ${String(val) === String(v) ? "selected" : ""}>${l}</option>`).join("")}</select></label>`;
+    const amounts = AMOUNTS.map(n => [n, aed(n)]);
+    return head("What property price range are you considering?", "Think about the total purchase price, including any amount you would borrow. Purchase fees are additional.") +
+      `<div class="opts">${opt("budget_mode", "range", "A price range", A.budget_mode === "range")}
+        ${A.budget_mode === "range" ? `<div class="range" style="margin-bottom:1.4rem"><div class="field"><label>From</label>${sel("min", A.budget_min, [["0","No minimum"], ...amounts], "Select an amount")}</div><div class="to">to</div><div class="field"><label>To</label>${sel("max", A.budget_max === null ? "null" : A.budget_max, [...amounts, ["null","No upper limit"]], "Select an amount")}</div></div>` : ""}
+        ${opt("budget_mode", "open", "I’m open to different price ranges", A.budget_mode === "open")}${opt("budget_mode", "undecided", "I haven’t decided yet", A.budget_mode === "undecided")}</div>`;
+  },
+
+  funding: () => head("How do you expect to fund the purchase?") + `<div class="opts">${FUNDING.map(([id, t]) => opt("funding_plan", id, t, A.funding_plan === id)).join("")}</div>`,
+
+  experience: () => head("Have you invested in property before?", "Select all that apply.") + `<div class="opts" role="group">${EXPERIENCE.map(([id, t]) => opt("experience_codes", id, t, A.experience_codes.includes(id), "multi")).join("")}</div>`,
+
+  contact: () => {
+    const d = derive(), e = UI.showErr ? contactOk().errs : {};
+    const notes = [];
+    if (d.review_flags.includes("rental_goal_with_pre_handover_sale")) notes.push(["A note on your plan", "This plan involves selling before handover, so rental income would not begin from this property before the sale. You can keep both answers or review your plan."]);
+    if (d.funding_review_needed) notes.push(["A note on funding", "Developer payment plans usually apply to off-plan purchases. We’ve kept your answers as they are; the available payment and mortgage arrangements for a completed property are worth confirming separately."]);
+    return head("Where should we send your handbook?") +
+      (notes.length ? notes.map(([b, t]) => `<div class="note"><b>${h(b)}</b>${h(t)}</div>`).join("") : "") +
+      `<div class="form">
+        <div><label class="hint" for="fname" style="margin:0 0 .4rem;font-weight:600;color:var(--ink)">Full name</label><input id="fname" data-text="full_name" type="text" autocomplete="name" value="${h(A.full_name)}" aria-invalid="${!!e.full_name}">${e.full_name ? `<div class="hint" style="color:var(--salmon)">${e.full_name}</div>` : ""}</div>
+        <div><label class="hint" for="femail" style="margin:0 0 .4rem;font-weight:600;color:var(--ink)">Email address</label><input id="femail" data-text="email" type="email" autocomplete="email" inputmode="email" value="${h(A.email)}" aria-invalid="${!!e.email}"><div class="hint">${e.email ? `<span style="color:var(--salmon)">${e.email}</span>` : "We’ll use this to send your personalised handbook."}</div></div>
+        <div class="full"><label class="hint" style="margin:0 0 .4rem;font-weight:600;color:var(--ink)">Mobile number (optional)</label>
+          <div class="phone"><label class="sel"><select data-text="phone_cc" aria-label="Country code"><option value="" ${A.phone_cc ? "" : "selected"}>Code</option>${PHONE_CODES.map(([c, n]) => `<option value="${c}" ${A.phone_cc === c ? "selected" : ""}>${c} ${n}</option>`).join("")}</select></label>
+          <input data-text="phone_num" type="tel" autocomplete="tel-national" inputmode="tel" placeholder="Mobile number" value="${h(A.phone_num)}" aria-invalid="${!!e.phone}" aria-label="Mobile number"></div>
+          ${e.phone ? `<div class="hint" style="color:var(--salmon)">${e.phone}</div>` : ""}</div>
+       </div>
+       <div class="consent">
+         <p class="privacy">We’ll use your details to create your personalised handbook and send your copy by email. betterhomes is the data controller; we keep your details for this purpose and won’t pass them to anyone else without your permission. See our <a href="https://www.bhomes.com/en/privacy-policy" target="_blank" rel="noopener">privacy policy</a> for how we look after your data and your rights.</p>
+         <label class="tick"><input type="checkbox" id="optin" ${A.marketing_opt_in ? "checked" : ""}><span>Keep me updated with property news, market insights and relevant opportunities from betterhomes, by email${A.phone_num.trim() ? " and WhatsApp" : ""}. I can unsubscribe at any time, and my handbook arrives either way.</span></label>
+       </div>`;
+  },
+
+  result: () => {
+    const d = derive(), p = PROFILES[d.result_copy_key], ex = d.result_mode === "exploring";
+    return `<div class="inner">
+      <p class="kicker">Your investment focus</p><h1>${h(p.title)}</h1><p class="desc">${h(p.desc)}</p>
+      ${d.additional_goals.length ? `<div class="block"><h2>Also important to you</h2><div class="also">${d.additional_goals.map(g => `<span>${h(GOAL_LABEL[g])}</span>`).join("")}</div><p>Your main priority leads this guide. Your other goals are reflected in the relevant sections too.</p></div>` : ""}
+      ${ex ? "" : `<div class="block"><h2>Your priorities in this guide</h2><div class="shares"><div class="bar">${d.chart_items.map(c => `<span style="width:${c.pct}%"></span>`).join("")}</div>
+        <ul>${d.chart_items.map(c => `<li><span class="d"></span><span>${h(c.label)}</span><span class="pct">${c.pct}%</span></li>`).join("")}</ul>
+        <p class="cap">These shares show the emphasis given to your selected goals in the handbook.</p></div></div>`}
+      <div class="grid">
+        <div class="block"><h2>Start with</h2><p>${h(p.start)}</p></div>
+        <div class="block"><h2>Inside your personalised handbook</h2><p>${h(p.inside)}</p></div>
+      </div>
+      <div class="block"><h2>Your plans at a glance</h2>
+        ${d.show_open_plans_message ? `<div class="open">Some of your plans are still open, so those parts of your handbook remain broad.</div>` : ""}
+        <div class="glance"><div><div class="l">Preferred market</div><div class="v">${h(marketLabel())}</div></div><div><div class="l">Property price range</div><div class="v">${h(budgetLabel())}</div></div><div><div class="l">Purchase plan</div><div class="v">${h(routeLabel())}</div></div></div></div>
+    </div>`;
+  }
+};
+
+/* ============================================================ RENDER */
+function render(dir = 1){
+  const step = UI.step, isResult = step === "result", isIntro = step === "intro";
+  const main = $("#main"), prev = $(".panel", main);
+  const el = document.createElement("div");
+  el.className = `panel ${isResult ? "result" : ""} ${dir < 0 ? "back" : ""} enter`;
+  el.innerHTML = PANELS[step]() + `<div class="err" id="err"></div>`;
+  if (prev){ prev.classList.toggle("back", dir < 0); prev.classList.add("exit"); prev.addEventListener("animationend", () => prev.remove(), { once:true }); setTimeout(() => prev.remove(), 600); }
+  main.appendChild(el);
+  $("#stage").classList.toggle("on-dark", isResult);
+  $("#aside").style.display = isResult ? "none" : "";
+  if (isResult) main.style.gridColumn = "1/-1"; else main.style.gridColumn = "";
+  renderAside(step, isIntro);
+  renderNav(step);
+  renderProgress(step);
+  UI.showErr = false;
+  const first = el.querySelector("input:not([type=checkbox]),select"); if (first && step === "contact") setTimeout(() => first.focus(), 300);
+}
+function rerender(){ const el = $(".panel:not(.exit)", $("#main")); if (!el) return; el.innerHTML = PANELS[UI.step]() + `<div class="err" id="err"></div>`; renderNav(UI.step); if (UI.showErr) showError(); }
+
+function renderAside(step, isIntro){
+  const qs = QUESTION_STEPS(), i = qs.indexOf(step);
+  const a = ASIDE[step] || { section:"UAE property investment handbook", why:["Your personalised guide","Answer a few questions and the handbook will route itself around what you’re trying to achieve."] };
+  $("#aside").innerHTML = `<div><div class="section">${h(a.section)}</div>${i >= 0 ? `<div class="big">${String(i + 1).padStart(2, "0")}</div>` : `<div class="big" style="font-size:3.4rem;line-height:1.1;margin-top:1.4rem">UAE property<br>investment handbook</div>`}</div>
+    <div class="why"><b>${h(a.why[0])}</b>${h(a.why[1])}</div>
+    ${isIntro ? `<img alt="" src="img/cover-m.webp" onload="this.classList.add('ready')" onerror="this.remove()">` : ""}`;
+}
+function renderProgress(step){
+  const qs = QUESTION_STEPS(), i = qs.indexOf(step), n = qs.length;
+  const pct = step === "result" ? 100 : i < 0 ? 0 : Math.round(i / n * 100);
+  $("#pfill").style.width = pct + "%"; $("#pdot").style.left = pct + "%";
+  $("#counter").textContent = i >= 0 ? `Question ${String(i + 1).padStart(2, "0")} / ${n}` : step === "result" ? "Your result" : "";
+}
+function renderNav(step){
+  const back = `<button type="button" id="back"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M7 1 2 6l5 5M2 6h10"/></svg> Back</button>`;
+  const next = l => `<button type="button" class="primary" id="next">${l} <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="m5 1 5 5-5 5M10 6H0"/></svg></button>`;
+  let html = "";
+  if (step === "intro") html = next("Personalise my handbook");
+  else if (step === "result") html = back + next("Open my guide");
+  else if (step === "contact") html = back + next("See my investment focus");
+  else if (step === "communities" || step === "experience") html = back + `<button type="button" class="skip" id="skip">Skip this question</button>` + next("Next");
+  else html = back + next("Next");
+  $("#nav").innerHTML = html;
+}
+function showError(){
+  const s = UI.step, el = $("#err"); if (!el) return;
+  const msg = s === "budget" ? budgetError() : s === "contact" ? "Check the highlighted fields above." : s === "goals" ? "Choose a main priority to continue." : "Choose one option to continue.";
+  el.textContent = msg; el.classList.add("on");
+}
+
+/* ============================================================ NAVIGATION */
+function go(delta){
+  const list = steps(), i = list.indexOf(UI.step);
+  if (delta > 0){
+    if (!valid(UI.step)){ UI.showErr = true; if (UI.step === "contact") rerender(); else showError(); return; }
+    if (UI.step === "result"){ submit(); return; }
+  }
+  const j = i + delta; if (j < 0 || j >= list.length) return;
+  UI.step = list[j]; UI.dir = delta; render(delta);
+}
+
+/* ============================================================ ANSWER CHANGES + RESET RULES (Branches tab) */
+function set(field, val){
+  switch(field){
+    case "market": {
+      A.market = val;
+      const allowed = val === "dubai" ? ["dubai"] : val === "abu_dhabi" ? ["abudhabi"] : ["dubai","abudhabi"];
+      const kept = A.community_ids.filter(id => allowed.includes(CATALOGUE.find(c => c.id === id).city));
+      if (kept.length !== A.community_ids.length){ A.community_ids = kept; if (!kept.length && A.community_mode === "selected") A.community_mode = "skipped"; }
+      break; }
+    case "community_mode":
+      if (A.community_mode === "open_to_suggestions") A.community_mode = "skipped"; else { A.community_mode = "open_to_suggestions"; A.community_ids = []; }
+      break;
+    case "goal_choice":
+      A.goal_choice = val;
+      if (val === "exploring") A.additional_goals = []; else A.additional_goals = A.additional_goals.filter(g => g !== val);
+      break;
+    case "additional_goals":
+      if (A.additional_goals.includes(val)) A.additional_goals = A.additional_goals.filter(g => g !== val);
+      else if (A.additional_goals.length < SHARES.maxAdditional && val !== A.goal_choice) A.additional_goals.push(val);
+      break;
+    case "purchase_route":
+      if (A.purchase_route !== val){ A.timing_code = null; if (val !== "personal_use") A.own_use_stage = null; }
+      A.purchase_route = val; break;
+    case "own_use_stage": A.own_use_stage = val; break;
+    case "timing_code": A.timing_code = val; break;
+    case "budget_mode":
+      A.budget_mode = val; if (val !== "range"){ A.budget_min = undefined; A.budget_max = undefined; } break;
+    case "funding_plan": A.funding_plan = val; break;
+    case "experience_codes": {
+      const excl = ["first_investment","prefer_not_to_say"];
+      if (A.experience_codes.includes(val)) A.experience_codes = A.experience_codes.filter(x => x !== val);
+      else if (excl.includes(val)) A.experience_codes = [val];
+      else A.experience_codes = [...A.experience_codes.filter(x => !excl.includes(x)), val];
+      break; }
+  }
+}
+
+$("#main").addEventListener("click", e => {
+  const b = e.target.closest("button"); if (!b) return;
+  if (b.dataset.field){ set(b.dataset.field, b.dataset.val); UI.showErr = false; rerender(); return; }
+  if (b.dataset.community){
+    const id = b.dataset.community;
+    if (A.community_ids.includes(id)) A.community_ids = A.community_ids.filter(x => x !== id); else A.community_ids.push(id);
+    A.community_mode = A.community_ids.length ? "selected" : "skipped";
+    rerender(); $("#csearch")?.focus(); return;
+  }
+});
+$("#main").addEventListener("input", e => {
+  const t = e.target;
+  if (t.id === "csearch"){ UI.search = t.value; const pos = t.selectionStart; rerender(); const s = $("#csearch"); if (s){ s.focus(); try { s.setSelectionRange(pos, pos); } catch (e) {} } return; }
+  if (t.dataset.text){ A[t.dataset.text] = t.value; if (t.dataset.text === "phone_num"){ const lbl = $(".tick span"); if (lbl) lbl.innerHTML = lbl.innerHTML.replace(/by email( and WhatsApp)?\./, "by email" + (t.value.trim() ? " and WhatsApp" : "") + "."); } }
+});
+$("#main").addEventListener("change", e => {
+  const t = e.target;
+  if (t.dataset.budget){ const v = t.value; const parsed = v === "" ? undefined : v === "null" ? null : +v; if (t.dataset.budget === "min") A.budget_min = parsed; else A.budget_max = parsed; UI.showErr = false; $("#err")?.classList.remove("on"); return; }
+  if (t.dataset.text === "phone_cc"){ A.phone_cc = t.value; return; }
+  if (t.id === "optin"){ A.marketing_opt_in = t.checked; return; }
+});
+$("#nav").addEventListener("click", e => {
+  const b = e.target.closest("button"); if (!b) return;
+  if (b.id === "back") go(-1);
+  else if (b.id === "next") go(1);
+  else if (b.id === "skip"){ if (UI.step === "communities"){ A.community_ids = []; A.community_mode = "skipped"; } if (UI.step === "experience") A.experience_codes = []; go(1); }
+});
+document.addEventListener("keydown", e => {
+  if (e.key === "Enter" && !e.target.matches("button,select")){ e.preventDefault(); go(1); }
+});
+
+/* ============================================================ SUBMIT + HANDOFF */
+function buildPayload(){
+  const d = derive(), ph = phoneE164(), now = new Date().toISOString();
+  return {
+    submission_id: (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(16).slice(2)),
+    submitted_at: now, ...VERSIONS,
+    market: A.market, city_scope: d.city_scope, community_mode: A.community_mode, community_ids: A.community_ids,
+    goal_choice: A.goal_choice, goal_selection_mode: d.goal_selection_mode, main_goal: d.main_goal, additional_goals: d.additional_goals,
+    purchase_route: A.purchase_route, own_use_stage: A.purchase_route === "personal_use" ? A.own_use_stage : null,
+    timing_variant: d.timing_variant, timing_code: d.timing_code, timing_anchor: d.timing_anchor,
+    budget_mode: A.budget_mode, budget_min_aed: A.budget_mode === "range" ? A.budget_min : null, budget_max_aed: A.budget_mode === "range" ? A.budget_max : null,
+    funding_plan: A.funding_plan, experience_status: d.experience_status, experience_codes: A.experience_codes,
+    full_name: A.full_name.trim(), email: A.email.trim().toLowerCase(), phone_e164: ph.value || null,
+    marketing_opt_in: A.marketing_opt_in, consent_text_version: A.marketing_opt_in ? VERSIONS.consent_text_version : null, consent_recorded_at: A.marketing_opt_in ? now : null,
+    result_mode: d.result_mode, goal_weights: d.goal_weights, ordered_goals: d.ordered_goals, chart_items: d.chart_items, result_copy_key: d.result_copy_key,
+    purchase_stage: d.purchase_stage, review_flags: d.review_flags, funding_review_needed: d.funding_review_needed, show_open_plans_message: d.show_open_plans_message,
+    utm_source: new URLSearchParams(location.search).get("utm_source"), utm_medium: new URLSearchParams(location.search).get("utm_medium"), utm_campaign: new URLSearchParams(location.search).get("utm_campaign"), landing_url: location.href
+  };
+}
+function guideHash(p){
+  const q = new URLSearchParams();
+  // keys the guide reads today
+  q.set("m", p.market === "dubai" ? "dubai" : p.market === "abu_dhabi" ? "abudhabi" : "compare");
+  const ptype = p.purchase_stage === "completed" ? "ready" : p.purchase_stage === "off_plan" ? "offplan" : null;
+  if (ptype) q.set("ptype", ptype);
+  const profile = p.main_goal === "rental_income" ? "income" : p.main_goal === "capital_growth" ? "growth" : null;
+  if (profile) q.set("profile", profile);
+  if (p.community_ids.length) q.set("pin-s5-list", CATALOGUE.find(c => c.id === p.community_ids[0]).name);
+  // raw answers. `goal` + `goals` drive community highlighting in section 05
+  // (app.js → goalsOf() maps them to archetypes A1–A5; see communities.js).
+  q.set("market", p.market);
+  q.set("goal", p.result_copy_key);
+  if (p.additional_goals.length) q.set("goals", p.additional_goals.join(","));
+  q.set("route", p.purchase_route);
+  if (p.own_use_stage) q.set("stage", p.own_use_stage);
+  if (p.timing_code) q.set("timing", p.timing_code);
+  q.set("budget", p.budget_mode);
+  if (p.budget_min_aed !== null && p.budget_min_aed !== undefined) q.set("bmin", p.budget_min_aed);
+  if (p.budget_max_aed !== null && p.budget_max_aed !== undefined) q.set("bmax", p.budget_max_aed);
+  q.set("funding", p.funding_plan);
+  if (p.experience_codes.length) q.set("exp", p.experience_codes.join(","));
+  q.set("cmode", p.community_mode);
+  if (p.community_ids.length) q.set("communities", p.community_ids.join(","));
+  q.set("sid", p.submission_id);
+  return "#/cover?" + q.toString();
+}
+/* Hook for CRM / webhook delivery. Replace the body; keep it idempotent on submission_id. */
+async function deliver(payload){
+  console.info("handbook submission", payload);
+  return true;
+}
+async function submit(){
+  const btn = $("#next"); if (btn) btn.disabled = true;
+  submission = submission || buildPayload();
+  try { sessionStorage.setItem("bh_handbook_submission", JSON.stringify(submission)); } catch (e) {}
+  try { await deliver(submission); } catch (e) { console.error(e); }
+  location.href = GUIDE_URL + guideHash(submission);
+}
+
+render(1, true);
+</script>
+</body>
+</html>

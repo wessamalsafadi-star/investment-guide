@@ -356,7 +356,7 @@ img{ display:block; max-width:100%; }
 .rows .row{ display:grid; grid-template-columns:1fr 1fr; gap:0 40px; padding:0 0 18px; }
 .rows .row h3{ font:400 32px/66px var(--font-display); grid-column:1/-1; }
 .rows p{ font:400 16px/22px var(--font-text); }
-.latest{ margin-top:auto; border-top:.5px solid var(--ink); padding-top:11px; margin-bottom:-20px; }
+.latest{ margin-top:auto; border-top:.5px solid var(--ink); padding-top:11px; margin-bottom:50px; }
 .latest h3{ line-height:52px; }
 .latest h3{ font:400 32px/66px var(--font-display); }
 .latest .grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:0 40px; margin-top:4px; }
@@ -551,6 +551,13 @@ img{ display:block; max-width:100%; }
 .tpl-checklist .step li::before{ content:""; position:absolute; left:0; top:8px; width:6px; height:6px; background:var(--paper); transform:rotate(45deg); }
 .tpl-checklist .step .sub{ font:400 16px/22px var(--font-text); margin-top:14px; padding-top:14px; border-top:.5px solid rgba(255,255,255,.3); }
 .tpl-checklist .step .q{ margin-top:16px; padding:12px 16px; border-radius:4px; background:rgba(255,255,255,.1); font:600 16px/20px var(--font-text); }
+/* two-row layout (perPage > 3): six cards at once, slightly tighter, and the card area scrolls if an open card runs past the stage */
+.tpl-checklist.two-rows .steps{ margin-top:28px; flex:1; min-height:0; overflow-y:auto; scrollbar-width:none; padding-bottom:4px; }
+.tpl-checklist.two-rows .steps::-webkit-scrollbar{ display:none; }
+.tpl-checklist.two-rows .step{ min-height:270px; padding:30px 44px 30px; }
+.tpl-checklist.two-rows .step .chev{ right:44px; top:38px; }
+.tpl-checklist.two-rows .step h3{ min-height:0; margin-top:8px; }
+.tpl-checklist.two-rows .bottom:empty{ display:none; }
 .tpl-checklist .bottom{ margin-top:auto; display:flex; justify-content:space-between; align-items:flex-end; gap:40px; padding-top:30px; }
 .tpl-checklist .pager-in{ display:flex; gap:8px; }
 .tpl-checklist .pager-in button{ height:42px; padding:0 20px; border:1px solid rgba(255,255,255,.22); border-radius:4px; background:rgba(243,119,122,.01); -webkit-backdrop-filter:blur(11px); backdrop-filter:blur(11px); font:400 16px/22px var(--font-text); color:var(--white); }
@@ -756,6 +763,404 @@ img{ display:block; max-width:100%; }
 .menu .sec h3{ font:600 16px/22px var(--font-text); margin-bottom:8px; padding-bottom:6px; border-bottom:.5px solid rgba(255,255,255,.44); }
 .menu .sec button{ display:block; text-align:left; font:400 14px/20px var(--font-text); padding:3px 0; opacity:.8; } .menu .sec button:hover,.menu .sec button.cur{ opacity:1; text-decoration:underline; text-underline-offset:3px; }
 .menu .hint{ font:400 12px/17px var(--font-text); opacity:.6; margin-top:auto; }
+
+/* ============================================================
+   MOBILE & TABLET-PORTRAIT (≤ 900px)
+   The fixed 1920 × 1080 stage is switched off: each slide becomes
+   a normal page that scrolls vertically. Chrome (logo, menu, Back /
+   Next) is pinned to the screen. Every template below has its own
+   mobile rules; desktop and tablet-landscape are unaffected.
+   ============================================================ */
+@media (max-width:900px){
+  html,body{ height:auto; min-height:100%; }
+  body{ overflow:auto; -webkit-text-size-adjust:100%; }
+  .viewport{ display:block; place-items:normal; height:auto; overflow:visible; --s:1 !important; --W:100% !important; --H:auto !important; }
+  .frame{ width:auto !important; height:auto !important; }
+  .stage{ position:relative; width:auto; height:auto; min-height:100vh; min-height:100svh; overflow:visible; transform:none; }
+  .slides{ display:block; position:relative; }
+  .slide{ position:relative; inset:auto; min-height:100vh; min-height:100svh; overflow:hidden; }
+  .slide.exit{ position:absolute; left:0; top:0; width:100%; height:100%; }
+  .slide .inner{ position:relative; left:auto; right:auto; top:auto; bottom:auto; padding:80px 16px 96px; min-height:100vh; min-height:100svh; }
+  .slide .bg.second{ display:none; }
+
+  /* ---- type ---- */
+  .t-num{ font-size:22px; line-height:30px; }
+  .t-hero{ font-size:34px; line-height:38px; }
+  .t-title{ font-size:28px; line-height:34px; }
+  .t-title .t-small{ font-size:18px; }
+  .t-h2{ font-size:22px; line-height:26px; }
+  .t-h3{ font-size:20px; line-height:24px; }
+  .t-big{ font-size:40px; line-height:44px; }
+  .place{ font-size:20px; line-height:30px; }
+  .title-row{ flex-direction:column; align-items:stretch; gap:16px; }
+  .cols-2,.cols-3{ grid-template-columns:1fr; }
+
+  /* ---- chrome: top bar + Back / Next pinned to the screen ---- */
+  .bar-left,.side-label,.sections,.progress,.streak,.journey{ display:none; }
+  .bar-top{ position:fixed; left:0; right:0; top:0; height:56px; z-index:30; border-bottom:.5px solid var(--ink); }
+  .burger{ position:fixed; left:0; top:0; width:56px; height:56px; z-index:31; }
+  .burger svg{ width:22px; height:auto; }
+  .logo{ position:fixed; left:56px; top:18px; z-index:31; }
+  .logo svg{ width:112px; height:auto; }
+  .counter{ position:fixed; right:16px; top:20px; z-index:31; }
+  .pager{ position:fixed; right:16px; bottom:16px; z-index:30; }
+  .pager button,.pager button.next{ width:auto; min-width:96px; height:44px; padding:0 18px; background:rgba(0,0,0,.45); }
+  .stage.light .pager button,.stage.chrome-min .pager button{ background:rgba(237,232,228,.85); }
+  .stage.chrome-min .bar-top{ background:rgba(237,232,228,.92); }
+  .stage.chrome-none .chrome > :not(.burger){ display:none; }
+  .stage.chrome-none .burger{ display:grid; color:var(--white); }
+  .stage.chrome-none .chrome > .bar-top{ display:none; }
+
+  /* ---- menu ---- */
+  .menu{ position:fixed; inset:0; grid-template-columns:1fr; gap:28px; padding:70px 16px 40px; overflow:auto; }
+  .menu h2{ font-size:28px; line-height:34px; }
+  .menu .list{ columns:1; }
+  .menu .hint{ display:none; }
+
+  /* ---- shared controls ---- */
+  .choices{ flex-wrap:wrap; gap:10px; }
+  .choice{ width:calc(50% - 5px); height:52px; padding:10px 14px; font-size:16px; }
+  .choice.next{ width:100%; }
+  .choice.tag{ width:auto; }
+  .switch{ flex-wrap:wrap; gap:10px; }
+  .switch .label,.switch.small .label{ font-size:20px; margin-right:0; width:100%; }
+  .switch .track,.switch.small .track{ height:48px; }
+  .switch .track button,.switch.small .track button{ height:38px; padding:0 14px; font-size:14px; }
+  .switch .go{ width:72px; height:48px; }
+  .pill-btn{ height:44px; padding:0 16px; font-size:14px; }
+  .callout{ display:none; }
+
+  /* ---- cover ---- */
+  .tpl-cover .inner{ padding:0; min-height:100vh; min-height:100svh; }
+  .tpl-cover .hero{ top:14%; padding:0 16px; gap:10px; }
+  .tpl-cover h1{ font-size:40px; line-height:44px; white-space:normal; }
+  .tpl-cover .sub{ font-size:18px; line-height:26px; }
+  .tpl-cover .choices{ top:auto; bottom:190px; padding:0 16px; }
+  .tpl-cover .hint{ top:auto; bottom:160px; padding:0 16px; font-size:12px; }
+  .tpl-cover .brand{ bottom:56px; width:200px; margin-left:-100px; }
+  .tpl-cover .brand svg{ width:200px; height:auto; }
+
+  /* ---- contents ---- */
+  .tpl-toc .inner{ padding:80px 16px 96px; }
+  .tpl-toc h1{ position:static; font-size:34px; line-height:38px; white-space:normal; }
+  .tpl-toc .col{ position:static; width:auto; margin-top:24px; }
+  .tpl-toc .col.r{ margin-top:0; }
+  .tpl-toc .ch b{ font-size:16px; line-height:22px; } .tpl-toc .ch span{ font-size:18px; }
+  .tpl-toc .sub button{ font-size:14px; line-height:20px; }
+
+  /* ---- opener ---- */
+  .tpl-opener .inner,.tpl-opener.simple .inner{ padding-top:80px; }
+  .tpl-opener .head,.tpl-opener.simple .head{ grid-template-columns:1fr; gap:28px; min-height:0; }
+  .tpl-opener .head > .l{ border-right:0; }
+  .tpl-opener.simple .head > .r{ border-left:0; padding-top:0; }
+  .tpl-opener .head .hr,.tpl-opener.simple .top-rule{ width:100%; }
+  .tpl-opener .t-hero,.tpl-opener.simple .t-hero{ max-width:none; white-space:normal; }
+  .tpl-opener .kicker{ font-size:26px; line-height:32px; margin-top:20px; }
+  .tpl-opener .copy,.tpl-opener.simple .copy{ margin-top:16px; max-width:none; }
+  .tpl-opener .copy.spaced p + p{ margin-top:18px; }
+  .tpl-opener .author{ margin-left:0; }
+  .tpl-opener .author .ph{ width:88px; height:88px; }
+  .tpl-opener .author .name{ font-size:20px; line-height:26px; }
+  .tpl-opener .quote{ margin-top:20px; }
+  .tpl-opener .stats-wrap{ margin-top:32px; padding-top:24px; }
+  .tpl-opener .stats-title{ font-size:26px; line-height:30px; }
+  .tpl-opener .stats{ grid-auto-flow:row; grid-template-columns:1fr 1fr; gap:20px 16px; }
+  .tpl-opener .stat .v{ font-size:34px; line-height:40px; white-space:normal; }
+  .tpl-opener .stat .v .pre,.tpl-opener .stat .v small,.tpl-opener .stat .v .u{ font-size:16px; }
+  .tpl-opener .stat .u{ font-size:16px; line-height:22px; }
+  .tpl-opener .stat .t{ margin-top:8px; max-width:none; font-size:14px; line-height:20px; }
+  .tpl-opener .reasons{ grid-template-columns:1fr; margin-top:16px; }
+  .tpl-opener .reasons > div{ padding:16px 0; }
+  .tpl-opener .reasons > div + div{ border-left:0; border-top:1px solid rgba(255,255,255,.44); padding-left:0; }
+  .tpl-opener .reasons .v{ font-size:40px; line-height:48px; } .tpl-opener .reasons .v .pre{ font-size:20px; }
+  .tpl-opener .reasons .v2{ font-size:24px; line-height:30px; }
+  .tpl-opener.simple .switch{ gap:14px; }
+  .tpl-opener.simple .cta{ margin-top:24px; }
+  .tpl-opener.simple .pending{ margin-top:24px; }
+
+  /* ---- ink-on-photo copy goes white on phones (the portrait crop of the photo may be dark) ---- */
+  .tpl-opener .t-hero,.tpl-opener .kicker,.tpl-opener .copy,.tpl-opener .author .name,.tpl-opener .author .role,.tpl-opener .quote .t-h3,.tpl-opener .quote .quote-mark,
+  .tpl-opener.simple.ink .t-hero,.tpl-opener.simple.ink .copy,
+  .tpl-learn .t-title,.tpl-learn .t-body,.tpl-learn .col .n,.tpl-learn .col h3,.tpl-learn .item{ color:var(--white); }
+  .tpl-learn .item{ background:rgba(0,0,0,.33); }
+
+  /* ---- learn ---- */
+  .tpl-learn .grid{ grid-template-columns:1fr !important; gap:24px; }
+  .tpl-learn .col h3{ font-size:22px; line-height:26px; min-height:0; padding-bottom:12px; }
+  .tpl-learn .col .rule{ margin-bottom:16px; }
+  .tpl-learn .item{ padding:16px; margin-bottom:12px; }
+
+  /* ---- hub ---- */
+  .tpl-hub .text{ margin-top:20px; }
+  .tpl-hub .text.cols-2{ grid-template-columns:1fr; }
+  .tpl-hub .aside{ margin-top:24px; }
+  .tpl-hub .choose{ margin-top:32px; }
+  .tpl-hub .choose .prompt{ font-size:22px; line-height:26px; }
+
+  /* ---- signals ---- */
+  .tpl-signals .lead{ margin-top:20px; }
+  .tpl-signals .group-t{ margin-top:20px; }
+  .tpl-signals .accent{ margin-top:20px; }
+  .tpl-signals .grid{ grid-template-columns:1fr 1fr; gap:10px; margin-top:28px; }
+  .tpl-signals .sig{ min-height:0; }
+  .tpl-signals .sig .in{ padding:12px 14px 16px; }
+  .tpl-signals .sig .v{ font-size:34px; line-height:40px; } .tpl-signals .sig .v.sm{ font-size:26px; line-height:40px; }
+  .tpl-signals .sig .l{ font-size:14px; line-height:18px; min-height:0; }
+  .tpl-signals .sig .t{ font-size:13px; line-height:18px; }
+  .tpl-signals .sig .ic{ display:none; }
+  .tpl-signals .hintnav{ top:40%; font-size:13px; }
+  .tpl-signals .notes{ margin-top:28px; padding-top:16px; }
+  .tpl-signals .notes h3{ font-size:22px; line-height:26px; }
+
+  /* ---- chart cards ---- */
+  .tpl-chartcards .grid{ grid-template-columns:1fr 1fr; gap:10px; margin-top:20px; }
+  .tpl-chartcards .axis{ display:none; }
+  .tpl-chartcards .card,.tpl-chartcards.plain .card{ height:auto; padding:0 16px 18px; }
+  .tpl-chartcards .card svg{ height:110px; top:20px; }
+  .tpl-chartcards .card .v{ margin-top:130px; font-size:34px; line-height:40px; }
+  .tpl-chartcards.plain .card .v{ margin-top:24px; }
+  .tpl-chartcards .card .hr{ margin-top:10px; }
+  .tpl-chartcards .card .l{ margin-top:12px; font-size:14px; line-height:18px; }
+  .tpl-chartcards .card .t{ font-size:13px; line-height:18px; margin-top:8px; }
+  .tpl-chartcards .notes{ margin-top:28px; }
+  .tpl-chartcards .notes h3{ font-size:22px; line-height:30px; }
+  .tpl-chartcards .notes .cols{ grid-template-columns:1fr; gap:14px; }
+  .tpl-chartcards .notes .cols > div:not(:has(h3)){ padding-top:0; }
+
+  /* ---- stat grid / survey ---- */
+  .tpl-statgrid .grid,.tpl-survey .grid{ grid-template-columns:1fr; gap:10px; margin-top:20px; }
+  .tile,.tpl-survey .tile{ min-height:0; padding:22px 20px; }
+  .tile .v{ font-size:36px; line-height:42px; }
+  .rows{ margin-top:28px; }
+  .rows .row{ grid-template-columns:1fr; gap:10px; }
+  .rows .row h3{ font-size:22px; line-height:40px; }
+  .latest{ margin-top:28px; margin-bottom:0; }
+  .latest h3{ font-size:22px; line-height:40px; }
+  .latest .grid{ grid-template-columns:1fr 1fr; gap:16px; }
+  .latest .grid > div:last-child{ padding-right:0; }
+  .latest .v{ font-size:26px; line-height:30px; }
+
+  /* ---- compare table: scrolls sideways inside the page ---- */
+  .tpl-compare .scrollx{ margin:24px -16px 0; padding:0 16px; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:thin; }
+  .tpl-compare .wrap{ margin-top:0; min-width:720px; grid-template-columns:200px 1fr 1fr !important; }
+  .tpl-compare .wrap.wide{ min-width:1200px; grid-template-columns:200px repeat(5,200px) !important; }
+  .tpl-compare .panel{ margin-left:20px; }
+  .tpl-compare .h{ font-size:20px; line-height:24px; padding-top:24px; min-height:0; }
+  .tpl-compare .r{ font-size:14px; line-height:18px; }
+  .tpl-compare .after{ margin-top:28px; }
+  .tpl-compare .after .lead{ font-size:17px; line-height:26px; }
+  .tpl-compare .after h3{ font-size:22px; line-height:30px; }
+  .tpl-compare .after .cols{ grid-template-columns:1fr; gap:12px; }
+
+  /* ---- five columns ---- */
+  .tpl-fivecols .sub{ margin-top:10px; }
+  .tpl-fivecols .grid{ grid-template-columns:1fr; gap:10px; margin-top:20px; max-height:none; flex:none; }
+  .tpl-fivecols .col{ padding:20px; }
+  .tpl-fivecols .q{ font-size:20px; line-height:24px; min-height:0; }
+  .tpl-fivecols .v{ font-size:36px; line-height:42px; margin-top:14px; } .tpl-fivecols .v .pre{ font-size:18px; }
+  .tpl-fivecols .hl{ margin-top:14px; }
+  .tpl-fivecols .t,.tpl-fivecols .t + .t{ margin-top:12px; }
+
+  /* ---- glance ---- */
+  .tpl-glance .intro{ grid-template-columns:1fr; gap:12px; margin-top:20px; }
+  .tpl-glance .intro .a{ max-width:none; padding:0 0 12px; border-right:0; border-bottom:.5px solid rgba(255,255,255,.33); font-weight:600; }
+  .tpl-glance .more{ margin-top:20px; }
+  .tpl-glance .card{ margin-top:20px; padding:18px 16px; }
+  .tpl-glance .items{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:16px; }
+  .tpl-glance .item,.tpl-glance .item + .item{ padding:0; border-left:0; min-height:0; }
+  .tpl-glance .item .v{ font-size:30px; line-height:34px; white-space:normal; margin-top:8px; } .tpl-glance .item .v .pre{ font-size:16px; }
+  .tpl-glance .item .t{ max-width:none; font-size:14px; line-height:20px; }
+  .tpl-glance .consider{ margin-top:24px; }
+  .tpl-glance .consider h3{ font-size:22px; line-height:26px; }
+  .tpl-glance .consider .c{ grid-template-columns:1fr; gap:12px; margin-top:12px; }
+  .tpl-glance .consider .c > p:first-child{ max-width:none; padding:0 0 12px; border-right:0; border-bottom:.5px solid rgba(255,255,255,.33); font-weight:600; }
+
+  /* ---- demand cards ---- */
+  .tpl-cards .inner{ padding-top:80px; }
+  .tpl-cards .grid{ grid-template-columns:1fr; gap:10px; height:auto; }
+  .tpl-cards .card{ padding:20px; }
+  .tpl-cards .n{ font-size:34px; line-height:40px; }
+  .tpl-cards .h{ font-size:20px; line-height:24px; min-height:0; }
+  .tpl-cards .hr{ width:100%; margin-top:14px; }
+  .tpl-cards .v{ font-size:36px; line-height:42px; margin-top:14px; } .tpl-cards .v .u{ font-size:20px; } .tpl-cards .v.sm{ font-size:22px; line-height:28px; margin-top:16px; }
+  .tpl-cards .v2{ font-size:22px; line-height:26px; }
+  .tpl-cards .go{ width:100%; margin-top:20px; }
+
+  /* ---- demand tabs ---- */
+  .tpl-tabs .inner{ padding-top:80px; }
+  .tpl-tabs .panel{ padding:16px 14px 20px; min-height:0; }
+  .tpl-tabs .tabs{ grid-template-columns:1fr 1fr; gap:8px; }
+  .tpl-tabs .tab{ height:auto; padding:12px 14px; }
+  .tpl-tabs .tab .n{ font-size:20px; line-height:24px; } .tpl-tabs .tab .h{ font-size:15px; line-height:19px; margin-top:4px; }
+  .tpl-tabs .pane{ margin-top:16px; padding-top:16px; }
+  .tpl-tabs .stats{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:16px; padding-bottom:16px; }
+  .tpl-tabs .stats > div,.tpl-tabs .stats > div + div{ padding:0; border-left:0; }
+  .tpl-tabs .stats .v{ font-size:30px; line-height:34px; white-space:normal; } .tpl-tabs .stats .v2{ font-size:18px; line-height:22px; } .tpl-tabs .stats .t{ margin-top:6px; font-size:14px; line-height:19px; }
+  .tpl-tabs .pane .mid{ padding:16px 0; }
+  .tpl-tabs .pane h3{ margin-top:16px; }
+  .tpl-tabs .pane .cols{ grid-template-columns:1fr; gap:12px; margin-top:16px; }
+  .tpl-tabs .pane .cols p + p{ border-left:0; padding-left:0; }
+  .tpl-tabs .pane .ft{ margin-top:16px; }
+
+  /* ---- GCC cities ---- */
+  .tpl-cities .grid{ grid-template-columns:1fr; gap:10px; margin-top:20px; }
+  .tpl-cities .cc{ height:auto; min-height:260px; padding:24px 20px 28px; }
+  .tpl-cities .cc h3{ font-size:26px; line-height:30px; }
+  .tpl-cities .cc .hr{ width:100%; }
+  .tpl-cities .cc p{ max-width:none; }
+
+  /* ---- trio ---- */
+  .tpl-trio .t-title{ font-size:26px; }
+  .tpl-trio .grid{ grid-template-columns:1fr; gap:10px; margin-top:20px; }
+  .tpl-trio .gc{ padding:20px; min-height:0; }
+  .tpl-trio .gc h3{ font-size:24px; line-height:30px; }
+
+  /* ---- global comparison ---- */
+  .tpl-global .inner{ padding-top:80px; }
+  .tpl-global .controls{ flex-direction:column; align-items:stretch; gap:16px; }
+  .tpl-global .controls > div[style]{ flex-direction:column; }
+  .tpl-global .seg{ width:100%; }
+  .tpl-global .seg button{ flex:1; padding:0 8px; font-size:14px; }
+  .tpl-global .sel{ width:100%; }
+  .tpl-global .hr{ margin-top:20px; }
+  .tpl-global .scroll{ margin-top:20px; flex:none; overflow:visible; }
+  .tpl-global .grid{ grid-template-columns:1fr !important; grid-template-rows:none; gap:10px; padding-bottom:0; }
+  .tpl-global .gc{ display:block; grid-row:auto; padding:20px 18px 6px; }
+  .tpl-global .gc h3{ font-size:28px; line-height:34px; padding-bottom:12px; }
+  .tpl-global .blk{ padding:14px 0; }
+  .tpl-global .blk .l{ font-size:19px; line-height:22px; }
+  .tpl-global .blk .v{ font-size:24px; line-height:28px; }
+  .tpl-global .blk p{ font-size:14px; line-height:20px; }
+  .tpl-global .fade,.tpl-global .scrollhint{ display:none; }
+  .tpl-global .ratenote{ position:static; margin-top:16px; }
+
+  /* ---- 03 your investment focus ---- */
+  .tpl-focus .inner{ padding-top:80px; }
+  .tpl-focus .top{ flex-direction:column; gap:16px; }
+  .tpl-focus .goals{ flex-wrap:wrap; margin-top:0; }
+  .tpl-focus .goals button{ height:40px; padding:0 12px; font-size:14px; line-height:40px; }
+  .tpl-focus .hr{ margin-top:16px; }
+  .tpl-focus .intro{ margin-top:16px; }
+  .tpl-focus .sum{ margin:20px 0 0; height:auto; flex-direction:column; align-items:stretch; padding:18px 16px; gap:16px; }
+  .tpl-focus .sum h3{ width:auto; height:auto; padding:0 0 12px; border-right:0; border-bottom:.5px solid rgba(255,255,255,.44); font-size:26px; line-height:30px; }
+  .tpl-focus .sum .items{ flex-direction:column; gap:14px; padding-left:0; }
+  .tpl-focus .sum .v{ font-size:22px; line-height:28px; margin-top:4px; }
+  .tpl-focus .rows{ margin:12px 0 0; }
+  .tpl-focus .row{ padding:16px 18px 14px; }
+  .tpl-focus .row .rh{ font-size:20px; line-height:26px; gap:12px; }
+  .tpl-focus .row .rh svg{ flex:none; }
+  .tpl-focus .cta-row{ flex-direction:column; align-items:stretch; gap:16px; padding-top:24px; }
+  .tpl-focus .cta{ width:100%; }
+  .tpl-focus .seemore{ display:none; }
+
+  /* ---- 04 checklists ---- */
+  .tpl-checklist .steps,.tpl-checklist.two-rows .steps{ grid-template-columns:1fr; gap:10px; margin-top:24px; overflow:visible; flex:none; }
+  .tpl-checklist .step,.tpl-checklist.two-rows .step{ min-height:0; padding:22px 20px; }
+  .tpl-checklist .step .chev,.tpl-checklist.two-rows .step .chev{ right:20px; top:26px; }
+  .tpl-checklist .step .n{ font-size:18px; line-height:24px; }
+  .tpl-checklist .step h3{ font-size:22px; line-height:26px; min-height:0; margin-top:6px; padding-right:28px; }
+  .tpl-checklist .step .hr{ margin-top:14px; }
+  .tpl-checklist .step .t{ margin-top:10px; }
+  .tpl-checklist .formula{ flex-wrap:wrap; gap:8px; margin-top:16px; font-size:14px; }
+  .tpl-checklist .bottom{ flex-direction:column; align-items:stretch; gap:16px; padding-top:24px; }
+  .tpl-checklist .focus{ min-width:0; padding:16px 18px; }
+
+  /* ---- 05 skyline map: the pins become a row of chips (no room for a skyline on a phone) ---- */
+  .tpl-map .inner{ padding-top:80px !important; }
+  .tpl-map .title-row .btns{ margin-top:0; flex-wrap:wrap; }
+  .tpl-map .sub{ font-size:20px; line-height:26px; margin-top:12px; }
+  .tpl-map .mapwrap{ flex:none; height:auto; min-height:0; margin-top:16px; display:flex; flex-wrap:wrap; gap:8px; }
+  .tpl-map .pin{ position:static; transform:none; width:auto; padding:0 14px; height:40px; line-height:40px; font-size:14px; border:1px solid var(--glass-line); border-radius:6px; background:rgba(0,0,0,.4); -webkit-backdrop-filter:blur(5.5px); backdrop-filter:blur(5.5px); }
+  .tpl-map .pin::after{ display:none; }
+  .tpl-map .pin:hover{ text-decoration:none; }
+  .tpl-map .pin[aria-pressed="true"]{ background:var(--white); color:var(--ink); border-color:var(--white); }
+  .tpl-map .mapwrap .empty{ position:static; width:100%; }
+  .tpl-map .corner{ position:static; order:1; width:100%; height:auto; clip-path:none; background:none; -webkit-backdrop-filter:none; backdrop-filter:none; margin-top:8px; }
+  .tpl-map .corner button{ position:static; transform:none; font-size:18px; line-height:24px; height:44px; padding:0 14px; border:1px solid var(--glass-line); border-radius:4px; background:rgba(0,0,0,.4); }
+  .ccard{ margin:16px 0 0; padding:16px 16px 18px; }
+  .ccard .name{ font-size:22px; line-height:28px; } .ccard .name small{ display:block; margin:4px 0 0; font-size:14px; }
+  .ccard .more{ grid-template-columns:1fr; gap:16px; margin-top:14px; padding-top:14px; }
+  .ccard .figs{ max-width:none; gap:10px 0; }
+  .ccard .figs > div{ min-width:50%; padding-right:10px; } .ccard .figs > div + div{ padding-left:10px; } .ccard .figs > div:nth-child(odd){ border-left:0; padding-left:0; }
+  .ccard .figs .v{ font-size:22px; line-height:26px; white-space:normal; }
+  .ccard .notes{ grid-template-columns:1fr; gap:10px; padding-right:0; }
+
+  /* ---- 05 full community map: the map stays as a backdrop; communities are chosen from the chips / dropdown ---- */
+  .slide.tpl-communities{ min-height:100vh; min-height:100svh; }
+  .tpl-communities .inner{ padding-top:70px; }
+  .tpl-communities .map{ background-size:cover; }
+  .tpl-communities .map img{ object-fit:cover; opacity:.35; }
+  .tpl-communities .pins{ display:none; }
+  .tpl-communities .selects{ flex-direction:column; }
+  .tpl-communities .sel,.tpl-communities .sel:last-child{ width:100%; }
+  .tpl-communities .legend{ font-size:12px; line-height:16px; }
+  .tpl-communities .chips-list{ margin-top:14px; padding-bottom:14px; }
+  .tpl-communities .chips-list .row{ gap:8px; max-height:none; }
+  .tpl-communities .chips-list button:not(.more){ height:auto; min-height:36px; padding:8px 12px; font-size:13px; line-height:18px; white-space:normal; text-align:left; }
+  .tpl-communities .chips-list .more{ display:none; }
+  .tpl-communities .mapwrap{ flex:none; min-height:0; }
+  .tpl-communities .profile{ position:relative; right:auto; top:auto; bottom:auto; width:100%; margin-top:4px; overflow:visible; }
+  .tpl-communities .profile .ph{ height:120px; }
+  .tpl-communities .profile .blurb{ padding:16px; }
+  .tpl-communities .profile .facts{ padding:0 16px 16px; }
+  .tpl-communities .profile .kinds{ flex-wrap:wrap; }
+
+  /* ---- 06 split (off-plan / ready) ---- */
+  .tpl-split .inner{ display:flex; flex-direction:column; align-items:center; padding:80px 16px 96px; }
+  .tpl-split .title{ position:static; width:100%; }
+  .tpl-split .title .hr{ margin-top:20px; }
+  .tpl-split .dia,.tpl-split .dia:first-of-type,.tpl-split .dia:last-of-type{ position:relative; left:auto; top:auto; width:200px; height:200px; margin:48px 0 0; }
+  .tpl-split .dia:last-of-type{ margin-top:52px; margin-bottom:24px; }
+  .tpl-split .dia .lbl{ width:190px; }
+  .tpl-split .dia .lbl b{ font-size:24px; line-height:26px; }
+  .tpl-split .dia .lbl small{ margin-top:12px; }
+  .slide .shade.split{ background:rgba(0,0,0,.45); }
+
+  /* ---- 09 closing / begin ---- */
+  .tpl-closing .blk{ padding:24px 0; }
+  .tpl-closing .blk h2.t-title{ margin:0 0 20px; }
+  .tpl-closing .blk .btn,.tpl-closing .blk .note{ margin-top:24px; }
+  .tpl-begin .cards{ grid-template-columns:1fr; gap:10px; margin-top:24px; }
+  .tpl-begin .card{ height:auto; padding:20px; }
+  .tpl-begin .card h3{ font-size:26px; line-height:30px; min-height:0; }
+  .tpl-begin .card .btn{ position:static; margin-top:18px; }
+  .tpl-begin .prime-rule{ margin-top:24px; }
+  .tpl-begin h2.t-title{ margin-top:20px; }
+  .tpl-begin .btn.solid{ margin-top:24px; }
+
+  /* ---- 08 from abroad ---- */
+  .tpl-abroad .scroll{ position:static; overflow:visible; }
+  .tpl-abroad .page{ padding:0 0 24px; }
+  .tpl-abroad .page > .hr{ margin-top:20px; }
+  .tpl-abroad .tabs{ display:flex; flex-wrap:wrap; height:auto; width:100%; }
+  .tpl-abroad .tabs button{ flex:1 1 45%; height:40px; padding:0 10px; font-size:13px; }
+  .tpl-abroad .cards{ grid-template-columns:1fr !important; gap:10px; margin-top:20px; }
+  .tpl-abroad .card{ padding:20px 18px 24px; }
+  .tpl-abroad .card h2{ font-size:28px; line-height:34px; }
+  .tpl-abroad .card > .hr{ margin-top:16px; }
+  .tpl-abroad .card h3{ font-size:19px; line-height:22px; margin-top:20px; }
+  .tpl-abroad .card p{ margin-top:10px; }
+  .tpl-abroad .card .hr.soft{ margin-top:16px; }
+  .tpl-abroad .foot{ grid-template-columns:1fr; gap:20px; margin:32px 0 0; }
+  .tpl-abroad .foot .small{ border-left:0; border-top:.5px solid var(--white); padding:16px 0 0; max-width:none; }
+  .tpl-abroad .fade,.tpl-abroad .cue{ display:none; }
+
+  /* ---- 06 / 07 process: the stage line becomes a row of stage chips ---- */
+  .tpl-process .t-body{ margin-top:16px; }
+  .tpl-process .timeline{ display:flex; flex-wrap:wrap; gap:8px; height:auto; margin-top:20px; }
+  .tpl-process .rail,.tpl-process .prog,.tpl-process .step{ display:none; }
+  .tpl-process .tl{ flex:1 1 calc(50% - 4px); padding:12px 14px; border:1px solid rgba(255,255,255,.22); border-radius:6px; background:rgba(0,0,0,.25); }
+  .tpl-process .tl[aria-selected="true"]{ background:var(--light); color:var(--ink); }
+  .tpl-process .tl .n{ font-size:13px; line-height:16px; }
+  .tpl-process .tl .d{ display:none; }
+  .tpl-process .tl .h{ font-size:17px; line-height:21px; margin-top:4px; }
+  .tpl-process .tl .tm{ font-size:12px; line-height:16px; margin-top:2px; }
+  .tpl-process .tl[aria-selected="true"] .tm{ color:var(--blue); }
+  .tpl-process .detail{ margin-top:20px; padding:20px 18px 22px; }
+  .tpl-process .detail h3{ font-size:24px; line-height:30px; }
+  .tpl-process .detail .cols{ grid-template-columns:1fr; gap:16px; }
+  .tpl-process .detail .intro p{ max-width:none; }
+}
 </style>
 </head>
 <body>

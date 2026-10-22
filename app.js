@@ -141,6 +141,37 @@
     : dir === "flat" ? `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M3 12h18"/></svg>`
     : `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M4 16c3-3 6-6 9-5s4 4 7-1"/><path d="M20 14v-4h-4"/></svg>`;
 
+  /* ---------------- currencies (2.3 global comparison) ----------------
+     All figures in slides.js are written in AED as "Dhs 1.102 million", "Dhs 66,000–77,000", "Dhs 5,900–8,800 per year".
+     convertDhs() rewrites every "Dhs <number>[–<number>] [million]" in a string into the chosen currency.
+     RATES ARE INDICATIVE — update `rate` (value of 1 AED) and CURRENCY_AS_OF when the content is refreshed.
+     AED, USD and SAR are pegged, so those three never change. */
+  const CURRENCIES = {
+    AED: { label: "UAE dirham",     symbol: "Dhs ",  rate: 1 },
+    USD: { label: "US dollar",      symbol: "US$",   rate: 0.2723 },
+    GBP: { label: "British pound",  symbol: "£",     rate: 0.205 },
+    EUR: { label: "Euro",           symbol: "€",     rate: 0.235 },
+    INR: { label: "Indian rupee",   symbol: "₹",     rate: 24.1 },
+    SAR: { label: "Saudi riyal",    symbol: "SAR ",  rate: 1.021 }
+  };
+  const CURRENCY_AS_OF = "October 2026";
+  function convertDhs(text, key) {
+    const c = CURRENCIES[key]; if (!c || key === "AED" || !text) return text;
+    const num = (n, mil) => parseFloat(String(n).replace(/,/g, "")) * (mil ? 1e6 : 1) * c.rate;
+    const fmt = v => {
+      if (v >= 1e6) return (v / 1e6).toFixed(v >= 1e7 ? 2 : 3).replace(/\.?0+$/, "") + " million";
+      const step = v >= 100000 ? 1000 : v >= 10000 ? 100 : 10;
+      return (Math.round(v / step) * step).toLocaleString("en-GB");
+    };
+    // "Dhs 1.836–2.093 million": the "million" applies to both ends of the range
+    return text.replace(/Dhs\s*([\d.,]+)(?:\s*[–-]\s*([\d.,]+))?(\s*million)?/g, (m, a, b, mil) => {
+      const A = fmt(num(a, mil)), B = b ? fmt(num(b, mil)) : "";
+      if (!B) return c.symbol + A;
+      const am = / million$/.test(A), bm = / million$/.test(B);
+      return c.symbol + (am && bm ? A.replace(" million", "") + "–" + B : A + "–" + B);
+    });
+  }
+
   const numTitle = s => `${h(s.num)} ${h(s.title)}`;
   const title = (s, cls = "t-title") => `<h1 class="${cls}">${s.num ? `<span class="t-small">${h(s.num)}</span> ` : ""}${h(s.title)}</h1>`;
   const placeLine = s => s.city ? `<div class="place">${s.city.toLowerCase().includes("abu") ? ICO.abudhabi : ICO.dubai}<span>${h(s.city)}</span></div>` : "";
@@ -288,14 +319,18 @@
 
     global: s => {
       const view = state.choices["view-" + s.id] || "both", cmp = state.choices["cmp-" + s.id] || "London";
+      const curKey = CURRENCIES[state.choices["cur-" + s.id]] ? state.choices["cur-" + s.id] : "AED";
+      const cv = txt => convertDhs(txt, curKey);
       const uae = s.cities.filter(c => c.uae), others = s.cities.filter(c => !c.uae);
       const shown = [...uae.filter(c => view === "both" || c.key === view), ...others.filter(c => c.name === cmp)];
+      const rows = 1 + Math.max(...shown.map(c => c.blocks.length));   // title + blocks: the shared row grid (see .tpl-global .grid)
       return `${bgHTML(s.bg)}<div class="inner tpl-global"><div class="controls">
         <div class="ctl"><span class="cap">Your UAE view</span><div class="seg">${[["dubai", "Dubai"], ["abudhabi", "Abu Dhabi"], ["both", "Compare both"]].map(([k, l]) => `<button type="button" data-view="${k}" aria-pressed="${view === k}">${l}</button>`).join("")}</div></div>
         <div style="display:flex;gap:13px"><div class="ctl"><span class="cap">Compare the UAE with</span><label class="sel"><select data-select="cmp" aria-label="Compare the UAE with">${others.map(c => `<option value="${h(c.name)}" ${c.name === cmp ? "selected" : ""} ${c.pending ? "disabled" : ""}>${h(c.name)}${c.pending ? " (soon)" : ""}</option>`).join("")}</select></label></div>
-        <div class="ctl"><span class="cap">Show currency</span><label class="sel"><select aria-label="Currency"><option>AED</option></select></label></div></div></div><hr class="hr">
-        <div class="scroll"><div class="grid" style="grid-template-columns:repeat(${shown.length},1fr)">${shown.map(c => `<div class="gc ${c.uae ? (c.key === "abudhabi" ? "ad" : "") : "other"}"><h3>${h(c.name)}</h3>
-          ${c.blocks.map(b => `<div class="blk"><div class="l">${h(b.l)}</div>${b.s ? `<div class="s">${h(b.s)}</div>` : ""}${b.v ? `<div class="v">${h(b.v)}</div>` : ""}${(b.paras || (b.t ? [b.t] : [])).map(p => `<p>${h(p)}</p>`).join("")}${b.v2 ? `<div class="v">${h(b.v2)}</div>` : ""}${b.t2 ? `<p>${h(b.t2)}</p>` : ""}</div>`).join("")}</div>`).join("")}</div></div>
+        <div class="ctl"><span class="cap">Show currency</span><label class="sel"><select data-select="cur" aria-label="Currency">${Object.entries(CURRENCIES).map(([k, c]) => `<option value="${k}" ${k === curKey ? "selected" : ""}>${k} · ${h(c.label)}</option>`).join("")}</select></label></div></div></div><hr class="hr">
+        <div class="scroll"><div class="grid" style="grid-template-columns:repeat(${shown.length},1fr);--rows:${rows}">${shown.map(c => `<div class="gc ${c.uae ? (c.key === "abudhabi" ? "ad" : "") : "other"}"><h3>${h(c.name)}</h3>
+          ${c.blocks.map(b => `<div class="blk"><div class="l">${h(b.l)}</div>${b.s ? `<div class="s">${h(cv(b.s))}</div>` : ""}${b.v ? `<div class="v">${h(cv(b.v))}</div>` : ""}${(b.paras || (b.t ? [b.t] : [])).map(p => `<p>${h(cv(p))}</p>`).join("")}${b.v2 ? `<div class="v">${h(cv(b.v2))}</div>` : ""}${b.t2 ? `<p>${h(cv(b.t2))}</p>` : ""}</div>`).join("")}</div>`).join("")}</div></div>
+        ${curKey === "AED" ? "" : `<p class="ratenote">Converted from AED at an indicative rate of 1 AED = ${CURRENCIES[curKey].symbol}${CURRENCIES[curKey].rate} (${CURRENCY_AS_OF}) · figures rounded</p>`}
         <div class="fade"></div><div class="scrollhint">${ICO.chev}<br>Scroll</div></div>`;
     },
 
@@ -555,6 +590,7 @@
     if (sel.dataset.select === "market") { state.market = sel.value; delete state.choices["pin-" + s.id]; }
     else if (sel.dataset.select === "pin") { if (sel.value) state.choices["pin-" + s.id] = sel.value; else delete state.choices["pin-" + s.id]; }
     else if (sel.dataset.select === "cmp") { state.choices["cmp-" + s.id] = sel.value; }
+    else if (sel.dataset.select === "cur") { if (sel.value === "AED") delete state.choices["cur-" + s.id]; else state.choices["cur-" + s.id] = sel.value; }
     rerender();
   });
 

@@ -489,8 +489,10 @@ img{ display:block; max-width:100%; }
 .tpl-global .hr{ margin-top:32px; border-color:var(--white); }
 .tpl-global .scroll{ position:relative; margin-top:37px; flex:1; overflow-y:auto; overflow-x:hidden; overscroll-behavior:contain; scrollbar-width:none; }
 .tpl-global .scroll::-webkit-scrollbar{ display:none; }
-.tpl-global .grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:19px; align-items:start; padding-bottom:160px; }
-.tpl-global .gc{ border-radius:8px; border:1px solid rgba(255,255,255,.11); background:rgba(0,0,0,.22); -webkit-backdrop-filter:blur(16.5px); backdrop-filter:blur(16.5px); padding:33px 33px 10px; }
+/* The cards share one row grid (--rows = title + block count, set by app.js) so each block lines up across cities:
+   every row takes the height of the tallest card's content in that row, and the dividers sit on the same line. */
+.tpl-global .grid{ display:grid; grid-template-columns:repeat(3,1fr); grid-template-rows:repeat(var(--rows,8),auto); gap:19px; align-items:start; padding-bottom:160px; }
+.tpl-global .gc{ display:grid; grid-template-rows:subgrid; grid-row:span var(--rows,8); border-radius:8px; border:1px solid rgba(255,255,255,.11); background:rgba(0,0,0,.22); -webkit-backdrop-filter:blur(16.5px); backdrop-filter:blur(16.5px); padding:33px 33px 10px; }
 .tpl-global .gc.ad{ background:rgba(0,0,0,.5); }
 .tpl-global .gc h3{ font:400 36px/44px var(--font-display); padding-bottom:22px; border-bottom:.5px solid var(--white); }
 .tpl-global .blk{ padding:22px 0; border-bottom:.5px solid rgba(255,255,255,.33); }
@@ -501,6 +503,7 @@ img{ display:block; max-width:100%; }
 .tpl-global .blk .v{ font:400 32px/35.5px var(--font-display); margin-top:6px; }
 .tpl-global .blk p{ font:400 16px/22px var(--font-text); margin-top:10px; }
 .tpl-global .fade{ position:absolute; left:0; right:0; bottom:0; height:213px; background:linear-gradient(180deg,rgba(0,0,0,0) 0%,#000 100%); pointer-events:none; z-index:2; }
+.tpl-global .ratenote{ position:absolute; left:0; bottom:20px; z-index:3; font:400 12px/17px var(--font-text); opacity:.75; }
 .tpl-global .scrollhint{ position:absolute; left:50%; bottom:20px; transform:translateX(-50%); z-index:3; text-align:center; font:400 16px/22px var(--font-text); pointer-events:none; }
 
 /* focus (03 Your investment focus: goal tabs, summary card, accordion rows, CTA) */

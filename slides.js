@@ -657,7 +657,7 @@ window.DECK = {
         "Some checks apply to every purchase. Others become more important depending on your property type and investment goals." ],
       chooser: { label: "Property type", key: "ptype", options: [["ready", "Ready"], ["offplan", "Off-plan"]] } },
 
-    { id: "s4-1-verify", section: "s4", tpl: "checklist", bg: "burj-arab-aerial", num: "4.1", title: "Verify your property",
+    { id: "s4-1-verify", section: "s4", tpl: "checklist", bg: "burj-arab-aerial", num: "4.1", title: "Verify your property", perPage: 6,   // all six checks on one slide (two rows); omit for the 3-per-page pager
       variants: {
         ready: [
           { n: "01", h: "Verify the property details", t: "Start by making sure the property, project and listing information can be independently verified.", items: ["Property or project name", "Unit details", "Advertised price", "Broker or agency", "Listing or advertising permit, where applicable", "Current availability"], sub: "Where possible, verify the information through the relevant property authority rather than relying only on the advertisement." },

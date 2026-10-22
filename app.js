@@ -26,7 +26,9 @@
   const stage = $("#stage"), slidesEl = $("#slides"), sectionsEl = $("#sections"), viewport = $("#viewport");
 
   /* ---------------- stage scaling ---------------- */
+  const MOBILE = window.matchMedia("(max-width: 900px)");   // the mobile layout in index.html (no stage scaling)
   function fit() {
+    if (MOBILE.matches) { viewport.style.removeProperty("--s"); viewport.style.removeProperty("--W"); viewport.style.removeProperty("--H"); return; }
     const cs = getComputedStyle(viewport);
     const w = viewport.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
     const hh = viewport.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
@@ -251,7 +253,7 @@
       cells += cell(h(s.head[0]), 0, 0, "panel h") + s.head.slice(1).map((c, i) => cell(`${h(c)}${s.subhead ? `<small>${h(s.subhead[i])}</small>` : ""}`, 0, i + 1, "mc h")).join("");
       s.rows.forEach((r, i) => { cells += cell(h(r[0]), i + 1, 0, "panel r") + r.slice(1).map((c, k) => cell(h(c), i + 1, k + 1, "mc r")).join(""); });
       return `<div class="inner tpl-compare">${title(s)}${s.intro ? `<p class="t-lead" style="margin-top:10px">${h(s.intro)}</p>` : ""}<hr class="hr head-rule">
-        <div class="wrap" style="${cols}">${cells}</div>
+        <div class="scrollx"><div class="wrap ${n > 2 ? "wide" : ""}" style="${cols}">${cells}</div></div>
         ${s.after ? `<div class="after">${s.after.lead ? `<div class="lead">${h(s.after.lead)}</div>` : ""}${s.after.h ? `<h3>${h(s.after.h)}</h3>` : ""}<div class="cols">${s.after.cols.map(c => `<p>${h(c)}</p>`).join("")}</div>${s.after.foot ? `<p class="foot">${h(s.after.foot)}</p>` : ""}</div>` : ""}</div>`;
     },
 
@@ -316,12 +318,13 @@
       const key = s.chooser ? s.chooser.key : "ptype";
       const variant = state.choices[key] || (s.chooser ? s.chooser.options[0][0] : "ready");
       const steps = s.steps || s.variants[variant] || s.variants[Object.keys(s.variants)[0]];
-      const page = +(state.choices["pg-" + s.id] || 0), per = 3, pages = Math.ceil(steps.length / per);
+      const per = MOBILE.matches ? steps.length : (s.perPage || 3);                      // cards per page; set `perPage` on the slide to show them all (4.1 → 6, two rows)
+      const page = +(state.choices["pg-" + s.id] || 0), pages = Math.ceil(steps.length / per);
       const shown = steps.slice(page * per, page * per + per);
       const chooser = s.chooser || (s.variants ? { label: "Property type", key: "ptype", options: [["offplan", "Off-plan"], ["ready", "Ready"]] } : null);
       const open = local["open-" + s.id] ?? -1;
       const focusStep = shown.find(x => x.focus);
-      return `${bgHTML(s.bg)}<div class="shade dim"></div><div class="inner tpl-checklist"><div class="title-row"><div>${title(s)}${s.lede ? `<p class="t-lead" style="margin-top:10px">${h(s.lede)}</p>` : ""}${s.body ? `<p class="t-body" style="margin-top:2px;max-width:1100px">${h(s.body)}</p>` : ""}</div>
+      return `${bgHTML(s.bg)}<div class="shade dim"></div><div class="inner tpl-checklist ${per > 3 ? "two-rows" : ""}"><div class="title-row"><div>${title(s)}${s.lede ? `<p class="t-lead" style="margin-top:10px">${h(s.lede)}</p>` : ""}${s.body ? `<p class="t-body" style="margin-top:2px;max-width:1100px">${h(s.body)}</p>` : ""}</div>
         ${chooser ? switchHTML(chooser, variant, "small") : ""}</div><hr class="hr head-rule">
         ${s.formula ? `<div class="formula">${s.formula.map((f, i) => i % 2 ? `<span class="op">${h(f)}</span>` : `<span>${h(f)}</span>`).join("")}</div>` : ""}
         <div class="steps">${shown.map((x, i) => `<button type="button" class="step" data-open="${i}" aria-expanded="${open === i}"><div class="n">${h(x.n)}</div><span class="chev">${ICO.chev}</span><h3>${h(x.h)}</h3><hr class="hr"><p class="t">${h(x.t)}</p>
@@ -344,7 +347,7 @@
           ${picks.length ? "" : `<p class="empty">No communities are mapped for this profile yet — add fit values in communities.js.</p>`}
           <div class="corner"><button type="button" data-market="${other}" data-stay="1">${h(DECK.markets[other].label)} ${ICO.arrow}</button></div></div>
         ${c ? `<div class="ccard"><div class="name">${h(c.short)}<small>${h(c.status)} · ${h(c.type)}</small></div>${c.blurb ? `<p class="desc">${h(c.blurb)}</p>` : ""}
-          <div class="more"><div class="figs">${[[c.price, c.priceLabel], [c.yield, c.yieldLabel], [c.entry, c.entryLabel], [c.range, c.rangeLabel]].map(([v, l]) => `<div><div class="v">${h(v)}</div><div class="l">${h(l)}</div></div>`).join("")}</div>
+          <div class="more"><div class="figs">${[[c.price, c.priceLabel], [c.yield, c.yieldLabel], [c.entry, c.entryLabel], [c.range, c.rangeLabel]].filter(([v]) => v).map(([v, l]) => `<div><div class="v">${h(v)}</div><div class="l">${h(l)}</div></div>`).join("")}</div>
           <div class="notes">${c.notes.map(([b, t]) => `<div><b>${h(b)}</b><p>${h(t)}</p></div>`).join("")}</div></div></div>` : ""}</div>`;
     },
 
@@ -376,7 +379,7 @@
           ${cur && c ? `<aside class="profile">${c.photo ? `<div class="ph" style="background-image:${photoURL(c.photo)}"></div>` : ""}
             <button type="button" class="blurb" data-pin="${h(cur)}" aria-label="Close"><b>${h(cur)}</b>${ICO.chev}<p>${h(c.blurb || "")}</p></button>
             <div class="facts"><div class="kinds"><div><div class="v">${h(c.market)}</div><div class="l">Market</div></div><div><div class="v">${h(c.type)}</div><div class="l">Main property types</div></div></div>
-              <div class="metrics">${[[c.price, c.priceLabel], [c.yield, c.yieldLabel], [c.entry, c.entryLabel], [c.range, c.rangeLabel], ...c.more.map(([l, v]) => [v, l])].map(([v, l]) => `<div><div class="v">${h(v)}</div><div class="l">${h(l)}</div></div>`).join("")}</div>
+              <div class="metrics">${[[c.price, c.priceLabel], [c.yield, c.yieldLabel], [c.entry, c.entryLabel], [c.range, c.rangeLabel], ...c.more.map(([l, v]) => [v, l])].filter(([v]) => v).map(([v, l]) => `<div><div class="v">${h(v)}</div><div class="l">${h(l)}</div></div>`).join("")}</div>
               <div class="notes">${c.notes.map(([b, t]) => `<div><b>${h(b)}</b><p>${h(t)}</p></div>`).join("")}</div>
               ${c.source ? `<p class="source">Source: ${h(c.source)}</p>` : ""}</div></aside>` : ""}</div></div>`;
     },
@@ -444,6 +447,7 @@
       setTimeout(() => prev.remove(), 600);
     }
     slidesEl.appendChild(el);
+    if (MOBILE.matches) window.scrollTo(0, 0);
     stage.classList.toggle("light", light);
     stage.classList.toggle("chrome-none", slide.tpl === "cover");
     stage.classList.toggle("chrome-min", slide.tpl === "toc");

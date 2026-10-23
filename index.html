@@ -808,8 +808,6 @@ img{ display:block; max-width:100%; }
   .place{ font-size:20px; line-height:30px; }
   .title-row{ flex-direction:column; align-items:stretch; gap:16px; }
   .cols-2,.cols-3{ grid-template-columns:1fr; }
-  .tpl-checklist.four-up .steps{ grid-auto-flow:column; grid-auto-columns:85%; grid-template-columns:none; overflow-x:auto; overflow-y:visible; scroll-snap-type:x mandatory; gap: 50px }
-  .tpl-checklist.four-up .step{ scroll-snap-align:start; }
 
   /* ---- chrome: top bar + Back / Next pinned to the screen ---- */
   .bar-left,.side-label,.sections,.progress,.streak,.journey{ display:none; }
@@ -1072,7 +1070,7 @@ img{ display:block; max-width:100%; }
   .tpl-focus .seemore{ display:none; }
 
   /* ---- 04 checklists ---- */
-  .tpl-checklist .steps,.tpl-checklist.two-rows .steps{ grid-template-columns:1fr; gap:10px; margin-top:24px; overflow:visible; flex:none; }
+  .tpl-checklist .steps,.tpl-checklist.two-rows .steps,.tpl-checklist.four-up .steps{ grid-template-columns:1fr; gap:10px; margin-top:24px; overflow:visible; flex:none; }
   .tpl-checklist .step .chev,.tpl-checklist.two-rows .step .chev{ right:20px; top:26px; }
   .tpl-checklist .step .n{ font-size:18px; line-height:24px; }
   .tpl-checklist .step h3{ font-size:22px; line-height:26px; min-height:0; margin-top:6px; padding-right:28px; }

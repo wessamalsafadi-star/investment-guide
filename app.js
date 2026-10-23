@@ -353,13 +353,14 @@
       const key = s.chooser ? s.chooser.key : "ptype";
       const variant = state.choices[key] || (s.chooser ? s.chooser.options[0][0] : "ready");
       const steps = s.steps || s.variants[variant] || s.variants[Object.keys(s.variants)[0]];
-      const per = MOBILE.matches ? steps.length : (s.perPage || 3);                      // cards per page; set `perPage` on the slide to show them all (4.1 → 6, two rows)
+      const per = MOBILE.matches ? steps.length : (s.perPage || 3);                      // cards per page; set `perPage` on the slide to show them all (4.1 → 6, two rows; 4.3 → 4, one row)
+      const layout = per === 4 ? "four-up" : per > 3 ? "two-rows" : "";
       const page = +(state.choices["pg-" + s.id] || 0), pages = Math.ceil(steps.length / per);
       const shown = steps.slice(page * per, page * per + per);
       const chooser = s.chooser || (s.variants ? { label: "Property type", key: "ptype", options: [["offplan", "Off-plan"], ["ready", "Ready"]] } : null);
       const open = local["open-" + s.id] ?? -1;
       const focusStep = shown.find(x => x.focus);
-      return `${bgHTML(s.bg)}<div class="shade dim"></div><div class="inner tpl-checklist ${per > 3 ? "two-rows" : ""}"><div class="title-row"><div>${title(s)}${s.lede ? `<p class="t-lead" style="margin-top:10px">${h(s.lede)}</p>` : ""}${s.body ? `<p class="t-body" style="margin-top:2px;max-width:1100px">${h(s.body)}</p>` : ""}</div>
+      return `${bgHTML(s.bg)}<div class="shade dim"></div><div class="inner tpl-checklist ${layout}"><div class="title-row"><div>${title(s)}${s.lede ? `<p class="t-lead" style="margin-top:10px">${h(s.lede)}</p>` : ""}${s.body ? `<p class="t-body" style="margin-top:2px;max-width:1100px">${h(s.body)}</p>` : ""}</div>
         ${chooser ? switchHTML(chooser, variant, "small") : ""}</div><hr class="hr head-rule">
         ${s.formula ? `<div class="formula">${s.formula.map((f, i) => i % 2 ? `<span class="op">${h(f)}</span>` : `<span>${h(f)}</span>`).join("")}</div>` : ""}
         <div class="steps">${shown.map((x, i) => `<button type="button" class="step" data-open="${i}" aria-expanded="${open === i}"><div class="n">${h(x.n)}</div><span class="chev">${ICO.chev}</span><h3>${h(x.h)}</h3><hr class="hr"><p class="t">${h(x.t)}</p>

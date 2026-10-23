@@ -683,7 +683,7 @@ window.DECK = {
         { n: "02", h: "While you own", t: "Properties with similar purchase prices can have very different running costs.", rv: "Allow for", items: ["Service charges", "Maintenance and replacements", "Insurance, where applicable", "Mortgage repayments, if financed", "Management and letting fees, if rented"], sub: "If renting, allow for periods without rental income. Use previous years’ costs where available to build a realistic annual budget." },
         { n: "03", h: "If you rent it out", t: "Check whether the expected rent is supported by comparable properties and recent signed leases.", rv: "Compare", items: ["Location and building or community", "Property type, bedrooms and size", "Condition and furnishing", "View, where relevant"], sub: "Look beyond the headline rent to what may remain after ownership and letting costs. If financed, also deduct mortgage payments to understand your cash flow." } ] },
 
-    { id: "s4-3-fit", section: "s4", tpl: "checklist", bg: "dubai-canal", num: "4.3", title: "Check whether the property fits your investment goal",
+    { id: "s4-3-fit", section: "s4", tpl: "checklist", bg: "dubai-canal", num: "4.3", title: "Check whether the property fits your investment goal", perPage: 4,   // all four checks on one slide (one row); omit for the 3-per-page pager
       lede: "Look at the property through your investor profile",
       body: "After checking the property and the numbers, your next question should be whether this particular opportunity fits what you are trying to achieve. The priorities below change according to your investor profile.",
       chooser: { label: "Investor profile", key: "profile", options: [["income", "Income Builder"], ["growth", "Growth Investor"]] },

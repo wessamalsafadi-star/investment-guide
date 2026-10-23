@@ -494,19 +494,19 @@
     document.title = (slide.title || DECK.meta.title) + " · betterhomes";
   }
   function current() { const all = slidesEl.querySelectorAll(".slide:not(.exit)"); return all[all.length - 1] || null; }
-    function rerender() {
+  function rerender() {
     const el = current(); if (!el) return;
     const s = byId(state.id);
+    const scrolls = [...el.querySelectorAll(".steps,.scroll")].map(x => [x.scrollLeft, x.scrollTop]);   // ← remember
     const tmp = document.createElement("div");
     tmp.innerHTML = TPL[s.tpl](s);
-    // keep the existing background photo / map so the image doesn't reload; only the content is rebuilt
     const kept = [...el.querySelectorAll(":scope > .bg, :scope > .map")];
     kept.forEach(k => { const n = tmp.querySelector(":scope > ." + k.classList[0]); if (n) { k.className = n.className; n.remove(); } });
     el.replaceChildren(...kept, ...tmp.childNodes);
-    el.classList.add("settled");                       // the cards' entrance animation only plays once per slide
+    el.classList.add("settled");
+    [...el.querySelectorAll(".steps,.scroll")].forEach((x, i) => { if (scrolls[i]) { x.scrollLeft = scrolls[i][0]; x.scrollTop = scrolls[i][1]; } });   // ← restore
     writeHash(true); updateChrome(s);
   }
-
   function updateChrome(slide) {
     const p = path(), i = p.findIndex(s => s.id === slide.id), n = p.length;
     const pct = Math.round(i / (n - 1) * 100);

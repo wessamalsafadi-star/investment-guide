@@ -75,7 +75,7 @@ img{ display:block; max-width:100%; }
 .t-h2.tall{ line-height:66px; }
 .t-h3{ font:400 24px/29px var(--font-display); }
 .t-lead{ font:600 16px/20px var(--font-text); }
-.t-body{ font:400 16px/22px var(--font-text); }
+.t-body{ font:400 16px/22px var(--font-text); padding-right: 20px; }
 .t-fine{ font:400 12px/17px var(--font-text); }
 .t-big{ font:400 64px/71px var(--font-display); }
 .t-big .u{ font-size:32px; } .t-big .u.sm{ font-size:24px; }
@@ -90,7 +90,7 @@ img{ display:block; max-width:100%; }
 .slide.light .place{ color:var(--blue); }
 .title-row{ display:flex; justify-content:space-between; align-items:flex-start; gap:40px; }
 .head-rule{ margin-top:4px; }
-.cols-2{ display:grid; grid-template-columns:1fr 1fr; gap:0 40px; } .cols-3{ display:grid; grid-template-columns:repeat(3,1fr); gap:0 40px; }
+.cols-2{ display:grid; grid-template-columns:1fr; gap:0 40px; } .cols-3{ display:grid; grid-template-columns:repeat(3,1fr); gap:0 40px; }
 .lead-block{ margin-top:33px; display:flex; flex-direction:column; gap:14px; }
 .foot-note{ margin-top:auto; padding-top:24px; display:flex; flex-direction:column; gap:14px; }
 .foot-note .t-h2{ margin-bottom:6px; }
@@ -281,7 +281,7 @@ img{ display:block; max-width:100%; }
 
 /* hub (section intros 1.2 / 2.1 / 2.2 / 2.3 + "what this means for you") */
 .tpl-hub .t-title{ max-width:1604px; }
-.tpl-hub .text{ margin-top:33px; display:flex; flex-direction:column; gap:14px; max-width:1604px; }
+.tpl-hub .text{ margin-top:33px; display:flex; flex-direction:column; gap:14px; max-width:1604px; width: 50%; text-align: justify;}
 .tpl-hub .text.cols-2{ display:grid; gap:14px 40px; }
 .tpl-hub .callout{ position:absolute; z-index:1; width:200px; margin-left:-100px; text-align:center; font:400 16px/20px var(--font-text); color:var(--white); }
 .tpl-hub .callout::after{ content:""; position:absolute; left:50%; top:31px; width:1px; height:200px; background:linear-gradient(180deg,#fff 0%,rgba(255,255,255,0) 100%); }
@@ -493,7 +493,7 @@ img{ display:block; max-width:100%; }
    every row takes the height of the tallest card's content in that row, and the dividers sit on the same line. */
 .tpl-global .grid{ display:grid; grid-template-columns:repeat(3,1fr); grid-template-rows:repeat(var(--rows,8),auto); gap:19px; align-items:start; padding-bottom:160px; }
 .tpl-global .gc{ display:grid; grid-template-rows:subgrid; grid-row:span var(--rows,8); border-radius:8px; border:1px solid rgba(255,255,255,.11); background:rgba(0,0,0,.22); -webkit-backdrop-filter:blur(16.5px); backdrop-filter:blur(16.5px); padding:33px 33px 10px; }
-.tpl-global .gc.ad{ background:rgba(0,0,0,.5); }
+.tpl-global .gc.ad{ background:rgba(0,0,0,.22); }
 .tpl-global .gc h3{ font:400 36px/44px var(--font-display); padding-bottom:22px; border-bottom:.5px solid var(--white); }
 .tpl-global .blk{ padding:22px 0; border-bottom:.5px solid rgba(255,255,255,.33); }
 .tpl-global .blk:last-child{ border-bottom:0; }

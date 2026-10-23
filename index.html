@@ -795,7 +795,8 @@ img{ display:block; max-width:100%; }
   .slide.exit{ position:absolute; left:0; top:0; width:100%; height:100%; }
   .slide .inner{ position:relative; left:auto; right:auto; top:auto; bottom:auto; padding:80px 16px 96px; min-height:100vh; min-height:100svh; }
   .slide .bg.second{ display:none; }
-  .tpl-checklist.four-up .step{ padding:34px 10px 34px; min-width: 370px; }
+  .tpl-checklist.four-up .step{         padding: 0px 10px 0px;
+        min-width: 370px; }
   /* ---- type ---- */
   .t-num{ font-size:22px; line-height:30px; }
   .t-hero{ font-size:34px; line-height:38px; }
@@ -807,7 +808,7 @@ img{ display:block; max-width:100%; }
   .place{ font-size:20px; line-height:30px; }
   .title-row{ flex-direction:column; align-items:stretch; gap:16px; }
   .cols-2,.cols-3{ grid-template-columns:1fr; }
-  .tpl-checklist.four-up .steps{ grid-auto-flow:column; grid-auto-columns:85%; grid-template-columns:none; overflow-x:auto; overflow-y:visible; scroll-snap-type:x mandatory; }
+  .tpl-checklist.four-up .steps{ grid-auto-flow:column; grid-auto-columns:85%; grid-template-columns:none; overflow-x:auto; overflow-y:visible; scroll-snap-type:x mandatory; gap: 50px }
   .tpl-checklist.four-up .step{ scroll-snap-align:start; }
 
   /* ---- chrome: top bar + Back / Next pinned to the screen ---- */
@@ -1071,7 +1072,7 @@ img{ display:block; max-width:100%; }
   .tpl-focus .seemore{ display:none; }
 
   /* ---- 04 checklists ---- */
-  .tpl-checklist .steps,.tpl-checklist.two-rows .steps,.tpl-checklist.four-up .steps{ grid-template-columns:1fr; gap:10px; margin-top:24px; overflow:visible; flex:none; }  .tpl-checklist .step,.tpl-checklist.two-rows .step{ min-height:0; padding:22px 20px; }
+  .tpl-checklist .steps,.tpl-checklist.two-rows .steps{ grid-template-columns:1fr; gap:10px; margin-top:24px; overflow:visible; flex:none; }
   .tpl-checklist .step .chev,.tpl-checklist.two-rows .step .chev{ right:20px; top:26px; }
   .tpl-checklist .step .n{ font-size:18px; line-height:24px; }
   .tpl-checklist .step h3{ font-size:22px; line-height:26px; min-height:0; margin-top:6px; padding-right:28px; }

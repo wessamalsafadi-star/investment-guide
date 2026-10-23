@@ -95,6 +95,7 @@ img{ display:block; max-width:100%; }
 .foot-note{ margin-top:auto; padding-top:24px; display:flex; flex-direction:column; gap:14px; }
 .foot-note .t-h2{ margin-bottom:6px; }
 
+
 /* glass + cards */
 .glass{ background:rgba(255,255,255,.11); border-radius:6px; -webkit-backdrop-filter:blur(11px); backdrop-filter:blur(11px); }
 .glass.k22{ background:rgba(0,0,0,.22); -webkit-backdrop-filter:blur(16.5px); backdrop-filter:blur(16.5px); }
@@ -105,7 +106,7 @@ img{ display:block; max-width:100%; }
 .diamond{ display:inline-block; width:8px; height:8px; background:var(--paper); transform:rotate(45deg); }
 .pill-btn{ display:inline-flex; align-items:center; justify-content:center; gap:12px; height:52px; padding:0 26px; border:1px solid var(--glass-line); border-radius:4px; background:rgba(243,119,122,.01); -webkit-backdrop-filter:blur(5.5px); backdrop-filter:blur(5.5px); font:600 16px/20px var(--font-text); color:var(--white); white-space:nowrap; transition:background .2s,color .2s,border-color .2s; }
 .pill-btn:hover{ background:rgba(255,255,255,.1); }
-.pill-btn[aria-pressed="true"],.pill-btn.on{ background:var(--white); color:var(--ink); border-color:var(--white); }
+.pill-btn[aria-pressed="true"],.pill-btn.on{ background:var(--coral); color:var(--ink); border-color:var(--coral); }
 .pill-btn.coral{ background:var(--coral); color:var(--ink); border-color:transparent; }
 .pill-btn.coral:hover{ background:var(--coral-hover); }
 .slide.light .pill-btn{ color:var(--ink); border-color:var(--ink); }
@@ -555,12 +556,20 @@ img{ display:block; max-width:100%; }
 .tpl-checklist .step .sub{ font:400 16px/22px var(--font-text); margin-top:14px; padding-top:14px; border-top:.5px solid rgba(255,255,255,.3); }
 .tpl-checklist .step .q{ margin-top:16px; padding:12px 16px; border-radius:4px; background:rgba(255,255,255,.1); font:600 16px/20px var(--font-text); }
 /* two-row layout (perPage > 3): six cards at once, slightly tighter, and the card area scrolls if an open card runs past the stage */
-.tpl-checklist.two-rows .steps{ margin-top:28px; flex:1; min-height:0; overflow-y:auto; scrollbar-width:none; padding-bottom:4px; }
+.tpl-checklist.two-rows .steps{ margin-top:28px; flex:1; min-height:0; overflow-y:auto; scrollbar-width:none; padding-bottom:4px; grid-auto-rows:max-content; align-content:start; }
+.tpl-checklist .step[aria-expanded="true"]{ position:relative; z-index:1; }
 .tpl-checklist.two-rows .steps::-webkit-scrollbar{ display:none; }
 .tpl-checklist.two-rows .step{ min-height:270px; padding:30px 44px 30px; }
 .tpl-checklist.two-rows .step .chev{ right:44px; top:38px; }
 .tpl-checklist.two-rows .step h3{ min-height:0; margin-top:8px; }
 .tpl-checklist.two-rows .bottom:empty{ display:none; }
+/* one-row layout (perPage = 4, used by 4.3): four cards across, no in-slide pager */
+.tpl-checklist.four-up .steps{ grid-template-columns:repeat(4,1fr); gap:14px; flex:1; min-height:0; overflow-y:auto; scrollbar-width:none; grid-auto-rows:max-content; align-content:start; }
+.tpl-checklist.four-up .steps::-webkit-scrollbar{ display:none; }
+.tpl-checklist.four-up .step{ padding:34px 40px 34px; }
+.tpl-checklist.four-up .step .chev{ right:40px; top:42px; }
+.tpl-checklist.four-up .step h3{ font-size:28px; line-height:34px; min-height:68px; padding-right:28px; }
+.tpl-checklist.four-up .bottom{ justify-content:flex-end; }
 .tpl-checklist .bottom{ margin-top:auto; display:flex; justify-content:space-between; align-items:flex-end; gap:40px; padding-top:30px; }
 .tpl-checklist .pager-in{ display:flex; gap:8px; }
 .tpl-checklist .pager-in button{ height:42px; padding:0 20px; border:1px solid rgba(255,255,255,.22); border-radius:4px; background:rgba(243,119,122,.01); -webkit-backdrop-filter:blur(11px); backdrop-filter:blur(11px); font:400 16px/22px var(--font-text); color:var(--white); }

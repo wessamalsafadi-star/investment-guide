@@ -177,16 +177,16 @@
   const placeLine = s => s.city ? `<div class="place">${s.city.toLowerCase().includes("abu") ? ICO.abudhabi : ICO.dubai}<span>${h(s.city)}</span></div>` : "";
   const bigV = x => `${x.pre ? `<span class="u">${h(x.pre)}</span> ` : ""}${h(x.v)}${x.unit ? `<span class="u">${h(x.unit)}</span>` : ""}`;
   const sparkline = trend => {
-    const pts = trend < 0 ? "0,40 60,44 110,62 170,70 240,86 320,92 397,80" : trend > 0 ? "0,100 60,98 110,92 170,80 240,46 320,38 397,40" : "0,72 60,72 110,70 170,73 240,72 320,72 397,72";
-    const last = pts.split(" ").pop().split(",");
+    const pts = trend < 0 ? "0,40 60,44 110,62 170,70 240,86 290,92 320,80" : trend > 0 ? "0,100 60,98 110,92 170,80 240,46 290,38 320,40" : "0,72 60,72 110,70 170,73 240,72 290,72 320,72";
+    const [lx, ly] = pts.split(" ").pop().split(",").map(Number), d = 6.5;   // last point = diamond centre; d = half its width
     return `<svg viewBox="0 0 397 212" preserveAspectRatio="none" aria-hidden="true">
       <defs><linearGradient id="sg${trend + 1}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff787a" stop-opacity=".55"/><stop offset="1" stop-color="#ff787a" stop-opacity="0"/></linearGradient></defs>
       <line x1="0" x2="397" y1="12" y2="12" stroke="currentColor" stroke-opacity=".3" stroke-dasharray="3 4"/>
       <line x1="0" x2="397" y1="72" y2="72" stroke="currentColor" stroke-opacity=".5"/>
       <line x1="0" x2="397" y1="132" y2="132" stroke="currentColor" stroke-opacity=".3" stroke-dasharray="3 4"/>
-      <polygon points="0,212 ${pts} 397,212" fill="url(#sg${trend + 1})"/>
+      <polygon points="0,212 ${pts} 397,${ly} 397,212" fill="url(#sg${trend + 1})"/>
       <polyline points="${pts}" fill="none" stroke="#f3777a" stroke-width="1.2"/>
-      <rect x="${+last[0] - 9}" y="${+last[1] - 5.5}" width="11" height="11" transform="rotate(45 ${+last[0] - 3.5} ${+last[1]})" fill="#f3777a"/></svg>`;
+      <polygon points="${lx},${ly - d} ${lx + d},${ly} ${lx},${ly + d} ${lx - d},${ly}" fill="#f3777a"/></svg>`;
   };
   const switchHTML = (c, cur, cls = "") => `<div class="switch on ${cls}" data-key="${h(c.key)}"><span class="label">${h(c.label)}</span><span class="track">
       ${c.options.map(([k, l]) => `<button type="button" data-val="${h(k)}" aria-pressed="${cur === k}">${h(l)}</button>`).join("")}</span></div>`;

@@ -132,6 +132,10 @@
     chev: `<svg width="18" height="13" viewBox="0 0 18 13" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2 2l7 8 7-8"/></svg>`,
     arrow: `<svg class="arrow-r" width="22" height="14" viewBox="0 0 22 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M14 1l6 6-6 6M20 7H0"/></svg>`,
     arrowBig: `<svg width="35.667" height="22" viewBox="0 0 35.667 22" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M0 11H34.833"/><path d="M24.667 0L35.667 11L24.667 22"/></svg>`,
+    // "Your plans at a glance" glyphs (section 03), sky blue: a location pin with a heart, a house with a chart line, a receipt
+    pin: `<svg width="31" height="39" viewBox="0 0 31 39" aria-hidden="true"><path transform="translate(2 2)" d="M12.5 0C18.562 0 25 4.662 25 12.896C25 18.116 21.906 23.083 18.94 26.666C17.443 28.474 15.949 29.966 14.829 31.006C14.268 31.527 13.8 31.935 13.471 32.215C13.153 32.484 12.827 32.742 12.5 33C12.173 32.742 11.846 32.484 11.528 32.213C11.199 31.933 10.731 31.524 10.171 31.003C9.051 29.961 7.556 28.466 6.06 26.657C3.094 23.071 0 18.104 0 12.896C0 4.662 6.438 0 12.5 0ZM16.233 6.866C14.648 6.866 13.464 7.913 12.5 9.088C11.538 7.911 10.352 6.866 8.767 6.866C6.361 6.866 4.412 8.919 4.412 11.452C4.412 15.783 10.706 20.509 12.5 21.361C14.294 20.509 20.588 15.783 20.588 11.452C20.588 8.919 18.637 6.866 16.233 6.866Z" fill="#86b8cb" fill-rule="evenodd"/></svg>`,
+    house: `<svg width="42" height="38" viewBox="0 0 42 38" aria-hidden="true"><path transform="translate(2 2)" d="M18.195 0L36.389 14.296L34.93 16.153L18.195 3.004L1.459 16.153L0 14.296L18.195 0Z" fill="#86b8cb" fill-rule="evenodd"/><path transform="translate(6.81 8.01)" d="M26.773 10.518L26.773 22.267C26.773 24.876 24.658 26.991 22.048 26.991L4.725 26.991C2.115 26.991 0 24.876 0 22.267L0 10.518L13.386 0L26.773 10.518ZM18.111 11.636L19.686 13.605L12.148 20.633L7.201 15.911L3.33 19.587L4.955 21.3L5.813 20.487L7.196 19.172L12.148 23.899L16.791 19.467L20.204 22.881L21.875 21.211L18.5 17.836L21.261 15.18L23.229 16.754L23.229 11.636L18.111 11.636ZM4.901 11.758L6.571 13.429L8.661 11.339L13.75 16.427L15.42 14.757L8.662 7.997L4.901 11.758Z" fill="#86b8cb" fill-rule="evenodd"/></svg>`,
+    receipt: `<svg width="31" height="39" viewBox="0 0 31 39" aria-hidden="true"><path transform="translate(2 2)" d="M25.5 4.5C25.5 2.015 23.485 0 21 0L4.5 0C2.015 0 0 2.015 0 4.5L0 33L3.75 30.188L6.75 32.438L9.75 30.188L12.75 32.438L15.75 30.188L18.75 32.438L21.75 30.188L25.5 33L25.5 4.5ZM6 10.5L14.25 10.5L14.25 8.25L6 8.25L6 10.5ZM6 16.5L6 14.25L14.25 14.25L14.25 16.5L6 16.5ZM19.5 10.5L16.5 10.5L16.5 8.25L19.5 8.25L19.5 10.5ZM19.5 16.5L19.5 14.25L16.5 14.25L16.5 16.5L19.5 16.5ZM6 22.5L14.25 22.5L14.25 20.25L6 20.25L6 22.5ZM19.5 22.5L19.5 20.25L16.5 20.25L16.5 22.5L19.5 22.5Z" fill="#86b8cb" fill-rule="evenodd"/></svg>`,
     ext: `<svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M3 9 9 3M4 3h5v5"/></svg>`,
     cursor: `<svg width="38" height="33" viewBox="0 0 38 33" fill="none" stroke="#fff" stroke-width="1.4" aria-hidden="true"><path d="M14 2v14M14 16l-4-3-3 2 8 10h11l4-7-3-5-13-3"/></svg>`,
     trend: `<svg width="59" height="53" viewBox="0 0 59 53" aria-hidden="true"><defs><linearGradient id="tg" gradientUnits="userSpaceOnUse" x1="1.25" y1="-6.8" x2="-6.75" y2="36.7"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#fff"/></linearGradient></defs><path transform="matrix(-1 0 0 1 49 7.7)" d="M0 41L2.65 21.7L29.6 17.5L41 0" fill="none" stroke="url(#tg)"/><rect transform="matrix(0.71 0.71 -0.71 0.71 7.81 2.7)" width="6.81" height="6.81" fill="#f3777a"/><path transform="matrix(-0.15 -0.99 -0.99 0.15 56.24 47.67)" d="M0 7.5L6.8 0M0 7.5l6.8 7.5" fill="none" stroke="#fff"/></svg>`
@@ -193,6 +197,26 @@
   const marketChoices = (attr = "") => Object.entries(DECK.markets).map(([k, m]) => `<button type="button" class="choice" data-market="${k}" ${attr} aria-pressed="${state.market === k}">${h(m.label)}</button>`).join("");
   const pagerIn = (s, page, pages, per, n) => pages > 1 ? `<div class="pager-in">${Array.from({ length: pages }, (_, i) => `<button type="button" data-page="${i}" aria-pressed="${i === page}">${String(i * per + 1).padStart(2, "0")}–${String(Math.min(n, i * per + per)).padStart(2, "0")}</button>`).join("")}</div>` : "";
   const callouts = list => (list || []).map(c => `<span class="callout" style="left:${c.x * 100}%;top:${c.y * 100}%">${h(c.label)}</span>`).join("");
+  // Trend glyph for the enquiries cards (the reference's 88 × 79 arrow): sky blue rising for a "+" figure, coral falling for a "−" figure.
+  // Gradient ids carry a suffix so four icons on one slide don't share a <defs> id.
+  const TREND_PATH = "M4.085 33.386L3.932 32.398L3.196 32.512L3.095 33.25L4.085 33.386ZM45.594 26.951L45.747 27.939L46.188 27.871L46.432 27.497L45.594 26.951ZM0 63.143L0.991 63.279L5.076 33.522L4.085 33.386L3.095 33.25L-0.991 63.007L0 63.143ZM4.085 33.386L4.238 34.374L45.747 27.939L45.594 26.951L45.441 25.963L3.932 32.398L4.085 33.386ZM45.594 26.951L46.432 27.497L63.981 0.546L63.143 0L62.305 -0.546L44.756 26.406L45.594 26.951Z";
+  const TREND_HEAD = "M0 11.576L-0.74 10.904L-1.351 11.576L-0.74 12.249L0 11.576ZM10.524 0L9.784 -0.673L-0.74 10.904L0 11.576L0.74 12.249L11.264 0.673L10.524 0ZM0 11.576L-0.74 12.249L9.784 23.825L10.524 23.152L11.264 22.48L0.74 10.904L0 11.576Z";
+  const trendIcon = (v, i) => {
+    const s = String(v).trim(); if (!/^[+−-]/.test(s)) return "";
+    const up = s[0] === "+", col = up ? "#86b8cb" : "#f3777a", id = `tg-${i}-${up ? "u" : "d"}`;
+    return `<svg class="trend" width="88" height="79" viewBox="0 0 88 79" aria-hidden="true"><defs><linearGradient id="${id}" gradientUnits="userSpaceOnUse" x1="1.93" y1="-10.48" x2="-10.39" y2="56.51"><stop offset="0" stop-color="${col}" stop-opacity="0"/><stop offset="1" stop-color="${col}"/></linearGradient></defs>
+      <path transform="${up ? "matrix(-1 0 0 -1 73.84 67.59)" : "matrix(-1 0 0 1 73.84 10.16)"}" d="${TREND_PATH}" fill="url(#${id})"/>
+      <rect transform="${up ? "matrix(0.71 -0.71 -0.71 -0.71 10.41 75.3)" : "matrix(0.71 0.71 -0.71 0.71 10.41 2.46)"}" width="10.49" height="10.49" fill="${col}"/>
+      <path transform="${up ? "matrix(-0.15 0.99 -0.99 -0.15 85 6.04)" : "matrix(-0.15 -0.99 -0.99 0.15 84.99 71.71)"}" d="${TREND_HEAD}" fill="${col}"/></svg>`;
+  };
+  // Share glyph for the survey cards (the reference's 66 px pie): a sky-blue wedge from 3 o'clock, clockwise, sized by the figure ("69%" → 69 %).
+  const pieSVG = v => {
+    const pct = parseFloat(String(v).replace(/[^\d.]/g, "")); if (isNaN(pct)) return "";
+    const p = Math.max(0, Math.min(100, pct)) / 100, r = 33, c = 33, a = p * Math.PI * 2;
+    const x = c + r * Math.cos(a), y = c + r * Math.sin(a);
+    const wedge = p >= 1 ? `<circle cx="${c}" cy="${c}" r="${r}" fill="#86b8cb"/>` : p <= 0 ? "" : `<path d="M${c + r} ${c}A${r} ${r} 0 ${p > .5 ? 1 : 0} 1 ${x.toFixed(2)} ${y.toFixed(2)}L${c} ${c}Z" fill="#86b8cb"/>`;
+    return `<svg class="pie" width="66" height="66" viewBox="0 0 66 66" aria-hidden="true"><circle cx="${c}" cy="${c}" r="27" fill="#86b8cb" fill-opacity=".15"/>${wedge}</svg>`;
+  };
 
   /* ---------------- templates ---------------- */
   const TPL = {
@@ -266,15 +290,19 @@
       <div class="notes">${s.notes.length === 1 ? `<h3>${h(s.notes[0].h)}</h3>${(s.notes[0].paras || [s.notes[0].t]).map(p => `<p style="margin-top:14px">${h(p)}</p>`).join("")}`
         : `<div class="cols">${s.notes.map(n => `<div>${n.h ? `<h3>${h(n.h)}</h3>` : ""}${(n.paras || [n.t]).map(p => `<p>${h(p)}</p>`).join("")}</div>`).join("")}</div>`}${s.wide ? `<p class="wide">${h(s.wide)}</p>` : ""}</div></div>`,
 
+    /* statgrid (1.2 enquiries): four light cards with a trend arrow, the figure, a hairline, label and note (photo fades in on hover);
+       then "What enquiries can tell you" and "Latest month" as rows with the heading on the left and the content to its right. */
     statgrid: s => `<div class="inner tpl-statgrid ${s.pending ? "pending" : ""}">${placeLine(s)}<h1 class="t-title">${h(s.title)}</h1><hr class="hr head-rule">
-      <div class="grid">${s.stats.map(x => `<div class="tile">${x.photo ? `<div class="ph" style="background-image:${photoURL(x.photo)}"></div>` : ""}
-        <div class="v">${h(x.v)}</div><hr class="hr"><div class="l">${h(x.l)}</div><div class="t">${h(x.t)}</div></div>`).join("")}</div>
-      ${s.rows ? `<div class="rows">${s.rows.map(r => `<div class="row"><h3>${h(r.h)}</h3>${r.cols ? r.cols.map(c => `<p>${h(c)}</p>`).join("") : `<p style="grid-column:1/-1;max-width:1300px">${h(r.t)}</p>`}</div>`).join("")}</div>` : ""}
-      ${s.latest ? `<div class="latest"><h3>${h(s.latest.h)}</h3><div class="grid">${s.latest.items.map(([v, t]) => `<div><div class="v">${h(v)}</div><p>${h(t)}</p></div>`).join("")}</div></div>` : ""}</div>`,
+      <div class="grid">${s.stats.map((x, i) => `<div class="tile">${x.photo ? `<div class="ph" style="background-image:${photoURL(x.photo)}"></div>` : ""}
+        ${trendIcon(x.v, i)}<div class="v">${h(x.v)}</div><hr class="hr"><div class="l">${h(x.l)}</div><div class="t">${h(x.t)}</div></div>`).join("")}</div>
+      ${s.rows ? `<div class="rows">${s.rows.map(r => `<div class="row" style="--n:${(r.cols || [r.t]).length}"><h3>${h(r.h)}</h3><div class="cols">${(r.cols || [r.t]).map(c => `<p>${h(c)}</p>`).join("")}</div></div>`).join("")}</div>` : ""}
+      ${s.latest ? `<div class="latest"><h3>${h(s.latest.h).replace(/:\s*/, ": <br>")}</h3><div class="grid">${s.latest.items.map(([v, t]) => `<div><div class="v">${h(v)}</div><p>${h(t)}</p></div>`).join("")}</div></div>` : ""}</div>`,
 
+    /* survey (1.4 "Residents are thinking long term"): four sky-blue frosted cards on the navy page — a pie glyph sized by the figure,
+       the figure in cream, a hairline, a bold label and the paragraph. On hover the card's photo fades in under the text (57 %). */
     survey: s => `<div class="inner tpl-survey">${placeLine(s)}<h1 class="t-title">${h(s.title)}</h1><hr class="hr head-rule">
-      <div class="grid">${s.stats.map(x => `<div class="tile">${x.photo ? `<div class="ph" style="background-image:${photoURL(x.photo)}"></div>` : ""}
-        <div class="v">${h(x.v)}</div><hr class="hr"><div class="l">${h(x.l)}</div><div class="t">${h(x.t)}</div></div>`).join("")}</div></div>`,
+      <div class="grid">${s.stats.map(x => `<div class="scard">${x.photo ? `<div class="ph" style="background-image:${photoURL(x.photo)}"></div>` : ""}
+        <div class="in">${pieSVG(x.v)}<div class="v">${h(x.v)}</div><hr class="hr"><div class="l">${h(x.l)}</div><div class="t">${h(x.t)}</div></div></div>`).join("")}</div></div>`,
 
     compare: s => {
       const ph = s.photos || [], n = s.head.length - 1, R = s.rows.length + 1;
@@ -288,11 +316,25 @@
         ${s.after ? `<div class="after">${s.after.lead ? `<div class="lead">${h(s.after.lead)}</div>` : ""}${s.after.h ? `<h3>${h(s.after.h)}</h3>` : ""}<div class="cols">${s.after.cols.map(c => `<p>${h(c)}</p>`).join("")}</div>${s.after.foot ? `<p class="foot">${h(s.after.foot)}</p>` : ""}</div>` : ""}</div>`;
     },
 
-    fivecols: s => `${bgHTML(s.bg)}<div class="shade bottom"></div><div class="inner tpl-fivecols">${placeLine(s)}<h1 class="t-title">${h(s.title)}</h1><hr class="hr head-rule">
+    /* fivecols (1.3 market position): five glass cards over the photo, each with a glyph (trend arrow, pie or the twin circles),
+       the question, the figure, label and notes. `ico` on a column forces the glyph ("up" | "down" | "pie" | "watch"); otherwise it
+       follows the figure: a signed figure → arrow, a plain percentage → pie, no figure → the circles. Hover turns a card solid light. */
+    fivecols: s => {
+      const glyph = (c, i) => {
+        const v = String(c.v || "").trim();
+        const kind = c.ico || (!v ? "watch" : /^[+−-]/.test(v) ? "trend" : /%$/.test(v) ? "pie" : "");
+        if (kind === "watch") return `<svg class="ico watch" width="81" height="54" viewBox="0 0 81 54" aria-hidden="true"><circle cx="54" cy="27" r="27" fill="#ffffff"/><circle cx="27" cy="27" r="27" fill="#86b8cb"/></svg>`;
+        if (kind === "pie") return pieSVG(v);
+        if (kind === "trend") return trendIcon(v, "f" + i);
+        if (kind === "up" || kind === "down") return trendIcon(kind === "up" ? "+" : "−", "f" + i);
+        return "";
+      };
+      return `${bgHTML(s.bg)}<div class="inner tpl-fivecols">${placeLine(s)}<h1 class="t-title">${h(s.title)}</h1><hr class="hr head-rule">
       ${s.source ? `<p class="sub">${h(s.source)}</p>` : ""}
-      <div class="grid">${s.cols.map(c => `<div class="col"><div class="q">${h(c.q)}</div><hr class="hr">
+      <div class="grid">${s.cols.map((c, i) => `<div class="col"><div class="ico-row">${glyph(c, i)}</div><div class="q">${h(c.q)}</div>
         ${c.v ? `<div class="v">${bigV(c)}</div>` : ""}${c.l ? `<div class="l">${h(c.l)}</div>` : ""}
-        ${c.hl ? `<div class="hl">${h(c.hl)}</div>` : ""}${(c.paras || (c.t ? [c.t] : [])).map(p => `<div class="t">${h(p)}</div>`).join("")}</div>`).join("")}</div></div>`,
+        ${c.hl ? `<div class="hl">${h(c.hl)}</div>` : ""}${(c.paras || (c.t ? [c.t] : [])).map(p => `<div class="t">${h(p)}</div>`).join("")}</div>`).join("")}</div></div>`;
+    },
 
     glance: s => `${bgHTML(s.bg)}<div class="shade bottom"></div><div class="inner tpl-glance">${placeLine(s)}<h1 class="t-title">${h(s.title)}</h1><hr class="hr head-rule">
       <div class="intro"><p class="a">${h(s.intro[0])}</p><p class="b">${h(s.intro[1])}</p></div>${s.intro[2] ? `<p class="more">${h(s.intro[2])}</p>` : ""}
@@ -344,7 +386,7 @@
       return `${bgHTML(s.bg)}<div class="shade dim"></div><div class="inner tpl-focus"><div class="top"><div><div class="t-num">${h(s.num)}</div><h1 class="t-hero">${h(s.title)}</h1></div>
         <div class="goals" role="tablist">${Object.entries(CM.archetypes).map(([k, x]) => `<button type="button" role="tab" data-goal="${h(x.goal)}" aria-pressed="${k === cur}">${h(s.goalLabels[k] || x.label)}</button>`).join("")}</div></div><hr class="hr">
         <div class="intro"><p class="t-body">${h(c.lede)}</p><p class="t-body">${h(c.body)}</p></div>
-        <div class="sum"><h3>Your plans at a glance</h3><div class="items">${[["Preferred market", lab], ["Property price range", budget], ["Purchase plan", route]].map(([l, v]) => `<div class="item"><span class="diamond"></span><div><div class="l">${h(l)}</div><div class="v">${h(v)}</div></div></div>`).join("")}</div></div>
+        <div class="sum"><h3>Your plans at a glance</h3><div class="items">${[["Preferred market", lab, ICO.pin], ["Property price range", budget, ICO.house], ["Purchase plan", route, ICO.receipt]].map(([l, v, ic]) => `<div class="item">${ic}<div class="l">${h(l)}</div><div class="v">${h(v)}</div></div>`).join("")}</div></div>
         <div class="rows">${c.rows.map((r, i) => `<button type="button" class="row" data-row="${i}" aria-expanded="${i === openRow}"><div class="rh"><span>${h(r.h)}</span>${ICO.chev}</div><div class="body">${r.paras.map(p => `<p>${h(p)}</p>`).join("")}</div></button>`).join("")}</div>
         <div class="cta-row"><button type="button" class="cta" data-jump-id="${h(s.cta.jump)}">${h(s.cta.label)} ${ICO.arrow}</button><span class="seemore">See more ${ICO.chev}</span></div></div>`;
     },
@@ -422,7 +464,7 @@
 
     split: s => `${bgHTML(s.bg)}<div class="shade split"></div><div class="inner tpl-split">
       <div class="title"><div class="t-num">${h(s.num)}</div><h1 class="t-hero">${h(s.title)}</h1><hr class="hr"></div>
-      ${[s.left, s.right].map((x, i) => `<button type="button" class="dia ${i ? "dark" : ""}" data-choice="${h(s.chooserKey)}:${h(x.key)}" data-go="next"><span class="face"></span><span class="lbl"><b>${h(x.h)}</b><small>${h(x.t)}</small></span></button>`).join("")}</div>`,
+      ${[s.left, s.right].map((x, i) => `<button type="button" class="dia ${i ? "dark" : ""}" data-choice="${h(s.chooserKey)}:${h(x.key)}" data-go="next"><span class="face"></span><span class="lbl"><b>${h(x.h).replace(/ /, "<br>")}</b><small>${h(x.t)}</small></span></button>`).join("")}</div>`,
 
     closing: s => `${bgHTML(s.bg)}<div class="inner tpl-closing"><h1 class="t-title">${h(s.title)}</h1><hr class="hr head-rule">
       ${s.blocks.map(b => `<div class="blk">${b.h ? `<h2 class="t-title">${h(b.h)}</h2>` : ""}<p class="t-body">${h(b.t)}</p>
@@ -466,6 +508,7 @@
     }
   };
   const LIGHT = new Set(["statgrid", "survey", "compare", "cities"]);   // light (#ede8e4) pages; everything else is a photo on black
+  // A slide with `navy: true` renders on the flat navy page (#1d2331, white type, sky-blue title) instead — the 1.4 survey and compare slides.
 
   /* ---------------- render ---------------- */
   function render(id, dir = 1, replace = false) {
@@ -474,8 +517,9 @@
     slidesEl.querySelectorAll(".slide.exit").forEach(x => x.remove());
     const prev = current();
     const el = document.createElement("section");
-    const light = !!((LIGHT.has(slide.tpl) || slide.light) && !slide.dark);
-    el.className = `slide tpl-${slide.tpl} ${light ? "light" : "dark"} enter`;
+    const navy = !!slide.navy;
+    const light = !!((LIGHT.has(slide.tpl) || slide.light) && !slide.dark && !navy);
+    el.className = `slide tpl-${slide.tpl} ${light ? "light" : "dark"} ${navy ? "navy" : ""} enter`;
     el.innerHTML = TPL[slide.tpl](slide);
     if (prev) {
       prev.classList.remove("enter"); prev.classList.add("exit");
@@ -485,6 +529,7 @@
     slidesEl.appendChild(el);
     if (MOBILE.matches) window.scrollTo(0, 0);
     stage.classList.toggle("light", light);
+    stage.classList.toggle("navy", navy);
     stage.classList.toggle("chrome-none", slide.tpl === "cover");
     stage.classList.toggle("chrome-min", slide.tpl === "toc");
     writeHash(replace);

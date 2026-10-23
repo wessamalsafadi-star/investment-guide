@@ -290,7 +290,7 @@ window.DECK = {
         "These differences affect the evidence available when assessing a purchase. Existing-home transactions help establish comparable sale prices, while off-plan purchases require a closer view of delivery, competing supply and demand at completion." ],
       callouts: [{ label: "Abu Dhabi", x: .24, y: .58 }, { label: "Dubai", x: .76, y: .52 }],
       prompt: "Select a market to explore",
-      aside: { h: "Consistent information structure", t: "Each view answers the same five questions:", items: ["How active is the market?", "What is driving activity?", "What is happening to sale values?", "What is supporting demand?", "What should you watch?"] } },
+    },
 
     { id: "s1-3-dxb", section: "s1", market: "dubai", tpl: "fivecols", bg: "palm-villa", city: "Dubai view",
       title: "Dubai offers scale across ready and off-plan homes",
@@ -426,8 +426,8 @@ window.DECK = {
       title: "Demand is giving the market room to grow", nochoice: true,
       cols: [
         "Population growth, expanding private-sector employment and continued business activity are all adding to the number of people who may need homes across the UAE.",
-        "Dubai added 332,000 residents in 2025, while the UAE’s private-sector workforce continued to grow in early 2026. Business registrations in DIFC also expanded, broadening the employment base.",
         "At the same time, housing supply is increasing. Dubai delivered approximately 24,800 new homes in H1 2026, the highest level of completions on record, so the demand-versus-supply picture at community level matters more than any single citywide figure.",
+        "Dubai added 332,000 residents in 2025, while the UAE’s private-sector workforce continued to grow in early 2026. Business registrations in DIFC also expanded, broadening the employment base.",
         "Together, these factors point to a growing demand base, but the strength of that demand will vary by location, property type and price point." ] },
 
     /* 2.2 GCC */

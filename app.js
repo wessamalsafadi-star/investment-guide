@@ -494,7 +494,18 @@
     document.title = (slide.title || DECK.meta.title) + " · betterhomes";
   }
   function current() { const all = slidesEl.querySelectorAll(".slide:not(.exit)"); return all[all.length - 1] || null; }
-  function rerender() { const el = current(); if (!el) return; const s = byId(state.id); el.innerHTML = TPL[s.tpl](s); writeHash(true); updateChrome(s); }
+    function rerender() {
+    const el = current(); if (!el) return;
+    const s = byId(state.id);
+    const tmp = document.createElement("div");
+    tmp.innerHTML = TPL[s.tpl](s);
+    // keep the existing background photo / map so the image doesn't reload; only the content is rebuilt
+    const kept = [...el.querySelectorAll(":scope > .bg, :scope > .map")];
+    kept.forEach(k => { const n = tmp.querySelector(":scope > ." + k.classList[0]); if (n) { k.className = n.className; n.remove(); } });
+    el.replaceChildren(...kept, ...tmp.childNodes);
+    el.classList.add("settled");                       // the cards' entrance animation only plays once per slide
+    writeHash(true); updateChrome(s);
+  }
 
   function updateChrome(slide) {
     const p = path(), i = p.findIndex(s => s.id === slide.id), n = p.length;

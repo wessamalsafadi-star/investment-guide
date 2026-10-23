@@ -798,7 +798,8 @@ img{ display:block; max-width:100%; }
 .tpl-process .timeline{ position:relative; display:grid; grid-template-columns:repeat(var(--n),1fr); margin-top:28px; height:150px; }
 .tpl-process .rail{ position:absolute; left:3px; right:0; top:46px; height:.5px; background:rgba(255,255,255,.55); }
 .tpl-process .prog{ position:absolute; left:13px; top:45.5px; height:2px; width:calc((100% - 13px) * var(--cur) / (var(--n) - 1)); background:var(--paper); transition:width .6s cubic-bezier(.65,0,.35,1); }
-.tpl-process .tl{ position:relative; text-align:left; padding:0 60px 0 3px; color:var(--white); }
+.tpl-process .tl{ position:relative; display:flex; flex-direction:column; align-items:flex-start; justify-content:flex-start; text-align:left; padding:0 60px 0 3px; color:var(--white); }   /* top-aligned (a button centres its content by default): numbers sit on one line (reference y 292) */
+.tpl-process .tl.future .n,.tpl-process .tl.future .h,.tpl-process .tl.future .tm{ opacity:.33; }   /* steps not reached yet (reference) */
 .tpl-process .tl .n{ display:block; font:600 16px/22px var(--font-text); }
 .tpl-process .tl .d{ position:absolute; left:0; top:42px; width:8.5px; height:8.5px; background:var(--paper); transform:rotate(45deg); transition:transform .3s cubic-bezier(.65,0,.35,1),background-color .3s; }
 .tpl-process .tl[aria-selected="true"] .d{ background:#86b8cb; transform:rotate(45deg) scale(1.667); }
@@ -810,8 +811,9 @@ img{ display:block; max-width:100%; }
 .tpl-process .detail{ margin-top:50px; border-radius:6px; background:rgba(6,6,6,.22); -webkit-backdrop-filter:blur(11px); backdrop-filter:blur(11px); padding:41px 56px 40px; animation:fade .4s ease; }
 .tpl-process .detail .n{ font:400 24px/34px var(--font-text); } .tpl-process .detail h3{ font:400 32px/39px var(--font-display); color:var(--paper); margin-top:12px; }
 .tpl-process .detail .hr{ margin-top:21px; border-color:rgba(255,255,255,.55); }
-.tpl-process .detail .intro{ margin-top:21px; padding-bottom:20px; } .tpl-process .detail .intro b{ display:block; font:400 20px/28px var(--font-display); margin-bottom:14px; } .tpl-process .detail .intro p{ font:400 16px/22px var(--font-text); max-width:1496px; } .tpl-process .detail .intro + .hr{ margin-top:0; }
-.tpl-process .detail .cols{ display:grid; grid-template-columns:repeat(auto-fit,minmax(360px,1fr)); gap:0 60px; margin-top:21px; }
+/* intro (reference): the heading with the first sentence beside it (from x 810), further sentences below at full width */
+.tpl-process .detail .intro{ margin-top:21px; padding-bottom:22px; display:grid; grid-template-columns:498px 1fr; gap:0; align-items:start; } .tpl-process .detail .intro b{ display:block; font:400 20px/28px var(--font-display); padding-top:1px; } .tpl-process .detail .intro p{ font:400 16px/22px var(--font-text); max-width:1496px; } .tpl-process .detail .intro p + p{ grid-column:1/-1; margin-top:18px; } .tpl-process .detail .intro + .hr{ margin-top:0; }
+.tpl-process .detail .cols{ display:grid; grid-template-columns:repeat(auto-fit,minmax(360px,1fr)); gap:0 60px; margin-top:32px; }
 .tpl-process .detail .cols b{ display:block; font:400 20px/28px var(--font-display); margin-bottom:14px; }
 .tpl-process .detail .cols p{ font:400 16px/22px var(--font-text); } .tpl-process .detail .cols p + p{ margin-top:15px; }
 .tpl-process .detail li{ font:400 16px/22px var(--font-text); padding:0 0 8px 18.5px; position:relative; } .tpl-process .detail li::before{ content:""; position:absolute; left:0; top:8px; width:6.7px; height:6.7px; background:var(--paper); transform:rotate(45deg); }
@@ -1254,13 +1256,14 @@ img{ display:block; max-width:100%; }
   .tpl-process .tl[aria-selected="true"]{ background:var(--light); color:var(--ink); }
   .tpl-process .tl .n{ font-size:13px; line-height:16px; }
   .tpl-process .tl .d{ display:none; }
+  .tpl-process .tl.future .n,.tpl-process .tl.future .h,.tpl-process .tl.future .tm{ opacity:.6; }
   .tpl-process .tl .h{ font-size:17px; line-height:21px; margin-top:4px; }
   .tpl-process .tl .tm{ font-size:12px; line-height:16px; margin-top:2px; }
   .tpl-process .tl[aria-selected="true"] .tm{ color:var(--blue); }
   .tpl-process .detail{ margin-top:20px; padding:20px 18px 22px; }
   .tpl-process .detail h3{ font-size:24px; line-height:30px; }
   .tpl-process .detail .cols{ grid-template-columns:1fr; gap:16px; }
-  .tpl-process .detail .intro p{ max-width:none; }
+  .tpl-process .detail .intro{ grid-template-columns:1fr; } .tpl-process .detail .intro b{ margin-bottom:10px; } .tpl-process .detail .intro p + p{ margin-top:12px; } .tpl-process .detail .intro p{ max-width:none; }
 }
 </style>
 </head>

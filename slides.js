@@ -296,7 +296,7 @@ window.DECK = {
       title: "Dubai offers scale across ready and off-plan homes",
       source: "Latest residential market position · Q3 2026",
       cols: [
-        { q: "How active is the market?", v: "34,615", l: "residential sales worth AED 73.8bn", t: "The number of homes sold was 2% below Q2, while total sales value fell 14%. Overall transaction activity remained close to the previous quarter’s level." },
+        { q: "How active is the market?", ico: "down", v: "34,615", l: "residential sales worth AED 73.8bn", t: "The number of homes sold was 2% below Q2, while total sales value fell 14%. Overall transaction activity remained close to the previous quarter’s level." },
         { q: "What is driving activity?", v: "71%", l: "of transactions were off-plan", t: "Off-plan homes accounted for 24,560 sales and 63% of residential sales value. The market also recorded 10,055 ready-home sales, providing a substantial body of transactions to examine when comparing existing properties." },
         { q: "What is happening to sale values?", v: "−12%", l: "average transaction value from Q2", t: "The average amount paid per home fell to AED 2.13m. This figure reflects the mix of properties purchased during the quarter; recent sales of similar homes provide a more useful guide to an individual property’s price." },
         { q: "What is supporting demand?", v: "+44%", l: "tenant enquiries from Q2", t: "Tenant enquiries were also 21% above Q3 2025, while buyer enquiries fell 12% from Q2. Recorded interest strengthened on the rental side, although agreed tenancies are needed to assess actual letting activity." },
@@ -306,7 +306,7 @@ window.DECK = {
       title: "Abu Dhabi’s market is weighted towards new development",
       source: "Latest residential market position · Q3 2026",
       cols: [
-        { q: "How active is the market?", v: "5,890", l: "residential sales worth AED 26.79bn", t: "The number of homes sold fell 18% from Q2. Total sales value fell 8% over the quarter but remained 32% above Q3 2025, reflecting a different mix of properties purchased." },
+        { q: "How active is the market?", ico: "down", v: "5,890", l: "residential sales worth AED 26.79bn", t: "The number of homes sold fell 18% from Q2. Total sales value fell 8% over the quarter but remained 32% above Q3 2025, reflecting a different mix of properties purchased." },
         { q: "What is driving activity?", v: "80%", l: "of transactions were off-plan", t: "Off-plan homes accounted for 4,693 sales and 89% of residential sales value. Most of the capital committed during the quarter went into new developments." },
         { q: "What is happening to sale values?", v: "+12%", l: "average transaction value from Q2", t: "The average amount paid rose to AED 4.55m. Villas and townhouses represented 41% of sales, up from 22% in Q2, lifting the combined average even as average values within both property groups fell." },
         { q: "What is supporting demand?", v: "+28%", l: "tenant enquiries from Q2", t: "Tenant enquiries were also 51% above Q3 2025, while buyer enquiries fell 23% from Q2. Rental interest strengthened alongside more selective buying activity." },
@@ -336,21 +336,22 @@ window.DECK = {
       callouts: [{ label: "Abu Dhabi", x: .24, y: .58 }, { label: "Dubai", x: .76, y: .52 }],
       prompt: "Select a market to explore" },
 
-    { id: "s1-4-dxb", section: "s1", market: "dubai", tpl: "survey", city: "Dubai", title: "Residents are thinking long term",
+    /* 1.4 journeys render on the flat navy page (`navy: true`): sky-blue title, four frosted cards, photo on hover */
+    { id: "s1-4-dxb", section: "s1", market: "dubai", tpl: "survey", navy: true, city: "Dubai", title: "Residents are thinking long term",
       stats: [
         { v: "69%", l: "intend to stay in Dubai for more than 10 years", t: "The longer people stay, the longer they need somewhere to live. For property investors, that helps support a deeper, more established pool of rental and buyer demand.", photo: "palm-villa" },
         { v: "70%", l: "are confident in Dubai’s long-term economic growth and property prospects", t: "Property is usually a long-term decision. When residents are confident about where a city is heading, they have more reason to put down roots, rent for longer or eventually buy.", photo: "villa-garden" },
         { v: "67%", l: "kept or strengthened their property plans despite recent regional uncertainty", t: "Most residents surveyed did not step back from their property plans, suggesting that many are looking beyond short-term events and taking a longer view.", photo: "villa-lawn" },
         { v: "55%", l: "of renters intend to buy within the next one to three years", t: "Today’s renters can become tomorrow’s buyers. A sizable group considering ownership could add to future resale demand.", photo: "lounge-burj" } ] },
 
-    { id: "s1-4-auh", section: "s1", market: "abudhabi", tpl: "survey", city: "Abu Dhabi", title: "Residents are thinking long term",
+    { id: "s1-4-auh", section: "s1", market: "abudhabi", tpl: "survey", navy: true, city: "Abu Dhabi", title: "Residents are thinking long term",
       stats: [
         { v: "59%", l: "intend to stay in Abu Dhabi for more than 10 years", t: "A large share of residents expect to remain in Abu Dhabi for the long term, supporting a more stable base of housing demand.", photo: "abudhabi-coast" },
         { v: "70%", l: "are confident in Abu Dhabi’s long-term economic growth and property prospects", t: "Confidence in the city’s future outlook gives residents more reason to make long-term decisions about where they live and what they own. That matters in a market attracting new residential development and investment.", photo: "abudhabi-balcony" },
         { v: "74%", l: "kept or strengthened their property plans despite recent regional uncertainty", t: "Demand is more reassuring when it can hold up through less certain periods. Most residents surveyed did not retreat from their property plans, giving investors another measure of longer-term commitment.", photo: "abudhabi-marina" },
         { v: "43%", l: "of renters intend to buy within the next one to three years", t: "Today’s tenants can become tomorrow’s buyers. As more renters consider ownership, investors have another potential source of demand when they eventually decide to sell.", photo: "abudhabi-aerial" } ] },
 
-    { id: "s1-4-compare", section: "s1", market: "compare", tpl: "compare", title: "Compare both",
+    { id: "s1-4-compare", section: "s1", market: "compare", tpl: "compare", navy: true, title: "Compare both",
       head: ["Investor question", "Dubai", "Abu Dhabi"], photos: ["dubai-towers", "abudhabi-skyline"],
       rows: [
         ["Plan to stay 10+ years", "69%", "59%"],

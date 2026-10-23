@@ -499,7 +499,7 @@
       return `${bgHTML(s.bg)}<div class="shade dim"></div><div class="inner tpl-process">${title(s)}<hr class="hr head-rule"><p class="t-body">${h(s.body)}</p>
         <div class="timeline" role="tablist" style="--n:${n};--cur:${cur}">
           <span class="rail"></span><span class="prog"></span>
-          ${s.steps.map((x, i) => `<button class="tl" role="tab" data-tab="${i}" aria-selected="${i === cur}"><span class="n">${h(x.n)}</span><span class="d"></span><span class="h">${h(x.h)}</span><span class="tm">${h(x.time)}</span></button>
+          ${s.steps.map((x, i) => `<button class="tl ${i > cur ? "future" : ""}" role="tab" data-tab="${i}" aria-selected="${i === cur}"><span class="n">${h(x.n)}</span><span class="d"></span><span class="h">${h(x.h)}</span><span class="tm">${h(x.time)}</span></button>
             ${i < n - 1 ? `<button type="button" class="step" style="left:calc(${(i + 1) * 100 / n}% - 63px)" data-tab="${i + 1}" aria-label="Next stage">${ICO.chev}</button>` : ""}`).join("")}</div>
         <div class="detail"><span class="n">${h(st.n)}</span><h3>${h(st.h)}</h3><hr class="hr">
           ${st.wide ? `<div class="intro"><b>Typical planning time · ${h(st.time)}</b>${(st.paras || [st.t]).map(p => `<p>${h(p)}</p>`).join("")}</div><hr class="hr">` : ""}

@@ -373,7 +373,7 @@ window.DECK = {
       statsTitle: "Three reasons investors continue to consider the UAE",
       reasons: [
         { l: "Strong rental income potential", v: "6%", v2: "Approaching", l2: "Indicative gross rental yields in this benchmark.", t: "This gives investors the potential to generate income from the property, before service charges, maintenance, financing and personal tax are taken into account." },
-        { l: "No annual property tax",v: "Zero Taxes", l2: "Dubai and Abu Dhabi do not apply an annual tax simply for owning a property.", t: "This can help investors retain more of the property’s income, although service charges and other ownership costs still apply." },
+        { l: "No annual property tax",v: "0%", l2: "Dubai and Abu Dhabi do not apply an annual tax simply for owning a property.", t: "This can help investors retain more of the property’s income, although service charges and other ownership costs still apply." },
         { l: "Property ownership can support long-term residency", pre: "AED", v: "2", unit: " million", l2: "qualifying property investment", t: "Eligible property investment may provide access to a ten-year UAE Golden Visa, subject to current requirements. For some investors, that means the property can serve both an investment goal and a longer-term plan to live in or spend more time in the UAE." } ],
       foot: "For some investors, the property can therefore support both a financial objective and a longer-term plan to live in or spend more time in the UAE." },
 

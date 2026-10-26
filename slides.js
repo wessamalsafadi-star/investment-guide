@@ -194,7 +194,7 @@ window.DECK = {
       //   ["AED 2.28m", "average transaction value: up 6% from August."],
       //   ["+11%", "resale villa and townhouse transactions: more ready homes in this segment changed hands than in August."],
       //   ["+15%", "tenant enquiries: rental interest rose from August and was 35% above September 2025."] ] } },
-
+        },
     { id: "s1-2-dxb-means", section: "s1", market: "dubai", tpl: "hub", bg: "img/page 9.png", shade: "topleft", city: "Dubai", nochoice: true,
       title: "What this means for you",
       lede: "Dubai’s Q3 figures point to stronger rental interest and a recovery in resale activity within a quieter sales market. For investors, this makes the demand for a particular home more useful than the overall direction of the market alone.",

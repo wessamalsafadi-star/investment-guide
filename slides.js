@@ -48,7 +48,7 @@ window.DECK = {
   slides: [
 
     /* ───────────────────────── COVER & CONTENTS ───────────────────────── */
-    { id: "cover", tpl: "cover", bg: "cover",
+    { id: "cover", tpl: "cover", bg: "cover", video: "cover",
       title: "UAE property investment handbook", sub: "Your personalised guide" },
 
     { id: "contents", tpl: "toc", title: "Table of contents",
@@ -74,7 +74,7 @@ window.DECK = {
       ] },
 
     /* ───────────────────────── 01  INVESTOR RADAR ───────────────────────── */
-    { id: "s1-open", section: "s1", tpl: "opener", bg: "villa-pool", num: "01",
+    { id: "s1-open", section: "s1", tpl: "opener", bg: "img/villa-pool-m.png", num: "01",
       title: "Why the UAE remains on the investor radar",
       kicker: "UAE property:",
       lede: "Why Dubai and Abu Dhabi continue to command investor attention",

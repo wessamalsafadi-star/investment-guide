@@ -56,6 +56,9 @@ img{ display:block; max-width:100%; }
 .slide.navy .hr{ border-color:var(--white); }
 .slide.enter{ animation:fadeIn .45s ease; }
 .slide.settled .step,.slide.settled .ccard,.slide.settled .detail,.slide.settled .pane,.slide.settled .profile{ animation:none; }
+.slide .bg video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity .8s ease; }
+.slide .bg video.ready{ opacity:1; }
+.tpl-cover .bg video.ready{ opacity:.72; }
 .slide.exit{ animation:fadeOut .45s ease forwards; pointer-events:none; }
 @keyframes fadeIn{ from{ opacity:0; } }
 @keyframes fadeOut{ to{ opacity:0; } }
@@ -246,7 +249,7 @@ img{ display:block; max-width:100%; }
 .tpl-opener .quote .quote-mark{ flex:none; color:var(--blue); margin-top:-6px; }
 .tpl-opener .quote .t-h3{ font-weight:600; color:var(--ink); }
 .tpl-opener .quote .copy{ margin-top:12px; }
-.tpl-opener .stats-wrap{ margin-top:auto; border-top:.5px solid var(--white); padding-top:44px; }
+.tpl-opener .stats-wrap{ margin-top:20px; border-top:.5px solid var(--white); padding-top:44px; }
 .tpl-opener .stats-title{ font:400 48px/48px var(--font-display); color:var(--white); }
 .tpl-opener.ondark .stats-title{ color:var(--white); }
 .tpl-opener .stats{ display:grid; grid-auto-flow:column; grid-auto-columns:1fr; gap:0 24px; margin-top:24px; }
@@ -308,7 +311,7 @@ img{ display:block; max-width:100%; }
 /* signals (Q3 / August market signals: six glass cards, blurred until clicked) */
 .tpl-signals .lead{ margin-top:33px; max-width:1604px; }
 .tpl-signals .group-t{ margin-top:30px; }
-.tpl-signals .accent{ position:relative; margin-top:36px; }
+.tpl-signals .accent{ position:relative; margin-top:36px; display: none; }
 .tpl-signals .accent::before{ content:""; position:absolute; left:0; top:-1px; width:131px; height:2px; background:var(--white); }
 .tpl-signals .accent svg{ position:absolute; left:123px; top:-8px; }
 .tpl-signals .grid{ display:grid; grid-template-columns:repeat(6,1fr); gap:20px; margin-top:39px; }

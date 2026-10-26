@@ -512,7 +512,7 @@ window.DECK = {
         ["Residency connection", "Qualifying UAE Golden Visa route", "Qualifying UAE Golden Visa route", "Premium Residency route (property-linked)", "Property-linked residency (from ~US$200k)", "Investor residency via ITC property"] ],
       after: { cols: [], foot: "Data note: all market benchmarks, ownership rules and residency criteria should be dated and verified before publication. Representative prices and yields are indicative and will vary by location, property type and development." } },
 
-    { id: "s2-2-why", section: "s2", market: "compare", tpl: "trio", bg: "dubai-skyline-wide", title: "Why these differences matter",
+    { id: "s2-2-why", section: "s2", market: "compare", tpl: "trio", bg: "img/page 18 CB.png", title: "Why these differences matter",
       callouts: [{ label: "Dubai", x: .62, y: .56 }, { label: "Abu Dhabi", x: .5, y: .64 }, { label: "Doha", x: .42, y: .5 }, { label: "Riyadh", x: .3, y: .6 }, { label: "Muscat", x: .8, y: .66 }],
       cards: [
         { h: "More evidence to compare", t: "Dubai’s larger ready, rental and resale markets give investors more completed properties and transactions to use when assessing price, achievable rent and potential resale demand." },
@@ -593,7 +593,7 @@ window.DECK = {
           { l: "Property-linked residency", t: "Residential property ownership does not provide a direct residency route. The EB-5 programme requires a qualifying investment and is not based on purchasing a personal investment property." } ] }
       ] },
 
-    { id: "s2-3-summary", section: "s2", tpl: "hub", bg: "img/page 22.png", shade: "topleft", nochoice: true,
+    { id: "s2-3-summary", section: "s2", tpl: "hub", bg: "img/page 24.png", shade: "topleft", nochoice: true,
       title: "The UAE’s advantage is the balance between cost and income",
       paras: [
         "The UAE’s advantage is not based on one figure alone. It comes from the combination of a more accessible representative entry price, competitive rental income, no annual property tax and a broad route to foreign ownership in designated areas.",

@@ -189,11 +189,11 @@ window.DECK = {
         { h: "What enquiries can tell you", cols: [
           "More tenant enquiries are an encouraging signal for a rental investment. To understand what a property could earn, the next step is to check whether similar homes are being let, how quickly and at what rents.",
           "Buyer enquiries provide an earlier indication of potential purchasers. They were lower across Q3, although interest picked up again in September." ] } ],
-      latest: { h: "Latest month: September 2026", items: [
-        ["10,342", "homes sold: 7% fewer than August, but 8% above the May low."],
-        ["AED 2.28m", "average transaction value: up 6% from August."],
-        ["+11%", "resale villa and townhouse transactions: more ready homes in this segment changed hands than in August."],
-        ["+15%", "tenant enquiries: rental interest rose from August and was 35% above September 2025."] ] } },
+      // latest: { h: "Latest month: September 2026", items: [
+      //   ["10,342", "homes sold: 7% fewer than August, but 8% above the May low."],
+      //   ["AED 2.28m", "average transaction value: up 6% from August."],
+      //   ["+11%", "resale villa and townhouse transactions: more ready homes in this segment changed hands than in August."],
+      //   ["+15%", "tenant enquiries: rental interest rose from August and was 35% above September 2025."] ] } },
 
     { id: "s1-2-dxb-means", section: "s1", market: "dubai", tpl: "hub", bg: "img/page 9.png", shade: "topleft", city: "Dubai", nochoice: true,
       title: "What this means for you",

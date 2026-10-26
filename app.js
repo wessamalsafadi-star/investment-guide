@@ -110,12 +110,15 @@
   }
 
   /* ---------------- images ---------------- */
-  function bgHTML(name, cls = "") {
+    function bgHTML(name, cls = "", video) {
     if (!name) return "";
     const lq = LQIP[name] ? ` style="background-image:url(${LQIP[name]})"` : "";
+    const vid = video && !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      ? `<video autoplay muted loop playsinline preload="metadata" aria-hidden="true" oncanplay="this.classList.add('ready');this.play().catch(()=>{})">
+          <source src="${IMG}${video}.webm" type="video/webm"><source src="${IMG}${video}.mp4" type="video/mp4"></video>` : "";
     return `<div class="bg ${cls}"${lq}><img alt="" decoding="async" fetchpriority="high"
       src="${src(name, true)}" srcset="${src(name, true)} 960w, ${src(name)} 1920w" sizes="1920px"
-      onload="this.classList.add('ready')"></div>`;
+      onload="this.classList.add('ready')">${vid}</div>`;
   }
   const photoURL = name => name ? `url(${src(name)})` : "";
   function preload(slide) {
@@ -223,7 +226,7 @@
 
   /* ---------------- templates ---------------- */
   const TPL = {
-    cover: s => `${bgHTML(s.bg)}<div class="inner">
+    cover: s => `${bgHTML(s.bg, "", s.video)}<div class="inner">
       <header class="hero"><h1>${s.title.replace(/ investment/, "<br>investment")}</h1><p class="sub">${h(s.sub)}</p></header>
       <nav class="choices" aria-label="Choose your guide">${marketChoices('data-pick="1"')}
         <button type="button" class="choice next ${state.market ? "on" : ""}" data-go="next" ${state.market ? "" : "disabled"} aria-label="Next" title="${state.market ? "" : "Choose a guide to continue"}">${ICO.arrowBig}</button></nav>

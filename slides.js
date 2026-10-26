@@ -701,7 +701,7 @@ window.DECK = {
     //       { n: "04", h: "Who might buy it from you later?", t: "Think about the future buyer before you buy.", items: ["End users", "Families", "Investors", "Residents considering ownership", "Recent resale demand"], focus: ["Entry price", "Future demand", "Future supply", "Resale demand"] } ] } },
 
     /* 04 close — strategy consultation. The button has no target yet: add `href` or `jump` when the booking form exists. */
-    { id: "s4-strategy", section: "s4", tpl: "opener", bg: "img/page 29.png", simple: true,
+    { id: "s4-strategy", section: "s4", tpl: "opener", bg: "img/page 28.png", simple: true,
       title: "Your goals and the market conditions shape your strategy",
       paras: [
         "Market conditions can change how you buy, how long you hold a property and when it makes sense to sell. We’ll help you plan each decision around the current market and what you want your investment to achieve.",

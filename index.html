@@ -786,6 +786,31 @@ img{ display:block; max-width:100%; }
 .tpl-begin .btn.solid:not(.main){ align-self:flex-start; }
 .tpl-begin > .btn.solid:not(.main){ margin-top:65px; }
 
+/* nextstep (09 opener, reference slide 50): every offset is the Figma value. The inner box starts at y 60.5, so padding-top 27 puts "09" at 87.5. */
+.slide .shade.photo{ background:rgba(0,0,0,.39); }   /* the reference bakes the photo at 61% over black */
+.tpl-nextstep.inner{ padding-top:27px; color:var(--white); }
+.tpl-nextstep .t-hero{ margin-top:-3.5px; white-space:nowrap; }
+.tpl-nextstep .hr{ border-color:var(--white); }
+.tpl-nextstep .t-hero + .hr{ margin-top:39.72px; }
+.tpl-nextstep .sub{ font:400 48px/66px var(--font-display); margin:21.77px 0 0; }
+.tpl-nextstep .sub + .hr{ margin-top:29.73px; }
+.tpl-nextstep .two{ display:flex; height:139.5px; }
+.tpl-nextstep .two .t-body{ padding:36px 0 0; max-width:none; }
+.tpl-nextstep .two .t-body:first-child{ width:696.75px; }
+.tpl-nextstep .two .vsep{ background:var(--white); height:140px; margin-top:.25px; }
+.tpl-nextstep .two .t-body:last-child{ margin-left:178px; width:725px; }
+.tpl-nextstep .two + .hr + .sub{ margin-top:21.5px; }
+.tpl-nextstep .cards{ display:grid; grid-template-columns:528px 372px 672px; gap:16px; margin-top:39.75px; }
+.tpl-nextstep .card{ box-sizing:border-box; min-height:205px; padding:31px 20px 20px; border-radius:6px; background:rgba(0,0,0,.01); box-shadow:inset 0 0 0 1px rgba(255,255,255,.22); -webkit-backdrop-filter:blur(22px); backdrop-filter:blur(22px); color:var(--white); display:flex; flex-direction:column; align-items:center; text-align:center; transition:background .25s ease,color .25s ease,box-shadow .25s ease; }
+.tpl-nextstep .card:hover{ background:var(--white); box-shadow:inset 0 0 0 1px rgba(255,255,255,0); color:var(--ink); }
+.tpl-nextstep .card .ic{ flex:none; height:61.5px; display:flex; align-items:flex-start; }   /* the icon box ends at y 92.5, where the label starts */
+.tpl-nextstep .card .ic svg{ display:block; }
+.tpl-nextstep .card.budget .ic{ padding-top:2px; }
+.tpl-nextstep .card .l{ font:600 16px/22px var(--font-text); }
+.tpl-nextstep .card .v{ font:400 36px/43.92px var(--font-display); margin-top:13.27px; }
+.tpl-nextstep .cards + .hr{ margin-top:39px; }
+.tpl-nextstep .note{ margin-top:47.75px; padding:0; }
+
 /* abroad (08: region tabs + country cards that scroll under the frame) */
 .tpl-abroad{ padding:0; }
 .tpl-abroad .scroll{ position:absolute; inset:0; overflow-y:auto; overflow-x:hidden; overscroll-behavior:contain; scrollbar-width:none; }
@@ -1270,6 +1295,24 @@ img{ display:block; max-width:100%; }
   .tpl-begin .prime-rule{ margin-top:24px; }
   .tpl-begin h2.t-title{ margin-top:20px; }
   .tpl-begin .btn.solid{ margin-top:24px; }
+
+  /* ---- 09 next step ---- */
+  .tpl-nextstep{ padding-top:80px; }
+  .tpl-nextstep .t-hero{ margin-top:0; white-space:normal; }
+  .tpl-nextstep .t-hero + .hr{ margin-top:16px; }
+  .tpl-nextstep .sub{ font-size:26px; line-height:32px; margin-top:16px; }
+  .tpl-nextstep .sub + .hr{ margin-top:16px; }
+  .tpl-nextstep .two{ flex-direction:column; height:auto; gap:16px; padding:16px 0; }
+  .tpl-nextstep .two .t-body,.tpl-nextstep .two .t-body:first-child,.tpl-nextstep .two .t-body:last-child{ width:auto; margin:0; padding:0; }
+  .tpl-nextstep .two .vsep{ display:none; }
+  .tpl-nextstep .two + .hr + .sub{ margin-top:16px; }
+  .tpl-nextstep .cards{ grid-template-columns:1fr; gap:10px; margin-top:20px; }
+  .tpl-nextstep .card{ min-height:0; padding:18px 16px; display:grid; grid-template-columns:auto 1fr; gap:0 14px; text-align:left; align-items:start; }
+  .tpl-nextstep .card .ic,.tpl-nextstep .card.budget .ic{ grid-row:1/3; height:auto; padding:0; margin-top:2px; }
+  .tpl-nextstep .card .ic svg{ height:32px; width:auto; }
+  .tpl-nextstep .card .v{ font-size:22px; line-height:28px; margin-top:4px; }
+  .tpl-nextstep .cards + .hr{ margin-top:20px; }
+  .tpl-nextstep .note{ margin-top:16px; font-size:14px; line-height:20px; }
 
   /* ---- 08 from abroad ---- */
   .tpl-abroad .scroll{ position:static; overflow:visible; }

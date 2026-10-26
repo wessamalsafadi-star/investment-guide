@@ -135,7 +135,7 @@ window.DECK = {
       callouts: [{ label: "Dubai", x: .82, y: .55 }, { label: "Abu Dhabi", x: .39, y: .61 }],
       prompt: "Choose your view" },
 
-    { id: "s1-2-dxb-signals", section: "s1", market: "dubai", tpl: "signals", bg: "img/Page 5.png", city: "Dubai",
+    { id: "s1-2-dxb-signals", section: "s1", market: "dubai", tpl: "signals", bg: "img/page 5.png", city: "Dubai",
       title: "Sales held steady in Q3, with more activity in ready homes",
       lede: "The number of homes sold changed little from Q2, but the pattern of sales shifted. More ready homes changed hands, while off-plan sales and average sale values fell. Rental enquiries rose sharply; buyer enquiries were lower overall, with a pickup in September.",
       group: "Q3 market signals",

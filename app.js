@@ -578,6 +578,7 @@
     const g = goalsOf(), gl = g.length && CM.archetypes[g[0]] ? " · " + CM.archetypes[g[0]].label : "";
     $("#jlabel").textContent = (state.market ? DECK.markets[state.market].label + " journey" : "") + gl;
     $("#back").disabled = i === 0; $("#next").disabled = i === n - 1 || (slide.tpl === "cover" && !state.market);
+    stage.classList.toggle("chrome-nopager", i === n - 1);   // last page of the journey: no Back / Next
     sectionsEl.querySelectorAll("li").forEach(li => li.classList.toggle("active", li.dataset.sec === slide.section));
   }
 

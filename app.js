@@ -116,7 +116,7 @@
     const vid = video && !window.matchMedia("(prefers-reduced-motion: reduce)").matches
       ? `<video autoplay muted loop playsinline preload="metadata" aria-hidden="true" oncanplay="this.classList.add('ready');this.play().catch(()=>{})">
           <source src="${IMG}${video}.webm" type="video/webm"><source src="${IMG}${video}.mp4" type="video/mp4"></video>` : "";
-    return `<div class="bg ${cls}"${lq}><img alt="" decoding="async" fetchpriority="high"
+    return `<div class="bg ${cls}" data-src="${h(name)}"${lq}><img alt="" decoding="async" fetchpriority="high"
       src="${src(name, true)}" srcset="${src(name, true)} 960w, ${src(name)} 1920w" sizes="1920px"
       onload="this.classList.add('ready')">${vid}</div>`;
   }
@@ -450,7 +450,7 @@
             <svg class="halo" width="130" height="130" viewBox="0 0 130 130" aria-hidden="true"><polygon points="65,0.5 129.5,65 65,129.5 0.5,65" fill="none" stroke="currentColor" stroke-width=".5" stroke-dasharray="3.6 3.6"/></svg><span class="dia"></span>
             <span class="hover"><span class="st">${h(pc.status)}</span><span class="nm">${h(x.name)}</span><span class="pr">${h(pc.price || pc.entry)}</span><span class="pl">${h(pc.price ? pc.priceLabel : pc.entryLabel)}</span></span></button>`; }).join("")}
         ${cur && c ? (() => { const [px, py] = (findCommunity(mk, cur).map || [0.5, 0.5]); return `<div class="pop ${px > .72 ? "flip" : ""} ${py > .72 ? "up" : ""}" style="left:${px * 100}%;top:${py * 100}%"><span class="st">${h(c.status)}</span><b>${h(c.short)}</b><span class="pr">${h(c.price || c.entry)}</span><span class="pl">${h(c.price ? c.priceLabel : c.entryLabel)}</span></div>`; })() : ""}</div>`;
-      return `<div class="map ${open ? "dim" : ""}"${lq ? ` style="${lq}"` : ""}>${mapName ? `<img alt="" src="${src(mapName)}" data-try="${/[\/.]/.test(mapName) ? "" : "png,jpg"}" onerror="var t=(this.dataset.try||'').split(',').filter(Boolean);if(t.length){this.dataset.try=t.slice(1).join(',');this.src='${IMG}${mapName}.'+t[0];}else this.remove()">` : ""}</div>${pins}
+      return `<div class="map ${open ? "dim" : ""}" data-src="${h(mapName || "")}"${lq ? ` style="${lq}"` : ""}>${mapName ? `<img alt="" src="${src(mapName)}" data-try="${/[\/.]/.test(mapName) ? "" : "png,jpg"}" onerror="var t=(this.dataset.try||'').split(',').filter(Boolean);if(t.length){this.dataset.try=t.slice(1).join(',');this.src='${IMG}${mapName}.'+t[0];}else this.remove()">` : ""}</div>${pins}
         <div class="inner tpl-communities"><div class="title-row">
           <div>${title({ num: s.nums[mk], title: s.titles[mk] })}${who ? `<p class="legend"><span class="diamond" style="background:#fff"></span>Highlighted: best matches for ${h(who)}. Faded communities are still open to explore.</p>` : ""}</div>
           <div class="selects">
@@ -558,9 +558,14 @@
     const s = byId(state.id);
     const tmp = document.createElement("div");
     tmp.innerHTML = TPL[s.tpl](s);
-    // keep the existing background photo / map so the image doesn't reload; only the content is rebuilt
-    const kept = [...el.querySelectorAll(":scope > .bg, :scope > .map")];
-    kept.forEach(k => { const n = tmp.querySelector(":scope > ." + k.classList[0]); if (n) { k.className = n.className; n.remove(); } });
+    // keep the existing background photo / map so the image doesn't reload; only the content is rebuilt.
+    // The photo is only reused when it is the SAME image (data-src): the 05 slides swap their map / skyline
+    // when the market changes, and reusing the old element would leave the Dubai map under the Abu Dhabi list.
+    const kept = [];
+    el.querySelectorAll(":scope > .bg, :scope > .map").forEach(k => {
+      const n = tmp.querySelector(":scope > ." + k.classList[0]);
+      if (n && n.dataset.src === k.dataset.src) { k.className = n.className; n.remove(); kept.push(k); }
+    });
     el.replaceChildren(...kept, ...tmp.childNodes);
     el.classList.add("settled");                       // the cards' entrance animation only plays once per slide
     writeHash(true); updateChrome(s);

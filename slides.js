@@ -54,7 +54,7 @@ window.DECK = {
     { id: "contents", tpl: "toc", title: "Table of contents",
       groups: [
         { title: "Why the UAE remains on the investor radar", page: "01", items: [
-          "1.1 What you’ll learn in this handbook",
+          // "1.1 What you’ll learn in this handbook",
           "1.2 How the UAE property market responded to uncertainty",
           "1.3 Where the UAE property market stands today",
           "1.4 How residents see the market ahead" ] },
@@ -92,40 +92,40 @@ window.DECK = {
         { v: "+64%", unit2: "off-plan villa and townhouse sales", t: "Sales increased year on year in Q3, with 2,148 homes sold, reflecting continued demand for new family homes." }
       ] },
 
-    { id: "s1-learn", section: "s1", tpl: "learn", bg: "penthouse-terrace",
-      num: "1.1", title: "What you’ll learn in this handbook",
-      lede: "From understanding the UAE market to choosing an investment route, comparing locations, and navigating the buying process, this handbook helps you weigh your options and know what to expect at each stage.",
-      cols: [
-        { n: "01", h: "Understand the market", items: [
-          ["How Dubai and Abu Dhabi markets responded to uncertainty", "See how both property markets reacted as conditions changed.", "s1-2-hub"],
-          ["Where Dubai and Abu Dhabi’s property markets stand today", "Understand the current market position across both emirates.", "s1-3-hub"],
-          ["How residents see the market ahead", "Explore what people living in the UAE expect from the property market next.", "s1-4-hub"] ] },
-        { n: "02", h: "Understand why investors choose the UAE", items: [
-          ["Why the UAE keeps attracting global property investors", "See what continues to support the UAE’s investment appeal.", "s2-open"],
-          ["The demand drivers behind the UAE property market", "Explore the population, business, connectivity and capital trends shaping property demand.", "s2-1-intro"],
-          ["How the UAE compares with global property markets", "Compare the UAE with other major international property cities.", "s2-3-hub"],
-          ["How the UAE compares within the GCC", "Understand how the UAE investment market compares with neighbouring Gulf markets.", "s2-2-hub"] ] },
-        { n: "03", h: "Find your investment focus", items: [
-          ["Your investment focus", "See how your priorities shape what to look for, and where this handbook can help most.", "s3-open"] ] },
-        { n: "04", h: "Assess an opportunity", items: [
-          ["What to check before you buy", "Know the key numbers, costs, and risks to examine before making an investment decision.", "s4-open"] ] }
-      ] },
+    // { id: "s1-learn", section: "s1", tpl: "learn", bg: "penthouse-terrace",
+    //   num: "1.1", title: "What you’ll learn in this handbook",
+    //   lede: "From understanding the UAE market to choosing an investment route, comparing locations, and navigating the buying process, this handbook helps you weigh your options and know what to expect at each stage.",
+    //   cols: [
+    //     { n: "01", h: "Understand the market", items: [
+    //       ["How Dubai and Abu Dhabi markets responded to uncertainty", "See how both property markets reacted as conditions changed.", "s1-2-hub"],
+    //       ["Where Dubai and Abu Dhabi’s property markets stand today", "Understand the current market position across both emirates.", "s1-3-hub"],
+    //       ["How residents see the market ahead", "Explore what people living in the UAE expect from the property market next.", "s1-4-hub"] ] },
+    //     { n: "02", h: "Understand why investors choose the UAE", items: [
+    //       ["Why the UAE keeps attracting global property investors", "See what continues to support the UAE’s investment appeal.", "s2-open"],
+    //       ["The demand drivers behind the UAE property market", "Explore the population, business, connectivity and capital trends shaping property demand.", "s2-1-intro"],
+    //       ["How the UAE compares with global property markets", "Compare the UAE with other major international property cities.", "s2-3-hub"],
+    //       ["How the UAE compares within the GCC", "Understand how the UAE investment market compares with neighbouring Gulf markets.", "s2-2-hub"] ] },
+    //     { n: "03", h: "Find your investment focus", items: [
+    //       ["Your investment focus", "See how your priorities shape what to look for, and where this handbook can help most.", "s3-open"] ] },
+    //     { n: "04", h: "Assess an opportunity", items: [
+    //       ["What to check before you buy", "Know the key numbers, costs, and risks to examine before making an investment decision.", "s4-open"] ] }
+    //   ] },
 
-    { id: "s1-learn-2", section: "s1", tpl: "learn", bg: "penthouse-terrace",
-      num: "1.1", title: "What you’ll learn in this handbook",
-      lede: "From understanding the UAE market to choosing an investment route, comparing locations, and navigating the buying process, this handbook helps you weigh your options and know what to expect at each stage.",
-      cols: [
-        { n: "05", h: "Decide where to invest", items: [
-          ["The communities worth considering", "Explore Dubai and Abu Dhabi communities and identify which locations may be better suited to your investment goals.", "s5-open"] ] },
-        { n: "06", h: "Understand the buying process", items: [
-          ["What happens after you choose a property", "Follow the buying journey for ready and off-plan property, from reservation through to ownership.", "s6-open"] ] },
-        { n: "07", h: "Know what support is available", items: [
-          ["The support you may need along the way", "See where specialist support can help before, during, and after your purchase.", "s7-open"] ] },
-        { n: "08", h: "Investing from abroad", items: [
-          ["What to consider before investing from abroad", "Understand the additional financial, tax and practical considerations that come with investing in UAE property from overseas.", "s8-open"] ] },
-        { n: "09", h: "Take the next step", items: [
-          ["Your next step", "Turn what you have learned into a clearer next step for your investment.", "s9-open"] ] }
-      ] },
+    // { id: "s1-learn-2", section: "s1", tpl: "learn", bg: "penthouse-terrace",
+    //   num: "1.1", title: "What you’ll learn in this handbook",
+    //   lede: "From understanding the UAE market to choosing an investment route, comparing locations, and navigating the buying process, this handbook helps you weigh your options and know what to expect at each stage.",
+    //   cols: [
+    //     { n: "05", h: "Decide where to invest", items: [
+    //       ["The communities worth considering", "Explore Dubai and Abu Dhabi communities and identify which locations may be better suited to your investment goals.", "s5-open"] ] },
+    //     { n: "06", h: "Understand the buying process", items: [
+    //       ["What happens after you choose a property", "Follow the buying journey for ready and off-plan property, from reservation through to ownership.", "s6-open"] ] },
+    //     { n: "07", h: "Know what support is available", items: [
+    //       ["The support you may need along the way", "See where specialist support can help before, during, and after your purchase.", "s7-open"] ] },
+    //     { n: "08", h: "Investing from abroad", items: [
+    //       ["What to consider before investing from abroad", "Understand the additional financial, tax and practical considerations that come with investing in UAE property from overseas.", "s8-open"] ] },
+    //     { n: "09", h: "Take the next step", items: [
+    //       ["Your next step", "Turn what you have learned into a clearer next step for your investment.", "s9-open"] ] }
+    //   ] },
 
     /* 1.2 — hub + three journeys */
     { id: "s1-2-hub", section: "s1", tpl: "hub", bg: "dubai-towers",
@@ -373,7 +373,7 @@ window.DECK = {
       statsTitle: "Three reasons investors continue to consider the UAE",
       reasons: [
         { l: "Strong rental income potential", v: "6%", v2: "Approaching", l2: "Indicative gross rental yields in this benchmark.", t: "This gives investors the potential to generate income from the property, before service charges, maintenance, financing and personal tax are taken into account." },
-        { v2: "No annual property tax", l2: "Dubai and Abu Dhabi do not apply an annual tax simply for owning a property.", t: "This can help investors retain more of the property’s income, although service charges and other ownership costs still apply." },
+        { l: "No annual property tax",v: "Zero Taxes", l2: "Dubai and Abu Dhabi do not apply an annual tax simply for owning a property.", t: "This can help investors retain more of the property’s income, although service charges and other ownership costs still apply." },
         { l: "Property ownership can support long-term residency", pre: "AED", v: "2", unit: " million", l2: "qualifying property investment", t: "Eligible property investment may provide access to a ten-year UAE Golden Visa, subject to current requirements. For some investors, that means the property can serve both an investment goal and a longer-term plan to live in or spend more time in the UAE." } ],
       foot: "For some investors, the property can therefore support both a financial objective and a longer-term plan to live in or spend more time in the UAE." },
 
@@ -1003,24 +1003,25 @@ window.DECK = {
         "Your consultant will receive the preferences and enquiry details you selected, so the conversation can start with a clear understanding of what matters most to you." ],
       cta: { label: "Where would you like to begin?", jump: "s9-begin" } },
 
-    /* 09 — "Where would you like to begin?" Each card's button and the PRIME button have no target yet:
-       add `href` (opens in a new tab) or `jump` (a slide id) when the consultation form exists. */
-    { id: "s9-begin", section: "s9", tpl: "begin", bg: "balcony-sunrise", title: "Where would you like to begin?", btn: "Speak to a property consultant",
+    /* 09 — "Where would you like to begin?" + the closing panels, on one page (the reference's slide 51).
+       Five option cards (hover highlights one) and a "Speak to consultant" button; then three panels: betterhomes PRIME, Leading Real
+       Estate Companies of the World and "Return to it when you're ready" (pale). A panel with a `logo` shows the logo and keeps its `h`
+       as a hidden heading for screen readers. Buttons: `save` copies this personalised link (the URL carries every answer);
+       the others have no target yet — add `href` (opens in a new tab) or `jump` (a slide id) when the forms exist. */
+    { id: "s9-begin", section: "s9", tpl: "begin", bg: "balcony-sunrise", title: "Where would you like to begin?", btn: "Speak to consultant",
       cards: [
         { h: "Find properties that fit my goals", t: "Explore ready and off-plan opportunities around your priorities." },
         { h: "Compare my options", t: "Weigh up locations, property types and purchase routes." },
         { h: "Discuss a property I have found", t: "Take a closer look at an opportunity you are considering." },
         { h: "Understand the buying process", t: "Talk through the steps, costs and support involved." },
         { h: "Talk through my investment plan", t: "Discuss what you want to achieve before beginning your search." } ],
-      prime: { h: "A more personal approach with betterhomes PRIME", btn: "Speak to the PRIME team",
-        t: "For those considering an exceptional home or a prime property investment, our PRIME team can help shape the search around your priorities, with personal attention throughout the purchase." } },
-
-    /* 09 — closing page. "Save my handbook" copies this personalised link (the URL carries every answer);
-       the international button has no target yet: add `href` or `jump`. */
-    { id: "s9-return", section: "s9", tpl: "closing", bg: "balcony-sunrise", title: "Return to it when you’re ready.",
-      blocks: [
-        { t: "Keep your personalised handbook to revisit the locations, considerations and opportunities that interest you.", btn: "Save my handbook", save: true },
-        { h: "Looking further afield?", t: "If your property plans extend beyond the UAE, we can introduce you to a local specialist through Leading Real Estate Companies of the World®.", btn: "Discuss an international purchase",
-          note: "This handbook provides general information and does not constitute financial, legal or tax advice. Seek independent professional advice where appropriate." } ] }
+      panels: [
+        { logo: "prime", h: "A more personal approach with betterhomes PRIME", btn: "Explore Prime",
+          t: "For those considering an exceptional home or a prime property investment, our PRIME team can help shape the search around your priorities, with personal attention throughout the purchase." },
+        { logo: "leadingre", h: "Looking further afield?", btn: "Explore Leading RE",
+          t: "If your property plans extend beyond the UAE, we can introduce you to a local specialist through Leading Real Estate Companies of the World®." },
+        { pale: true, h: "Return to it when you’re ready.", btn: "Save my handbook", save: true,
+          t: "Keep your personalised handbook to revisit the locations, considerations and opportunities that interest you." } ],
+      note: "This handbook provides general information and does not constitute financial, legal or tax advice. Seek independent professional advice where appropriate." }
   ]
 };

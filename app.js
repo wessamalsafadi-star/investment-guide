@@ -24,7 +24,8 @@
   const LQIP = window.LQIP || {};
   // src(): resolves an image name to a URL. If a build inlined images (window.IMGDATA), use those.
   // A name with a slash or an extension ("assets/slide-42-map.png") is used as-is.
-  const src = (n, mobile) => /[\/.]/.test(n) ? n : (window.IMGDATA && window.IMGDATA[n]) || `${IMG}${n}${mobile ? "-m" : ""}.webp`;
+  // A path is percent-encoded (spaces → %20): `srcset` splits candidates on spaces, so "img/page 10.png" would otherwise be read as "img/page".
+  const src = (n, mobile) => /[\/.]/.test(n) ? encodeURI(n) : (window.IMGDATA && window.IMGDATA[n]) || `${IMG}${n}${mobile ? "-m" : ""}.webp`;
   const stage = $("#stage"), slidesEl = $("#slides"), sectionsEl = $("#sections"), viewport = $("#viewport");
 
   /* ---------------- stage scaling ---------------- */

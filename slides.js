@@ -128,14 +128,14 @@ window.DECK = {
     //   ] },
 
     /* 1.2 — hub + three journeys */
-    { id: "s1-2-hub", section: "s1", tpl: "hub", bg: "dubai-towers",
+    { id: "s1-2-hub", section: "s1", tpl: "hub", bg: "img/page 4.png",
       num: "1.2", title: "How the UAE property market responded to uncertainty",
       lede: "Dubai’s sales market has been quieter since March, but Q3 brought more activity in ready homes and stronger rental interest.",
       body: "Residential sales stayed close to Q2 levels, although activity eased in August and September. More resale homes changed hands, while off-plan sales and buyer enquiries fell. For investors, these signals raise two separate questions: how much interest is there from people who would rent the property, and from people who might buy it later? Understanding both helps you assess a property against your plans.",
       callouts: [{ label: "Dubai", x: .82, y: .55 }, { label: "Abu Dhabi", x: .39, y: .61 }],
       prompt: "Choose your view" },
 
-    { id: "s1-2-dxb-signals", section: "s1", market: "dubai", tpl: "signals", bg: "villa-arch", city: "Dubai",
+    { id: "s1-2-dxb-signals", section: "s1", market: "dubai", tpl: "signals", bg: "img/page 5.png", city: "Dubai",
       title: "Sales held steady in Q3, with more activity in ready homes",
       lede: "The number of homes sold changed little from Q2, but the pattern of sales shifted. More ready homes changed hands, while off-plan sales and average sale values fell. Rental enquiries rose sharply; buyer enquiries were lower overall, with a pickup in September.",
       group: "Q3 market signals",
@@ -165,7 +165,7 @@ window.DECK = {
         { t: "Community prices tell a more detailed story. 63 of 95 tracked community segments were higher than a year ago, although most dipped slightly over the last three months. Both can be true: prices can ease over a quarter and still be above last year’s level." } ],
       wide: "When assessing an asking price, look at what similar homes nearby have recently sold for. That gives you a firmer basis for judging the price than the city-wide average." },
 
-    { id: "s1-2-dxb-types", section: "s1", market: "dubai", tpl: "chartcards", bg: "palm-villa", city: "Dubai",
+    { id: "s1-2-dxb-types", section: "s1", market: "dubai", tpl: "chartcards", bg: "img/page 7.png", city: "Dubai",
       title: "Apartment, villa and townhouse sales in Q3",
       axis: ["+100%", "0%", "-100%"],
       cards: [
@@ -195,7 +195,7 @@ window.DECK = {
         ["+11%", "resale villa and townhouse transactions: more ready homes in this segment changed hands than in August."],
         ["+15%", "tenant enquiries: rental interest rose from August and was 35% above September 2025."] ] } },
 
-    { id: "s1-2-dxb-means", section: "s1", market: "dubai", tpl: "hub", bg: "dubai-coast-sun", shade: "topleft", city: "Dubai", nochoice: true,
+    { id: "s1-2-dxb-means", section: "s1", market: "dubai", tpl: "hub", bg: "img/page 9.png", shade: "topleft", city: "Dubai", nochoice: true,
       title: "What this means for you",
       lede: "Dubai’s Q3 figures point to stronger rental interest and a recovery in resale activity within a quieter sales market. For investors, this makes the demand for a particular home more useful than the overall direction of the market alone.",
       paras: [
@@ -282,7 +282,7 @@ window.DECK = {
         "If you are considering Abu Dhabi’s growing off-plan villa and townhouse segment, look ahead to completion. Compare the purchase price, payment plan and delivery record with the homes expected to compete for tenants or buyers at that time. Strong sales today are one part of assessing how the property could fit your longer-term plans." ] } },
 
     /* 1.3 — hub + journeys */
-    { id: "s1-3-hub", section: "s1", tpl: "hub", bg: "abudhabi-skyline", bg2: "dubai-towers",
+    { id: "s1-3-hub", section: "s1", tpl: "hub", bg: "img/page 10.png",
       num: "1.3", title: "Where the UAE property market stands today",
       lede: "Dubai offers greater sales volume; Abu Dhabi has a higher off-plan share",
       paras: [
@@ -292,7 +292,7 @@ window.DECK = {
       prompt: "Select a market to explore",
     },
 
-    { id: "s1-3-dxb", section: "s1", market: "dubai", tpl: "fivecols", bg: "palm-villa", city: "Dubai view",
+    { id: "s1-3-dxb", section: "s1", market: "dubai", tpl: "fivecols", bg: "img/page 11.png", city: "Dubai view",
       title: "Dubai offers scale across ready and off-plan homes",
       source: "Latest residential market position · Q3 2026",
       cols: [
@@ -329,7 +329,7 @@ window.DECK = {
         "In Abu Dhabi, a higher share of capital is committed to off-plan homes, making delivery and future demand particularly important to the market picture. For an off-plan purchase in either city, the investment needs to work through the payment period and have a credible source of tenant or buyer demand once completed." ] } },
 
     /* 1.4 — hub + journeys */
-    { id: "s1-4-hub", section: "s1", tpl: "hub", bg: "abudhabi-skyline", bg2: "dubai-towers",
+    { id: "s1-4-hub", section: "s1", tpl: "hub", bg: "img/page 12.png",
       num: "1.4", title: "How residents see the market ahead",
       lede: "The people living here are planning for the long term",
       body: "Property data tells us what people are buying today. Our Future Living Survey looks further ahead: how long residents plan to stay, how confident they feel about the market and whether buying property is part of their future.",
@@ -364,7 +364,7 @@ window.DECK = {
         foot: "Source: betterhomes Future Living Surveys 2026. Dubai: 1,714 completed responses. Abu Dhabi: 442 completed responses. Purchase intention is based on renters surveyed in each emirate. “Property plans maintained or strengthened” combines respondents whose plans were unchanged, who became more committed to buying or staying, or who accelerated their plans following recent regional developments. Self-selected betterhomes audiences; findings are directional and not representative of all Dubai or Abu Dhabi residents." } },
 
     /* ───────────────────────── 02  GLOBAL APPEAL ───────────────────────── */
-    { id: "s2-open", section: "s2", tpl: "opener", bg: "villa-garden", num: "02", shade: "deep",
+    { id: "s2-open", section: "s2", tpl: "opener", bg: "img/page 14.png", num: "02", shade: "deep",
       title: "Why the UAE keeps attracting global property investors",
       body: "For investors, the UAE stands out not because of one advantage, but because several factors come together in the same market. Three in particular are worth understanding.",
       author: { name: "Harry Martin", role: "Head of Off-Plan and Capital Markets, betterhomes", photo: "img/harry-martin.png",
@@ -377,14 +377,14 @@ window.DECK = {
         { l: "Property ownership can support long-term residency", pre: "AED", v: "2", unit: " million", l2: "qualifying property investment", t: "Eligible property investment may provide access to a ten-year UAE Golden Visa, subject to current requirements. For some investors, that means the property can serve both an investment goal and a longer-term plan to live in or spend more time in the UAE." } ],
       foot: "For some investors, the property can therefore support both a financial objective and a longer-term plan to live in or spend more time in the UAE." },
 
-    { id: "s2-1-intro", section: "s2", tpl: "hub", bg: "balcony-marina", num: "2.1", nochoice: true,
+    { id: "s2-1-intro", section: "s2", tpl: "hub", bg: "img/page 15.png", num: "2.1", nochoice: true,
       title: "The demand drivers behind the UAE property market",
       lede: "What is supporting property demand beyond transactions?",
       paras: [
         "Property prices and transactions tell you what has already happened. To understand where demand may come from next, it helps to look at what creates the need for homes in the first place: population growth, employment, business expansion and the amount of new housing coming to market.",
         "The important question is not simply whether demand is growing. It is whether the number of people who need homes is growing faster than the supply available to them." ] },
 
-    { id: "s2-1-cards", section: "s2", tpl: "cards", bg: "villa-beach",
+    { id: "s2-1-cards", section: "s2", tpl: "cards", bg: "img/page 16.png",
       title: "Four demand signals",
       cards: [
         { n: "01", h: "More people need homes", v: "4.58", v2: "million residents", l: "Dubai population at the end of 2025 · 332,000 more than the year before", jump: "s2-1-drivers",
@@ -396,7 +396,7 @@ window.DECK = {
         { n: "04", h: "Business expansion is creating new centres of demand", v: "10,000+", v2: "active companies", l: "Registered in DIFC by the end of June 2026 · +30% YoY", jump: "s2-1-drivers",
           paras: ["Dubai’s employment base is continuing to broaden. DIFC reported more than 10,000 active registered companies, while its AI, fintech and innovation business base reached 1,933 firms, up 39% YoY.", "Business growth does not automatically translate into property demand everywhere. But when employment expands within specific commercial hubs, nearby residential communities can benefit from a larger potential tenant and buyer pool."] } ] },
 
-    { id: "s2-1-drivers", section: "s2", tpl: "tabs", bg: "villa-beach", title: "The demand drivers",
+    { id: "s2-1-drivers", section: "s2", tpl: "tabs", bg: "img/page 17.png", title: "The demand drivers",
       tabs: [
         { n: "01", h: "More people need homes", sub: "Population growth creates the most direct source of housing demand",
           stats: [ { v: "4.58", u: "million residents", l: "Dubai population at the end of 2025." }, { v: "+332,000", u: "residents", l: "Increase compared with the previous year." }, { v: "4.14", u: "million residents", l: "Abu Dhabi population · 2024." }, { v: "+7.5%", u: "YoY", l: "Abu Dhabi population growth · 2024." } ],
@@ -423,7 +423,7 @@ window.DECK = {
             "For a property investor, the practical question is where that employment growth is happening. A growing business district can support housing demand in surrounding communities, but the strength of an individual investment will still depend on accessibility, price, property type and competing supply.",
             "Strong housing demand depends not just on job growth, but on having the right level of housing supply in those areas." ] } ] },
 
-    { id: "s2-1-summary", section: "s2", tpl: "hub", bg: "villa-lawn", shade: "topleft",
+    { id: "s2-1-summary", section: "s2", tpl: "hub", bg: "img/page 18.png", shade: "topleft",
       title: "Demand is giving the market room to grow", nochoice: true,
       cols: [
         "Population growth, expanding private-sector employment and continued business activity are all adding to the number of people who may need homes across the UAE.",
@@ -432,7 +432,7 @@ window.DECK = {
         "Together, these factors point to a growing demand base, but the strength of that demand will vary by location, property type and price point." ] },
 
     /* 2.2 GCC */
-    { id: "s2-2-hub", section: "s2", tpl: "hub", bg: "dubai-creek", num: "2.2",
+    { id: "s2-2-hub", section: "s2", tpl: "hub", bg: "img/page 19.png", num: "2.2",
       title: "How the UAE compares within the GCC",
       paras: [
         "More GCC markets are opening up to international property investment, giving investors more choice across the region. Saudi Arabia is expanding international access, Qatar already allows foreign ownership in designated locations, and Muscat is developing a growing proposition around tourism, lifestyle communities and branded residences.",
@@ -440,7 +440,7 @@ window.DECK = {
       callouts: [{ label: "Dubai", x: .66, y: .50 }, { label: "Abu Dhabi", x: .44, y: .62 }],
       prompt: "Select a market to explore" },
 
-    { id: "s2-2-dxb", section: "s2", market: "dubai", tpl: "glance", bg: "burj-arab-villa", city: "Dubai", title: "Established scale",
+    { id: "s2-2-dxb", section: "s2", market: "dubai", tpl: "glance", bg: "img/page 20.png", city: "Dubai", title: "Established scale",
       source: "Dubai at a glance",
       intro: [
         "The region’s most established international property market",
@@ -520,12 +520,12 @@ window.DECK = {
         { h: "More concentrated lifestyle markets", t: "Doha and Muscat offer a narrower range of international investment locations. In Muscat, a growing branded-residence and resort market adds another option for investors interested in combining lifestyle use with property investment." } ] },
 
     /* 2.3 Global */
-    { id: "s2-3-hub", section: "s2", tpl: "hub", bg: "dubai-skyline-blue", num: "2.3",
+    { id: "s2-3-hub", section: "s2", tpl: "hub", bg: "img/page 22.png", num: "2.3",
       title: "How the UAE compares with global property markets",
       body: "Compared with other established property markets, the UAE offers lower average purchase prices, gross rental yields of close to 6%, and no annual property tax. For an investor, the important point is how these factors work together: the price needed to enter the market, the income a property could produce and the costs that reduce that income. Across those measures, the UAE presents a strong overall proposition in this 2026 benchmark.",
       nochoice: true },
 
-    { id: "s2-3-global", section: "s2", tpl: "global", bg: "dubai-skyline-wide", title: "Dubai, Abu Dhabi and global property cities",
+    { id: "s2-3-global", section: "s2", tpl: "global", bg: "img/page 23.png", title: "Dubai, Abu Dhabi and global property cities",
       cities: [
         { name: "Dubai", key: "dubai", uae: true, blocks: [
           { l: "Representative one-bedroom price", s: "Approximately", v: "Dhs 1.102 million" },
@@ -593,7 +593,7 @@ window.DECK = {
           { l: "Property-linked residency", t: "Residential property ownership does not provide a direct residency route. The EB-5 programme requires a qualifying investment and is not based on purchasing a personal investment property." } ] }
       ] },
 
-    { id: "s2-3-summary", section: "s2", tpl: "hub", bg: "dubai-skyline-blue", shade: "topleft", nochoice: true,
+    { id: "s2-3-summary", section: "s2", tpl: "hub", bg: "img/page 22.png", shade: "topleft", nochoice: true,
       title: "The UAE’s advantage is the balance between cost and income",
       paras: [
         "The UAE’s advantage is not based on one figure alone. It comes from the combination of a more accessible representative entry price, competitive rental income, no annual property tax and a broad route to foreign ownership in designated areas.",
@@ -602,7 +602,7 @@ window.DECK = {
 
     /* ───────────────────────── 03  YOUR INVESTMENT FOCUS ─────────────────────────
        Personalised from the form (goal=, market=, budget=, route=) — see app.js → focus. */
-    { id: "s3-open", section: "s3", tpl: "focus", bg: "penthouse-burj", num: "03", title: "Your investment focus",
+    { id: "s3-open", section: "s3", tpl: "focus", bg: "img/page 25.png", num: "03", title: "Your investment focus",
       goalLabels: { A1: "Rental income", A2: "Capital growth", A3: "UAE residency", A4: "Personal use", A5: "Portfolio diversification" },
       routes: { completed_rent: "Completed property to rent out", completed_resell: "Completed property to resell", off_plan_sell_before_handover: "Off-plan, sell before handover", off_plan_rent_after_handover: "Off-plan, rent out after handover", off_plan_resell_after_handover: "Off-plan, resell after handover", personal_use: "A home for my own use", undecided: "Still deciding" },
       cta: { label: "Explore what to check before you buy", jump: "s4-open" },
@@ -650,7 +650,7 @@ window.DECK = {
       } },
 
     /* ───────────────────────── 04  WHAT TO CHECK ───────────────────────── */
-    { id: "s4-open", section: "s4", tpl: "opener", bg: "penthouse-burj", num: "04", simple: true,
+    { id: "s4-open", section: "s4", tpl: "opener", bg: "img/page 26.png", num: "04", simple: true,
       title: "What to check before you buy",
       paras: [
         "A good property is not automatically a good investment. Before committing, look beyond the asking price, projected return or launch offer.",
@@ -658,7 +658,7 @@ window.DECK = {
         "Some checks apply to every purchase. Others become more important depending on your property type and investment goals." ],
       chooser: { label: "Property type", key: "ptype", options: [["ready", "Ready"], ["offplan", "Off-plan"]] } },
 
-    { id: "s4-1-verify", section: "s4", tpl: "checklist", bg: "burj-arab-aerial", num: "4.1", title: "Verify your property", perPage: 6,   // all six checks on one slide (two rows); omit for the 3-per-page pager
+    { id: "s4-1-verify", section: "s4", tpl: "checklist", bg: "img/page 27.png", num: "4.1", title: "Verify your property", perPage: 6,   // all six checks on one slide (two rows); omit for the 3-per-page pager
       variants: {
         ready: [
           { n: "01", h: "Verify the property details", t: "Start by making sure the property, project and listing information can be independently verified.", items: ["Property or project name", "Unit details", "Advertised price", "Broker or agency", "Listing or advertising permit, where applicable", "Current availability"], sub: "Where possible, verify the information through the relevant property authority rather than relying only on the advertisement." },
@@ -675,7 +675,7 @@ window.DECK = {
           { n: "05", h: "Assess the developer’s track record", t: "Brand recognition can be useful context, but past delivery gives a clearer picture of what a developer has actually completed.", rv: "Consider", items: ["Previously completed projects", "Delivery history", "Quality of completed buildings", "Management of completed communities", "Performance of comparable completed projects"], q: "What does the developer’s delivery history tell me about this project?" },
           { n: "06", h: "Review the payment plan", t: "The payment plan affects when your capital is committed, how much flexibility you retain and what obligations remain through to handover.", rv: "Map the full payment journey", items: ["Reservation", "Contract", "Construction payments", "Handover payment", "Post-handover payments, if applicable"], sub: "Understand how much is due at each stage and whether you can meet each payment on time, including any balance after handover." } ] } },
 
-    { id: "s4-2-cost", section: "s4", tpl: "checklist", bg: "burj-arab-sunset", num: "4.2", title: "Know the full cost before you buy",
+    { id: "s4-2-cost", section: "s4", tpl: "checklist", bg: "img/page 28.png", num: "4.2", title: "Know the full cost before you buy",
       lede: "The asking price is only the starting point.",
       body: "Understand what you will need to buy, what it may cost to own and how realistic the expected rental income is.",
       formula: ["Annual rent", "−", "Ownership and letting costs", "=", "Income before financing"],
@@ -684,24 +684,24 @@ window.DECK = {
         { n: "02", h: "While you own", t: "Properties with similar purchase prices can have very different running costs.", rv: "Allow for", items: ["Service charges", "Maintenance and replacements", "Insurance, where applicable", "Mortgage repayments, if financed", "Management and letting fees, if rented"], sub: "If renting, allow for periods without rental income. Use previous years’ costs where available to build a realistic annual budget." },
         { n: "03", h: "If you rent it out", t: "Check whether the expected rent is supported by comparable properties and recent signed leases.", rv: "Compare", items: ["Location and building or community", "Property type, bedrooms and size", "Condition and furnishing", "View, where relevant"], sub: "Look beyond the headline rent to what may remain after ownership and letting costs. If financed, also deduct mortgage payments to understand your cash flow." } ] },
 
-    { id: "s4-3-fit", section: "s4", tpl: "checklist", bg: "dubai-canal", num: "4.3", title: "Check whether the property fits your investment goal", perPage: 4,   // all four checks on one slide (one row); omit for the 3-per-page pager
-      lede: "Look at the property through your investor profile",
-      body: "After checking the property and the numbers, your next question should be whether this particular opportunity fits what you are trying to achieve. The priorities below change according to your investor profile.",
-      chooser: { label: "Investor profile", key: "profile", options: [["income", "Income Builder"], ["growth", "Growth Investor"]] },
-      variants: {
-        income: [
-          { n: "01", h: "Is the expected rent realistic?", t: "Look at recent rents achieved for comparable properties rather than relying only on advertised rents.", items: ["The same building or community, where possible", "The same property type and bedroom count", "A similar condition and level of furnishing", "Floor, view or position, where relevant", "Current availability"] },
-          { n: "02", h: "What will you earn after costs?", t: "Gross yield only tells part of the story. Allow for the ongoing costs of owning and letting the property.", items: ["Service charges", "Property management", "Maintenance", "Financing costs, where applicable", "Other recurring expenses"] },
-          { n: "03", h: "How strong is tenant demand?", t: "Reliable income depends on being able to attract and replace tenants without long gaps.", items: ["Who typically rents in the area", "How many similar properties are available", "How long comparable homes take to let", "Whether demand changes at different times of year", "Which features tenants are willing to pay more for"] },
-          { n: "04", h: "How well does the income hold up?", t: "Test the investment using slightly less favourable assumptions.", items: ["Rent 5–10% lower", "A longer vacancy period", "Higher maintenance or service charges", "Higher financing costs", "Ready exit if plans change"], focus: ["Achievable rent", "Net income", "Tenant demand", "Vacancy risk"] } ],
-        growth: [
-          { n: "01", h: "Are you buying at a sensible price?", t: "Compare the property with other options before deciding what represents good value.", items: ["Recent sale prices for comparable properties", "Similar units in the same development or community", "Comparable properties in competing developments", "Price per square foot, where useful", "Ready and off-plan alternatives"] },
-          { n: "02", h: "What could support future demand?", t: "Look beyond the property itself and consider what could make the wider area more attractive over time.", items: ["New infrastructure", "Transport and connectivity", "Access to employment centres", "Population growth", "Schools and amenities", "New commercial districts", "Development of the wider community"] },
-          { n: "03", h: "How much competing supply is coming?", t: "New development can strengthen an area, but it can also give future buyers more choice.", items: ["New projects nearby", "Similar property types and sizes", "Expected handover dates", "Developer incentives for buyers", "Scale of the development pipeline"] },
-          { n: "04", h: "Who might buy it from you later?", t: "Think about the future buyer before you buy.", items: ["End users", "Families", "Investors", "Residents considering ownership", "Recent resale demand"], focus: ["Entry price", "Future demand", "Future supply", "Resale demand"] } ] } },
+    // { id: "s4-3-fit", section: "s4", tpl: "checklist", bg: "dubai-canal", num: "4.3", title: "Check whether the property fits your investment goal", perPage: 4,   // all four checks on one slide (one row); omit for the 3-per-page pager
+    //   lede: "Look at the property through your investor profile",
+    //   body: "After checking the property and the numbers, your next question should be whether this particular opportunity fits what you are trying to achieve. The priorities below change according to your investor profile.",
+    //   chooser: { label: "Investor profile", key: "profile", options: [["income", "Income Builder"], ["growth", "Growth Investor"]] },
+    //   variants: {
+    //     income: [
+    //       { n: "01", h: "Is the expected rent realistic?", t: "Look at recent rents achieved for comparable properties rather than relying only on advertised rents.", items: ["The same building or community, where possible", "The same property type and bedroom count", "A similar condition and level of furnishing", "Floor, view or position, where relevant", "Current availability"] },
+    //       { n: "02", h: "What will you earn after costs?", t: "Gross yield only tells part of the story. Allow for the ongoing costs of owning and letting the property.", items: ["Service charges", "Property management", "Maintenance", "Financing costs, where applicable", "Other recurring expenses"] },
+    //       { n: "03", h: "How strong is tenant demand?", t: "Reliable income depends on being able to attract and replace tenants without long gaps.", items: ["Who typically rents in the area", "How many similar properties are available", "How long comparable homes take to let", "Whether demand changes at different times of year", "Which features tenants are willing to pay more for"] },
+    //       { n: "04", h: "How well does the income hold up?", t: "Test the investment using slightly less favourable assumptions.", items: ["Rent 5–10% lower", "A longer vacancy period", "Higher maintenance or service charges", "Higher financing costs", "Ready exit if plans change"], focus: ["Achievable rent", "Net income", "Tenant demand", "Vacancy risk"] } ],
+    //     growth: [
+    //       { n: "01", h: "Are you buying at a sensible price?", t: "Compare the property with other options before deciding what represents good value.", items: ["Recent sale prices for comparable properties", "Similar units in the same development or community", "Comparable properties in competing developments", "Price per square foot, where useful", "Ready and off-plan alternatives"] },
+    //       { n: "02", h: "What could support future demand?", t: "Look beyond the property itself and consider what could make the wider area more attractive over time.", items: ["New infrastructure", "Transport and connectivity", "Access to employment centres", "Population growth", "Schools and amenities", "New commercial districts", "Development of the wider community"] },
+    //       { n: "03", h: "How much competing supply is coming?", t: "New development can strengthen an area, but it can also give future buyers more choice.", items: ["New projects nearby", "Similar property types and sizes", "Expected handover dates", "Developer incentives for buyers", "Scale of the development pipeline"] },
+    //       { n: "04", h: "Who might buy it from you later?", t: "Think about the future buyer before you buy.", items: ["End users", "Families", "Investors", "Residents considering ownership", "Recent resale demand"], focus: ["Entry price", "Future demand", "Future supply", "Resale demand"] } ] } },
 
     /* 04 close — strategy consultation. The button has no target yet: add `href` or `jump` when the booking form exists. */
-    { id: "s4-strategy", section: "s4", tpl: "opener", bg: "dubai-canal", simple: true,
+    { id: "s4-strategy", section: "s4", tpl: "opener", bg: "img/page 29.png", simple: true,
       title: "Your goals and the market conditions shape your strategy",
       paras: [
         "Market conditions can change how you buy, how long you hold a property and when it makes sense to sell. We’ll help you plan each decision around the current market and what you want your investment to achieve.",
@@ -713,7 +713,7 @@ window.DECK = {
        Community profiles, pin positions and the archetype highlight grid
        live in communities.js — NOT here. These two slides only carry their
        chrome (titles, backgrounds, map artwork). */
-    { id: "s5-open", section: "s5", tpl: "map", bg: "dubai-aerial-sun", bgs: { dubai: "dubai-aerial-sun", abudhabi: "abudhabi-aerial" }, num: "05",
+    { id: "s5-open", section: "s5", tpl: "map", bg: "dubai-aerial-sun", bgs: { dubai: "img/page 31.png", abudhabi: "img/page 31 AD.png" }, num: "05",
       title: "The communities worth considering", sub: "Recommended communities",
       marketLabels: { dubai: "Dubai", abudhabi: "Abu Dhabi" },
       filters: ["Featured for you", "All communities"], allId: "s5-list" },
@@ -734,7 +734,7 @@ window.DECK = {
       right: { key: "ready",   h: "Ready property",    t: "A completed property you can buy and take ownership of now." },
       chooserKey: "ptype" },
 
-    { id: "s6-1-ready", section: "s6", tpl: "process", bg: "buy-ready", num: "6.1", title: "Buying a ready property in Dubai",
+    { id: "s6-1-ready", section: "s6", tpl: "process", bg: "img/page 34.png", num: "6.1", title: "Buying a ready property in Dubai",
       body: "Once you are happy with the property and ready to proceed, the purchase moves through four main stages. For a straightforward purchase, allow around 2–4 weeks from an accepted offer to ownership. A mortgage, an existing mortgage on the property or missing paperwork can make the process longer.",
       steps: [
         { n: "01", h: "Agree on the purchase", time: "1–3 days",
@@ -760,7 +760,7 @@ window.DECK = {
                   { h: "What happens next:", items: ["A vacant property is prepared, priced and marketed", "A new tenancy is registered through Ejari, Dubai’s tenancy registration system", "If the property is already occupied, the existing tenancy continues as part of your ownership", "If needed, property management can take care of rent collection, maintenance and renewals"] } ],
           end: "At the end of this step: everything is in place for the property to generate rental income." } ] },
 
-    { id: "s6-2-offplan", section: "s6", tpl: "process", bg: "buy-ready", num: "6.2", title: "Buying an off-plan property in Dubai",
+    { id: "s6-2-offplan", section: "s6", tpl: "process", bg: "img/page 34.png", num: "6.2", title: "Buying an off-plan property in Dubai",
       body: "Once you have chosen the project and unit, the first part of the purchase can move quickly. But unlike a ready property, you are buying before construction is complete, so payments continue over the agreed schedule and ownership comes at handover.",
       steps: [
         { n: "01", h: "Reserve the property", time: "1–3 days", wide: true,
@@ -799,7 +799,7 @@ window.DECK = {
                   { h: "What happens next:", items: ["Any outstanding snagging is followed up", "The property is furnished or prepared if required", "An asking rent is set", "The property is marketed", "A tenant is selected", "The new tenancy is registered through Ejari", "Ongoing management can handle rent, maintenance and renewals"] } ],
           end: "At the end of this step: the off-plan purchase becomes a completed, income-producing property." } ] },
 
-    { id: "s6-3-ready-auh", section: "s6", tpl: "process", bg: "abudhabi-balcony", num: "6.3", title: "Buying a ready property in Abu Dhabi",
+    { id: "s6-3-ready-auh", section: "s6", tpl: "process", bg: "img/page 20 AD.png", num: "6.3", title: "Buying a ready property in Abu Dhabi",
       body: "Once you are happy with the property and ready to proceed, the purchase moves through four main stages. For a straightforward purchase, allow around 2–4 weeks from an accepted offer to ownership. A mortgage, an existing mortgage on the property or missing paperwork can make the process longer.",
       steps: [
         { n: "01", h: "Agree to the purchase terms", time: "1–3 days",
@@ -825,7 +825,7 @@ window.DECK = {
                   { h: "What happens next:", items: ["A vacant property is prepared, priced and marketed", "The new tenancy is completed and registered through the applicable Abu Dhabi system", "If the property is already occupied, the existing tenancy forms part of your ongoing ownership", "Property management can handle rent collection, maintenance and renewals if required"] } ],
           end: "At the end of this step: the purchase becomes an income-producing property." } ] },
 
-    { id: "s6-4-offplan-auh", section: "s6", tpl: "process", bg: "abudhabi-marina", num: "6.4", title: "Buying an off-plan property in Abu Dhabi",
+    { id: "s6-4-offplan-auh", section: "s6", tpl: "process", bg: "img/page 7 AD.png", num: "6.4", title: "Buying an off-plan property in Abu Dhabi",
       body: "Once you have chosen the project and unit, you can move relatively quickly to securing the property. But because you are buying before construction is complete, payments continue according to the agreed schedule and ownership comes later, after completion and handover.",
       steps: [
         { n: "01", h: "Reserve the property", time: "1–3 days", wide: true,
@@ -865,14 +865,14 @@ window.DECK = {
           end: "At the end of this step: the off-plan purchase becomes a completed, income-producing property." } ] },
 
     /* ───────────────────────── 07  SUPPORT ───────────────────────── */
-    { id: "s7-open", section: "s7", tpl: "opener", bg: "support", num: "07", simple: true, inkTitle: true,
+    { id: "s7-open", section: "s7", tpl: "opener", bg: "img/page 38.png", num: "07", simple: true, inkTitle: true,
       title: "The support you may need along the way",
       paras: ["Buying a property involves more than choosing the right home. There is funding to arrange, a transfer to complete and, once you own it, decisions about letting, management and maintenance.",
         "This section shows where support may be useful before you buy, while you own and when you decide to sell. You can choose what you want to handle yourself and where you would prefer expert help."],
       cta: { label: "Explore the support available", jump: "s7-1-support" } },
 
     /* 7.1 — six support areas on the stage line, from first shortlist to a future sale. */
-    { id: "s7-1-support", section: "s7", tpl: "process", bg: "support", num: "7.1", title: "Where specialist support can help",
+    { id: "s7-1-support", section: "s7", tpl: "process", bg: "img/page 38.png", num: "7.1", title: "Where specialist support can help",
       body: "From your first shortlist to a future sale, these are the areas where the right support can make the process easier.",
       steps: [
         { n: "01", h: "Does the property fit your plans?", time: "Property advice and selection",
@@ -901,7 +901,7 @@ window.DECK = {
           end: "" } ] },
 
     /* ───────────────────────── 08  FROM ABROAD ───────────────────────── */
-    { id: "s8-open", section: "s8", tpl: "abroad", bg: "abroad", num: "08", title: "What to consider before investing from abroad",
+    { id: "s8-open", section: "s8", tpl: "abroad", bg: "img/page 39.png", num: "08", title: "What to consider before investing from abroad",
       regions: [
         { key: "europe", label: "Europe", countries: [
           { name: "UK", items: [
@@ -995,20 +995,24 @@ window.DECK = {
         small: ["Tax, legal and succession rules depend on your circumstances and can change.", "This information is correct as of October 2026, and specialist advice should be taken before making any decisions."] } },
 
     /* ───────────────────────── 09  NEXT STEP ───────────────────────── */
-    { id: "s9-open", section: "s9", tpl: "opener", bg: "dubai-coast-sun", num: "09", simple: true,
-      title: "From your goals to your next property",
+    /* 09 opener (the reference's slide 50). The three cards read the visitor's answers from the URL (market, bmin/bmax or budget, goal —
+       written by form.html); `marketLabels` and `goalLabels` are the words shown for each answer. Anything missing shows "Not set". */
+    { id: "s9-open", section: "s9", tpl: "nextstep", bg: "img/page 40.png", num: "09", title: "Your next step",
+      kicker: "From your goals to your next property",
       paras: [
         "You now have a clearer view of the market, what to look for and the questions to ask before you buy. The next step is finding a property that fits what you want from the investment.",
-        "Whether you are just starting your search or already considering a specific opportunity, a betterhomes property consultant can help you compare the options, understand the numbers and see which properties best match your plans.",
-        "Your consultant will receive the preferences and enquiry details you selected, so the conversation can start with a clear understanding of what matters most to you." ],
-      cta: { label: "Where would you like to begin?", jump: "s9-begin" } },
+        "Whether you are just starting your search or already considering a specific opportunity, a betterhomes property consultant can help you compare the options, understand the numbers and see which properties best match your plans." ],
+      directionTitle: "Your investment direction",
+      marketLabels: { dubai: "Dubai", abu_dhabi: "Abu Dhabi", both: "Dubai + Abu Dhabi", undecided: "Still deciding" },
+      goalLabels: { rental_income: "Rental income", capital_growth: "Long-term capital growth", uae_residency: "UAE residency", personal_use: "A home for my own use", portfolio_diversification: "Portfolio diversification", exploring: "Still exploring" },
+      note: "Based on the preferences you shared when creating your handbook." },
 
     /* 09 — "Where would you like to begin?" + the closing panels, on one page (the reference's slide 51).
        Five option cards (hover highlights one) and a "Speak to consultant" button; then three panels: betterhomes PRIME, Leading Real
        Estate Companies of the World and "Return to it when you're ready" (pale). A panel with a `logo` shows the logo and keeps its `h`
        as a hidden heading for screen readers. Buttons: `save` copies this personalised link (the URL carries every answer);
        the others have no target yet — add `href` (opens in a new tab) or `jump` (a slide id) when the forms exist. */
-    { id: "s9-begin", section: "s9", tpl: "begin", bg: "balcony-sunrise", title: "Where would you like to begin?", btn: "Speak to consultant",
+    { id: "s9-begin", section: "s9", tpl: "begin", bg: "img/page 41.png", title: "Where would you like to begin?", btn: "Speak to consultant",
       cards: [
         { h: "Find properties that fit my goals", t: "Explore ready and off-plan opportunities around your priorities." },
         { h: "Compare my options", t: "Weigh up locations, property types and purchase routes." },

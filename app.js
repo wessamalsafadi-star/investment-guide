@@ -17,7 +17,9 @@
 (() => {
   "use strict";
   const $ = (s, el = document) => el.querySelector(s);
-  const h = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+    // h(): escape text for HTML. A markdown-style link "[words](https://…)" becomes a real link that opens in a new tab.
+  const h = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+|mailto:[^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
   const IMG = "img/";
   const LQIP = window.LQIP || {};
   // src(): resolves an image name to a URL. If a build inlined images (window.IMGDATA), use those.

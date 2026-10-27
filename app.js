@@ -253,9 +253,15 @@
     if (b.dataset.busy) return;
     const original = label ? label.textContent.trim() : "";
     b.dataset.busy = "1"; b.setAttribute("aria-busy", "true"); say("Sending…");
+    // The form's full submission (name, email, phone, opt-in and every answer) is kept in sessionStorage by form.html → submit(),
+    // because the URL deliberately carries no contact details (the link stays shareable). It survives the hand-off in the same
+    // tab; a saved link opened later has only `answers` + `sid`, which the webhook can join to the original form submission.
+    let contact = null;
+    try { const f = JSON.parse(sessionStorage.getItem("bh_handbook_submission") || "null");
+      if (f) contact = { full_name: f.full_name, email: f.email, phone_e164: f.phone_e164, marketing_opt_in: f.marketing_opt_in, submission_id: f.submission_id, submitted_at: f.submitted_at }; } catch (e) {}
     const payload = {
       event: hk.event || original, slide: state.id, market: state.market, answers: { ...state.choices },
-      url: location.href, sent_at: new Date().toISOString(), ...(hk.data || {})
+      contact, url: location.href, sent_at: new Date().toISOString(), ...(hk.data || {})
     };
     try {
       const r = await fetch(hk.url, { method: "POST", mode: hk.mode || "cors", keepalive: true,

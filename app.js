@@ -325,7 +325,7 @@
       cells += cell(h(s.head[0]), 0, 0, "panel h") + s.head.slice(1).map((c, i) => cell(`${h(c)}${s.subhead ? `<small>${h(s.subhead[i])}</small>` : ""}`, 0, i + 1, "mc h")).join("");
       s.rows.forEach((r, i) => { cells += cell(h(r[0]), i + 1, 0, "panel r") + r.slice(1).map((c, k) => cell(h(c), i + 1, k + 1, "mc r")).join(""); });
       return `<div class="inner tpl-compare">${title(s)}${s.intro ? `<p class="t-lead" style="margin-top:10px">${h(s.intro)}</p>` : ""}<hr class="hr head-rule">
-        <div class="scrollx"><div class="wrap ${n > 2 ? "wide" : ""}" style="${cols}">${cells}</div></div>
+        <div class="scrollx"><div class="wrap ${n > 2 ? "wide" : ""}" style="${cols}">${cells}</div></div><span class="swipehint" aria-hidden="true">Swipe the table sideways to see every city →</span>
         ${s.after ? `<div class="after">${s.after.lead ? `<div class="lead">${h(s.after.lead)}</div>` : ""}${s.after.h ? `<h3>${h(s.after.h)}</h3>` : ""}<div class="cols">${s.after.cols.map(c => `<p>${h(c)}</p>`).join("")}</div>${s.after.foot ? `<p class="foot">${h(s.after.foot)}</p>` : ""}</div>` : ""}</div>`;
     },
 
@@ -709,10 +709,13 @@ $("#burger").addEventListener("click", () => { openMenu(false); render("contents
     else if (e.key === "Escape") openMenu(false);
     else if (e.key.toLowerCase() === "m") openMenu(!menu.classList.contains("open"));
   });
-  // swipe
-  let tx = 0, ty = 0;
-  stage.addEventListener("touchstart", e => { tx = e.touches[0].clientX; ty = e.touches[0].clientY; }, { passive: true });
-  stage.addEventListener("touchend", e => { const dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty; if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) go(dx < 0 ? 1 : -1); }, { passive: true });
+  // swipe — a horizontal drag moves to the next / previous slide, EXCEPT when it starts inside something that
+  // scrolls sideways itself (the compare tables' .scrollx on phones, the 2.3 global cards, any select or input):
+  // there the finger is scrolling the content, so the page must stay put.
+  let tx = 0, ty = 0, swipeOK = false;
+  const scrollsX = el => { for (let n = el; n && n !== stage; n = n.parentElement) { if (n.matches("select,input,textarea,[data-noswipe]")) return true; const cs = getComputedStyle(n); if (/(auto|scroll)/.test(cs.overflowX) && n.scrollWidth > n.clientWidth + 1) return true; } return false; };
+  stage.addEventListener("touchstart", e => { tx = e.touches[0].clientX; ty = e.touches[0].clientY; swipeOK = !scrollsX(e.target); }, { passive: true });
+  stage.addEventListener("touchend", e => { if (!swipeOK) return; const dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty; if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) go(dx < 0 ? 1 : -1); }, { passive: true });
 
   window.addEventListener("popstate", () => { const id = readHash(); const dir = indexOf(id) < indexOf(state.id) ? -1 : 1; render(id, dir, true); });
 

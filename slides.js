@@ -1031,7 +1031,7 @@ window.DECK = {
       panels: [
         { logo: "prime", h: "A more personal approach with betterhomes PRIME", btn: "Explore Prime", href: 'https://prime.bhomes.com/en',
           t: "For those considering an exceptional home or a prime property investment, our PRIME team can help shape the search around your priorities, with personal attention throughout the purchase." },
-        { logo: "leadingre", h: "Looking further afield?", btn: "Explore Leading RE", href: 'https://www.leadingre.com/',
+        { logo: "leadingre", h: "Looking further afield?", btn: "Explore Leading RE", href: 'https://www.bhomes.com/en/global-affiliations',
           t: "If your property plans extend beyond the UAE, we can introduce you to a local specialist through Leading Real Estate Companies of the World®." },
         { pale: true, h: "Return to it when you’re ready.", btn: "Save my handbook", save: true,
           t: "Keep your personalised handbook to revisit the locations, considerations and opportunities that interest you." } ],

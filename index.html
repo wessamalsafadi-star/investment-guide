@@ -674,7 +674,9 @@ img{ display:block; max-width:100%; }
 .slide.tpl-communities{ background:#1f343f; color:var(--white); }
 .tpl-communities .map{ position:absolute; inset:0; z-index:0; background:radial-gradient(120% 90% at 70% 10%,#2A4E66 0%,#1A3647 45%,#13283A 100%) center/cover; transition:filter .4s; }
 .tpl-communities .map img{ width:100%; height:100%; object-fit:fill; opacity:.9; }
-.tpl-communities .pins{ position:absolute; inset:0; z-index:3; pointer-events:none; } .tpl-communities .pins .pin{ pointer-events:auto; }
+/* The pins sit BELOW .inner (z 2): .inner is its own stacking context, so the profile card's z-index only counts inside it and
+   could never beat a sibling layer above .inner. The map area of .inner lets pointer events through so the pins stay clickable. */
+.tpl-communities .pins{ position:absolute; inset:0; z-index:1; pointer-events:none; } .tpl-communities .pins .pin{ pointer-events:auto; }
 .tpl-communities .map.dim{ filter:brightness(.7); }
 .tpl-communities .selects{ display:flex; gap:9px; margin-top:8px; }
 .tpl-communities .sel{ position:relative; display:block; width:200px; height:43px; } .tpl-communities .sel:last-child{ width:260px; }
@@ -692,6 +694,7 @@ img{ display:block; max-width:100%; }
 .tpl-communities .chips-list button[aria-pressed="true"]:not(.more){ background:var(--white); color:var(--ink); font-weight:600; }
 .tpl-communities .chips-list .more{ flex:none; width:42px; height:42px; display:grid; place-items:center; border-radius:6px; background:rgba(255,255,255,.11); border:1px solid rgba(255,255,255,.22); color:var(--white); transition:transform .3s; }
 .tpl-communities .chips-list.open .more svg{ transform:rotate(180deg); }
+.slide .inner.tpl-communities{ pointer-events:none; } .tpl-communities .title-row,.tpl-communities .chips-list,.tpl-communities .profile{ pointer-events:auto; }
 .tpl-communities .mapwrap{ position:relative; flex:1; min-height:200px; }
 /* Markers (the reference's diamonds): 16px at rest, cream for the visitor's matches and light blue for the rest;
    on hover / selection they grow to 44px inside a 129px frosted diamond with a dashed outline. */

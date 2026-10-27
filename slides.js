@@ -746,7 +746,7 @@ window.DECK = {
         "Market conditions can change how you buy, how long you hold a property and when it makes sense to sell. We’ll help you plan each decision around the current market and what you want your investment to achieve.",
         "What we’ll plan with you: how to buy, how long to hold, and when and how to sell.",
         "Or keep reading. The communities that follow offer a starting point for that conversation." ],
-      cta: { label: "Book a strategy consultation" }, hook:{url: 'https://engageteam.app.n8n.cloud/webhook/815ef7b9-118e-44df-9bf4-00088615cb3a', then:{jump:'s5-open'} },
+      cta: { label: "Book a strategy consultation", hook:{url: 'https://engageteam.app.n8n.cloud/webhook/815ef7b9-118e-44df-9bf4-00088615cb3a', then:{jump:'s5-open'} } },
     },
     /* ───────────────────────── 05  COMMUNITIES ─────────────────────────
        Community profiles, pin positions and the archetype highlight grid
@@ -1031,7 +1031,7 @@ window.DECK = {
             ["Tax when you sell", "Capital gains tax applies. Holding the property more than 12 months can halve the taxable gain."],
             ["Reporting", "Declare overseas income and gains each year."],
             ["Your will", "Australia has no inheritance tax. Align your Australian will with a UAE-registered will."] ] } ] } ],
-      foot: { q: "Didn’t find your country on the list? The same six checks apply.", t: "Book a consultation and we’ll help you understand what applies to your situation.", label: "Book a consultation", hook:{url: 'https://engageteam.app.n8n.cloud/webhook/815ef7b9-118e-44df-9bf4-00088615cb3a'},
+      foot: { q: "Didn’t find your country on the list? The same six checks apply.", t: "Book a consultation and we’ll help you understand what applies to your situation.", label: "Book a consultation", hook:{url: 'https://engageteam.app.n8n.cloud/webhook/815ef7b9-118e-44df-9bf4-00088615cb3a', then: {jump:'s9-open'}},
         small: ["Tax, legal and succession rules depend on your circumstances and can change.", "This information is correct as of October 2026, and specialist advice should be taken before making any decisions."] } },
 
     /* ───────────────────────── 09  NEXT STEP ───────────────────────── */

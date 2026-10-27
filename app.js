@@ -231,6 +231,45 @@
     return `<svg class="pie" width="66" height="66" viewBox="0 0 66 66" aria-hidden="true"><circle cx="${c}" cy="${c}" r="27" fill="#86b8cb" fill-opacity=".15"/>${wedge}</svg>`;
   };
 
+  /* ---------------- button actions ----------------
+     Any button object in slides.js (cta, foot, blocks[], cards[], panels[], prime) can carry ONE of:
+       hook   → POST to a webhook (see runHook below)      e.g. hook: { url: "https://…", event: "book_consultation" }
+       href   → open a link in a new tab
+       jump   → go to a slide id
+       save   → copy this personalised link
+     `hook` may also be a string naming an entry in DECK.meta.hooks, so the URLs can live in one place:
+       DECK.meta.hooks = { consultant: { url: "https://…" } }   →   hook: "consultant"
+     Optional hook fields: event (string sent in the payload; defaults to the button label), data ({…} merged into the payload),
+     done ("Done" label after a successful send), fail ("Try again" label), then ({ jump } or { href } to run after success). */
+  const actAttrs = (b, fallback = "") => b.hook ? `data-hook="${h(JSON.stringify(b.hook))}"`
+    : b.save ? 'data-save="1"' : b.jump ? `data-jump-id="${h(b.jump)}"` : b.href ? `data-href="${h(b.href)}"` : fallback;
+
+  async function runHook(b, spec) {
+    const hooks = (DECK.meta && DECK.meta.hooks) || {};
+    const hk = typeof spec === "string" ? hooks[spec] : { ...(hooks[spec.use] || {}), ...spec };
+    const label = b.querySelector(".lbl") || b.firstChild;             // the text before the arrow icon
+    const say = t => { if (label) label.textContent = t + " "; };
+    if (!hk || !hk.url) { console.warn("hook has no url", spec); say((hk && hk.fail) || "Not configured"); return; }
+    if (b.dataset.busy) return;
+    const original = label ? label.textContent.trim() : "";
+    b.dataset.busy = "1"; b.setAttribute("aria-busy", "true"); say("Sending…");
+    const payload = {
+      event: hk.event || original, slide: state.id, market: state.market, answers: { ...state.choices },
+      url: location.href, sent_at: new Date().toISOString(), ...(hk.data || {})
+    };
+    try {
+      const r = await fetch(hk.url, { method: "POST", mode: hk.mode || "cors", keepalive: true,
+        headers: { "Content-Type": hk.contentType || "application/json", ...(hk.headers || {}) }, body: JSON.stringify(payload) });
+      if (hk.mode !== "no-cors" && !r.ok) throw new Error("HTTP " + r.status);
+      say(hk.done || "Done ✓"); b.classList.add("sent");
+      const t = hk.then || {};
+      if (t.jump && byId(t.jump)) render(t.jump, 1); else if (t.href) window.open(t.href, "_blank", "noopener");
+    } catch (err) {
+      console.error("hook failed", err); say(hk.fail || "Try again"); delete b.dataset.busy; b.removeAttribute("aria-busy");
+      setTimeout(() => say(original), 2500);
+    }
+  }
+
   /* ---------------- templates ---------------- */
   const TPL = {
     cover: s => `${bgHTML(s.bg, "", s.video)}<div class="inner">
@@ -256,7 +295,7 @@
         return `${bgHTML(s.bg)}${s.inkTitle ? "" : `<div class="shade topleft"></div>`}<div class="inner tpl-opener simple ${ondark} ${s.inkTitle ? "ink" : ""}">
           <div class="t-num">${h(s.num)}</div><h1 class="t-hero">${h(s.title)}</h1><hr class="hr top-rule">
           <div class="head"><div class="l"><div class="copy spaced">${(s.paras || [s.lede, s.body]).filter(Boolean).map(p => `<p>${h(p)}</p>`).join("")}</div>
-            ${s.cta ? `<button type="button" class="cta" ${s.cta.jump ? `data-jump-id="${h(s.cta.jump)}"` : `data-go="next"`}>${h(s.cta.label)} ${ICO.arrow}</button>` : ""}</div>
+            ${s.cta ? `<button type="button" class="cta" ${actAttrs(s.cta, `data-go="next"`)}><span class="lbl">${h(s.cta.label)} </span>${ICO.arrow}</button>` : ""}</div>
           <div class="r">${s.chooser ? `<div class="switch ${cur ? "on" : ""}" data-key="${h(s.chooser.key)}"><span class="label">${h(s.chooser.label)}</span><div class="row"><span class="track">${s.chooser.options.map(([k, l]) => `<button type="button" data-val="${h(k)}" aria-pressed="${cur === k}">${h(l)}</button>`).join("")}</span><button type="button" class="go" data-go="next" aria-label="Continue">${ICO.arrowBig}</button></div></div>` : ""}</div></div>
           ${s.pending ? `<p class="pending">${h(s.pending)}</p>` : ""}</div>`;
       }
@@ -401,7 +440,7 @@
         <div class="intro"><p class="t-body">${h(c.lede)}</p><p class="t-body">${h(c.body)}</p></div>
         <div class="sum"><h3>Your plans at a glance</h3><div class="items">${[["Preferred market", lab, ICO.pin], ["Property price range", budget, ICO.house], ["Purchase plan", route, ICO.receipt]].map(([l, v, ic]) => `<div class="item">${ic}<div class="l">${h(l)}</div><div class="v">${h(v)}</div></div>`).join("")}</div></div>
         <div class="rows">${c.rows.map((r, i) => `<button type="button" class="row" data-row="${i}" aria-expanded="${i === openRow}"><div class="rh"><span>${h(r.h)}</span>${ICO.chev}</div><div class="body">${r.paras.map(p => `<p>${h(p)}</p>`).join("")}</div></button>`).join("")}</div>
-        <div class="cta-row"><button type="button" class="cta" data-jump-id="${h(s.cta.jump)}">${h(s.cta.label)} ${ICO.arrow}</button><span class="seemore">See more ${ICO.chev}</span></div></div>`;
+        <div class="cta-row"><button type="button" class="cta" ${actAttrs(s.cta, `data-go="next"`)}><span class="lbl">${h(s.cta.label)} </span>${ICO.arrow}</button><span class="seemore">See more ${ICO.chev}</span></div></div>`;
     },
 
     checklist: s => {
@@ -481,7 +520,7 @@
 
     closing: s => `${bgHTML(s.bg)}<div class="inner tpl-closing"><h1 class="t-title">${h(s.title)}</h1><hr class="hr head-rule">
       ${s.blocks.map(b => `<div class="blk">${b.h ? `<h2 class="t-title">${h(b.h)}</h2>` : ""}<p class="t-body">${h(b.t)}</p>
-        <button type="button" class="btn" ${b.save ? 'data-save="1"' : b.jump ? `data-jump-id="${h(b.jump)}"` : b.href ? `data-href="${h(b.href)}"` : ""}>${h(b.btn)} ${ICO.arrow}</button>
+        <button type="button" class="btn" ${actAttrs(b)}><span class="lbl">${h(b.btn)} </span>${ICO.arrow}</button>
         ${b.note ? `<p class="t-lead note">${h(b.note)}</p>` : ""}</div>`).join('<hr class="hr">')}</div>`,
 
     /* begin (09, the reference's slide 51): the title, five frosted option cards (hover highlights one), one salmon button,
@@ -508,7 +547,7 @@
     },
 
     begin: s => {
-      const btn = (b, cls = "") => `<button type="button" class="btn ${cls}" ${b.save ? 'data-save="1"' : b.jump ? `data-jump-id="${h(b.jump)}"` : b.href ? `data-href="${h(b.href)}"` : ""}>${h(b.btn || s.btn)} ${ICO.arrow}</button>`;
+      const btn = (b, cls = "") => `<button type="button" class="btn ${cls}" ${actAttrs(b)}><span class="lbl">${h(b.btn || s.btn)} </span>${ICO.arrow}</button>`;
       const logo = k => k === "prime" ? ICO.logoPrime : k === "leadingre" ? ICO.logoLeadingRE : "";
       return `${bgHTML(s.bg)}<div class="inner tpl-begin"><h1 class="t-title">${h(s.title)}</h1><hr class="hr head-rule">
       <div class="cards">${s.cards.map(c => `<article class="card"><h3>${h(c.h)}</h3><hr class="hr"><p>${h(c.t)}</p>${c.btn || c.href || c.jump ? btn(c) : ""}</article>`).join("")}</div>
@@ -525,7 +564,7 @@
       return `${bgHTML(s.bg)}<div class="shade dim"></div><div class="inner tpl-abroad"><div class="scroll"><div class="page">
         <div class="t-num">${h(s.num)}</div><h1 class="t-hero">${h(s.title)}</h1><hr class="hr">
         <div class="lead"><div class="copy">${s.foot.q ? `<p class="q">${h(s.foot.q)}</p>` : ""}<p>${h(s.foot.t)}</p></div>
-          <button type="button" class="cta" ${s.foot.jump ? `data-jump-id="${h(s.foot.jump)}"` : s.foot.href ? `data-href="${h(s.foot.href)}"` : `data-go="next"`}>${h(s.foot.label)} ${ICO.arrow}</button></div>
+          <button type="button" class="cta" ${actAttrs(s.foot, `data-go="next"`)}><span class="lbl">${h(s.foot.label)} </span>${ICO.arrow}</button></div>
         <div class="tabs" role="tablist">${regions.map(x => `<button type="button" role="tab" data-region="${h(x.key)}" aria-selected="${x.key === cur}" ${x.countries.length ? "" : 'disabled title="Coming soon"'}>${h(x.label)}</button>`).join("")}</div>
         ${r.countries.length ? `<div class="cards" style="grid-template-columns:repeat(${r.countries.length},1fr)">${r.countries.map(c => `<article class="card"><h2>${h(c.name)}</h2><hr class="hr">
           ${c.items.map(([k, v], i) => `${i ? `<hr class="hr soft">` : ""}<h3>${h(k)}</h3><p>${h(v)}</p>`).join("")}</article>`).join("")}</div>`
@@ -658,8 +697,9 @@ $("#burger").addEventListener("click", () => { openMenu(false); render("contents
     if (b.dataset.choice) { const [k, v] = b.dataset.choice.split(":"); state.choices[k] = v; }
     if (b.closest(".switch")) { state.choices[b.closest(".switch").dataset.key] = b.dataset.val; delete state.choices["pg-" + s.id]; local["open-" + s.id] = -1; rerender(); return; }
     if (b.dataset.goal !== undefined) { setGoal(b.dataset.goal); local["row-" + s.id] = 0; rerender(); return; }
+    if (b.dataset.hook) { runHook(b, JSON.parse(b.dataset.hook)); return; }
     if (b.dataset.save) {
-      const url = location.href, done = () => { const t = b.firstChild; const old = t.textContent; t.textContent = "Link copied "; setTimeout(() => t.textContent = old, 2000); };
+      const url = location.href, done = () => { const t = b.querySelector(".lbl") || b.firstChild; const old = t.textContent; t.textContent = "Link copied "; setTimeout(() => t.textContent = old, 2000); };
       (navigator.clipboard ? navigator.clipboard.writeText(url).then(done, done) : done()); return;
     }
     if (b.dataset.href) { window.open(b.dataset.href, "_blank", "noopener"); return; }

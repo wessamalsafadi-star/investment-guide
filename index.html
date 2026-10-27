@@ -425,6 +425,7 @@ img{ display:block; max-width:100%; }
 .tpl-compare .r{ font:400 16px/20px var(--font-text); min-height:44px; padding:12px 20px 10px 0; border-top:.7px solid rgba(31,52,63,.22); }
 .tpl-compare .mc.r{ padding:12px 22px 10px; border-top:.7px solid rgba(255,255,255,.22); }
 .tpl-compare .wrap > .panel:last-of-type{ margin-bottom:20px; }
+.tpl-compare .swipehint{ display:none; }   /* shown on phones only (see the mobile block) */
 .tpl-compare .after{ margin-top:auto; border-top:.5px solid var(--ink); padding-top:12px; }
 .tpl-compare .after .lead{ font:400 20px/66px var(--font-text); }
 .tpl-compare .after h3{ font:400 32px/66px var(--font-display); }
@@ -860,7 +861,7 @@ img{ display:block; max-width:100%; }
 .tpl-process .tl[aria-selected="true"] .d{ background:#86b8cb; transform:rotate(45deg) scale(1.667); }
 .tpl-process .tl .h{ display:block; font:400 24px/29px var(--font-display); margin-top:50px; }
 .tpl-process .tl .tm{ display:block; font:600 16px/22px var(--font-text); color:var(--paper); margin-top:4px; }
-.tpl-process .step{ position:absolute; top:31px; width:53px; height:30px; display:grid; place-items:center; border-radius:4px; background:rgba(243,119,122,.01); -webkit-backdrop-filter:blur(5.5px); backdrop-filter:blur(5.5px); color:var(--white); transition:background .2s;     transform: translateX(-100px); }
+.tpl-process .step{ position:absolute; top:31px; width:53px; height:30px; display:grid; place-items:center; border-radius:4px; background:rgba(243,119,122,.01); -webkit-backdrop-filter:blur(5.5px); backdrop-filter:blur(5.5px); color:var(--white); transition:background .2s; transform: translateX(-100px); }
 .tpl-process .step:hover{ background:rgba(255,255,255,.12); }
 .tpl-process .step svg{ transform:rotate(-90deg); width:12px; }
 .tpl-process .detail{ margin-top:50px; border-radius:6px; background:rgba(6,6,6,.22); -webkit-backdrop-filter:blur(11px); backdrop-filter:blur(11px); padding:41px 56px 40px; animation:fade .4s ease; }
@@ -1088,10 +1089,17 @@ img{ display:block; max-width:100%; }
   .latest .v{ font-size:26px; line-height:30px; }
 
   /* ---- compare table: scrolls sideways inside the page ---- */
-  .tpl-compare .scrollx{ margin:24px -16px 0; padding:0 16px; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:thin; }
-  .tpl-compare .wrap{ margin-top:0; min-width:720px; grid-template-columns:200px 1fr 1fr !important; }
-  .tpl-compare .wrap.wide{ min-width:1200px; grid-template-columns:200px repeat(5,200px) !important; }
-  .tpl-compare .panel{ margin-left:20px; }
+  /* The scroller owns horizontal touches: app.js skips slide-swipe when a drag starts inside it, overscroll-behavior stops the
+     browser's own back/forward edge gesture, and touch-action keeps the finger scrolling the table rather than the page. */
+  .tpl-compare .scrollx{ margin:24px -16px 0; padding:0; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:thin; overscroll-behavior-x:contain; touch-action:pan-x pan-y; }
+  .tpl-compare .wrap{ margin-top:0; min-width:0; width:max-content; padding-right:16px; grid-template-columns:150px 220px 220px !important; }
+  .tpl-compare .wrap.wide{ grid-template-columns:150px repeat(5,210px) !important; }
+  /* The "Decision factor" column is pinned: the row labels stay in view while the city columns slide beneath them. */
+  .tpl-compare .panel-bg,.tpl-compare .panel{ position:sticky; left:0; }
+  .tpl-compare .panel-bg{ z-index:2; background:#e4ded9; border-radius:0 8px 8px 0; box-shadow:4px 0 12px rgba(0,0,0,.08); }
+  .tpl-compare .panel{ z-index:3; margin-left:16px; padding-right:12px; }
+  .slide.navy .tpl-compare .panel-bg{ background:#252d3c; }
+  .tpl-compare .swipehint{ display:block; margin-top:10px; font:400 12px/16px var(--font-text); opacity:.7; }
   .tpl-compare .h{ font-size:20px; line-height:24px; padding-top:24px; min-height:0; }
   .tpl-compare .r{ font-size:14px; line-height:18px; }
   .tpl-compare .after{ margin-top:28px; }

@@ -752,7 +752,7 @@ window.DECK = {
        Community profiles, pin positions and the archetype highlight grid
        live in communities.js — NOT here. These two slides only carry their
        chrome (titles, backgrounds, map artwork). */
-    { id: "s5-open", section: "s5", tpl: "map", bg: "dubai-aerial-sun", bgs: { dubai: "img/page 31.png", abudhabi: "img/page 31 AD.png" }, num: "05",
+    { id: "s5-open", section: "s5", tpl: "map", bg: "dubai-aerial-sun", bgs: { dubai: "img/page 31.png", abudhabi: "img/page 31 AD.png" }, cornerBgs: { dubai: "img/cornerAD.png", abudhabi: "img/cornerDu.png" }, num: "05",
       title: "The communities worth considering", sub: "Recommended communities",
       marketLabels: { dubai: "Dubai", abudhabi: "Abu Dhabi" },
       filters: ["Featured for you", "All communities"], allId: "s5-list" },

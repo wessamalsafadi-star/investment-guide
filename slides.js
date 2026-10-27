@@ -552,7 +552,7 @@ window.DECK = {
       after: { cols: [], foot: "Data note: all market benchmarks, ownership rules and residency criteria should be dated and verified before publication. Representative prices and yields are indicative and will vary by location, property type and development." } },
 
     { id: "s2-2-why", section: "s2", market: "compare", tpl: "trio", bg: "img/page 18 CB.png", title: "Why these differences matter",
-      callouts: [{ label: "Dubai", x: .62, y: .56 }, { label: "Abu Dhabi", x: .5, y: .64 }, { label: "Doha", x: .42, y: .5 }, { label: "Riyadh", x: .3, y: .6 }, { label: "Muscat", x: .8, y: .66 }],
+      callouts: [{ label: "Dubai", x: .62, y: .56 }, { label: "Doha", x: .5, y: .64 }, { label: "Abu Dhabi", x: .38, y: .5 }, { label: "Muscat", x: .2, y: .6 }, { label: "Riyadh", x: .8, y: .66 }],
       cards: [
         { h: "More evidence to compare", t: "Dubai’s larger ready, rental and resale markets give investors more completed properties and transactions to use when assessing price, achievable rent and potential resale demand." },
         { h: "More exposure to newer development", t: "Abu Dhabi and Riyadh offer different development-led propositions. That makes the individual project, future supply and likely demand after completion especially important." },

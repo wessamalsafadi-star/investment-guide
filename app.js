@@ -481,7 +481,7 @@
         <hr class="hr head-rule"><h2 class="sub">${h(sub)}</h2>
         <div class="mapwrap">${picks.map((p, i) => { const [x, y] = slots[i] || [0.5, 0.3]; return `<button type="button" class="pin" style="left:${x * 100}%;top:${y * 100}%" data-pin="${h(p.name)}" aria-pressed="${p === curC}">${h(p.short || p.name)}</button>`; }).join("")}
           ${picks.length ? "" : `<p class="empty">No communities are mapped for this profile yet — add fit values in communities.js.</p>`}
-          <div class="corner"><button type="button" data-market="${other}" data-stay="1">${h(DECK.markets[other].label)} ${ICO.arrow}</button></div></div>
+          <div class="corner" style="background-image:${photoURL((s.cornerBgs || {})[other] || "")}"><button type="button" data-market="${other}" data-stay="1">${h(DECK.markets[other].label)} ${ICO.arrow}</button></div></div>
         ${c ? `<div class="ccard"><div class="name">${h(c.short)}<small>${h(c.status)} · ${h(c.type)}</small></div>${c.blurb ? `<p class="desc">${h(c.blurb)}</p>` : ""}
           <div class="more"><div class="figs">${[[c.price, c.priceLabel], [c.yield, c.yieldLabel], [c.entry, c.entryLabel], [c.range, c.rangeLabel]].filter(([v]) => v).map(([v, l]) => `<div><div class="v">${h(v)}</div><div class="l">${h(l)}</div></div>`).join("")}</div>
           <div class="notes">${c.notes.map(([b, t]) => `<div><b>${h(b)}</b><p>${h(t)}</p></div>`).join("")}</div></div></div>` : ""}</div>`;

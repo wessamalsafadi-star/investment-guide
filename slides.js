@@ -297,7 +297,7 @@ window.DECK = {
       paras: [
         "Dubai remains the larger of the two markets by transaction volume, with substantial activity across ready and off-plan homes. Abu Dhabi’s sales are more heavily weighted towards off-plan property, particularly when measured by the amount invested.",
         "These differences affect the evidence available when assessing a purchase. Existing-home transactions help establish comparable sale prices, while off-plan purchases require a closer view of delivery, competing supply and demand at completion." ],
-      callouts: [{ label: "Abu Dhabi", x: .24, y: .58 }, { label: "Dubai", x: .76, y: .52 }],
+      callouts: [{ label: "Abu Dhabi", x: .24, y: .58 }, { label: "Dubai", x: .72, y: .52 }],
       prompt: "Select a market to explore",
     },
 
@@ -342,7 +342,7 @@ window.DECK = {
       num: "1.4", title: "How residents see the market ahead",
       lede: "The people living here are planning for the long term",
       body: "Property data tells us what people are buying today. Our Future Living Survey looks further ahead: how long residents plan to stay, how confident they feel about the market and whether buying property is part of their future.",
-      callouts: [{ label: "Abu Dhabi", x: .24, y: .58 }, { label: "Dubai", x: .76, y: .52 }],
+      callouts: [{ label: "Abu Dhabi", x: .24, y: .58 }, { label: "Dubai", x: .72, y: .52 }],
       prompt: "Select a market to explore" },
 
     /* 1.4 journeys render on the flat navy page (`navy: true`): sky-blue title, four frosted cards, photo on hover */

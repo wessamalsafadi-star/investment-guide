@@ -470,6 +470,21 @@ window.DECK = {
         { name: "Doha", tag: "Established smaller market", photo: "doha", t: "International buyers can access property in designated locations, but property choice and the resale market are more concentrated." },
         { name: "Muscat", tag: "Emerging lifestyle market", photo: "muscat", t: "Tourism-led communities and branded residences are expanding the choice available to international buyers, particularly for investors combining property ownership with lifestyle use." } ] },
 
+    /* 2.2 — full GCC table for the Dubai journey: the compare journey's table without the other emirate */
+    { id: "s2-2-dubai-gcc", section: "s2", market: "dubai", tpl: "compare", city: "Dubai", title: "View full GCC comparison",
+      head: ["Decision factor", "Dubai", "Riyadh", "Doha", "Muscat"],
+      photos: ["dubai-towers", "riyadh", "doha", "muscat"],
+      rows: [
+        ["International access", "Broad freehold in designated areas", "Designated zones (2026 law)", "10 freehold zones; leasehold in others", "Freehold in ITCs only"],
+        ["Representative entry price", "~AED 1.2M", "~AED 0.85M", "~AED 1.65M", "~AED 1.0M"],
+        ["Indicative gross rental yield", "~7%", "~7%", "~5.5%", "~6%"],
+        ["Estimated buying costs", "~4% transfer fee (+ ~2% agency)", "~5% transaction tax (RETT)", "~0.25% registration fee", "~3% registration fee (~5–7% all-in)"],
+        ["Recurring property costs / tax", "No annual property tax; ~5% housing fee on rent; service charges", "No annual residential property tax; no tax on rental income", "No annual property tax; service charges", "~3% municipality tax on rent; service charges"],
+        ["Property choice", "Broad ready and off-plan range", "Broadening; new supply in designated zones", "Concentrated in selected districts", "Growing lifestyle and branded-residence offer"],
+        ["Resale market", "Deepest international pool in the GCC", "Early-stage for international buyers", "Smaller and location-dependent", "Concentrated in ITC communities"],
+        ["Residency connection", "Qualifying UAE Golden Visa route", "Premium Residency route (property-linked)", "Property-linked residency (from ~US$200k)", "Investor residency via ITC property"] ],
+      after: { cols: [], foot: "Data note: all market benchmarks, ownership rules and residency criteria should be dated and verified before publication. Representative prices and yields are indicative and will vary by location, property type and development." } },
+
     { id: "s2-2-auh", section: "s2", market: "abudhabi", tpl: "glance", bg: "abudhabi-balcony", city: "Abu Dhabi", title: "Development-led growth",
       source: "Abu Dhabi at a glance",
       intro: [
@@ -490,6 +505,21 @@ window.DECK = {
         { name: "Riyadh", tag: "Transformation market", photo: "riyadh", t: "Economic expansion and major developments are creating new residential opportunities as international access continues to evolve." },
         { name: "Doha", tag: "Established smaller market", photo: "doha", t: "International buyers can access property in designated locations, but property choice and the resale market are more concentrated." },
         { name: "Muscat", tag: "Emerging lifestyle market", photo: "muscat", t: "Tourism-led communities and branded residences are expanding the choices available to international buyers, particularly for investors combining property ownership with lifestyle use." } ] },
+
+    /* 2.2 — full GCC table for the Abu Dhabi journey: the compare journey's table without the other emirate */
+    { id: "s2-2-abudhabi-gcc", section: "s2", market: "abudhabi", tpl: "compare", city: "Abu Dhabi", title: "View full GCC comparison",
+      head: ["Decision factor", "Abu Dhabi", "Riyadh", "Doha", "Muscat"],
+      photos: ["abudhabi-skyline", "riyadh", "doha", "muscat"],
+      rows: [
+        ["International access", "Freehold in designated investment zones", "Designated zones (2026 law)", "10 freehold zones; leasehold in others", "Freehold in ITCs only"],
+        ["Representative entry price", "~AED 1.4M", "~AED 0.85M", "~AED 1.65M", "~AED 1.0M"],
+        ["Indicative gross rental yield", "~6.5%", "~7%", "~5.5%", "~6%"],
+        ["Estimated buying costs", "~2% transfer fee (+ ~2% agency)", "~5% transaction tax (RETT)", "~0.25% registration fee", "~3% registration fee (~5–7% all-in)"],
+        ["Recurring property costs / tax", "No annual property tax; service charges", "No annual residential property tax; no tax on rental income", "No annual property tax; service charges", "~3% municipality tax on rent; service charges"],
+        ["Property choice", "More concentrated and off-plan led", "Broadening; new supply in designated zones", "Concentrated in selected districts", "Growing lifestyle and branded-residence offer"],
+        ["Resale market", "Growing, but more concentrated", "Early-stage for international buyers", "Smaller and location-dependent", "Concentrated in ITC communities"],
+        ["Residency connection", "Qualifying UAE Golden Visa route", "Premium Residency route (property-linked)", "Property-linked residency (from ~US$200k)", "Investor residency via ITC property"] ],
+      after: { cols: [], foot: "Data note: all market benchmarks, ownership rules and residency criteria should be dated and verified before publication. Representative prices and yields are indicative and will vary by location, property type and development." } },
 
     { id: "s2-2-both", section: "s2", market: "compare", tpl: "compare", title: "Two UAE markets. Two different investment propositions.",
       intro: "Dubai and Abu Dhabi give international investors access to the same wider UAE environment, but their property markets offer different opportunities.",
@@ -912,6 +942,29 @@ window.DECK = {
     /* ───────────────────────── 08  FROM ABROAD ───────────────────────── */
     { id: "s8-open", section: "s8", tpl: "abroad", bg: "img/page 39.png", num: "08", title: "What to consider before investing from abroad",
       regions: [
+        { key: "mena", label: "Middle East & UAE", countries: [
+          { name: "Living in the UAE", items: [
+            ["Moving your money", "Funding from a UAE salary is simple. Savings still held at home follow that country’s transfer rules."],
+            ["Your currency", "Earning in dirhams removes currency risk while you live here. It returns if you move home."],
+            ["Tax on rental income", "No UAE personal tax. Check whether your home country still treats you as tax resident."],
+            ["Tax when you sell", "Some countries tax gains when you leave, or for years after. Check before you buy."],
+            ["Reporting", "UAE banks share account information with your home country. US citizens report wherever they live."],
+            ["Your will", "As a resident, UAE default inheritance rules apply to you. Register a will in the DIFC or Abu Dhabi."] ] },
+          { name: "Saudi Arabia", items: [
+            ["Moving your money", "No limits on sending money abroad. Your bank will ask for proof of funds."],
+            ["Your currency", "No currency risk. The riyal and the dirham are both pegged to the US dollar."],
+            ["Tax on rental income", "Saudi Arabia does not tax individuals on rental income."],
+            ["Tax when you sell", "No personal tax on the gain at home."],
+            ["Reporting", "UAE banks share account information with Saudi Arabia under the Common Reporting Standard."],
+            ["Your will", "Sharia inheritance applies by default. Plan with a UAE succession adviser."] ] },
+          { name: "Egypt", items: [
+            ["Moving your money", "Banks may limit foreign-currency transfers. Ask your bank early."],
+            ["Your currency", "The pound has moved sharply against the dirham since 2024."],
+            ["Tax on rental income", "Residents whose business base is in Egypt are taxed on foreign income."],
+            ["Tax when you sell", "A future sale may fall under Egyptian tax rules."],
+            ["Reporting", "Declare overseas income in your Egyptian tax return."],
+            ["Your will", "Egyptian inheritance law applies by default. Align your wills."] ] },
+           ] },
         { key: "europe", label: "Europe", countries: [
           { name: "UK", items: [
             ["Moving your money", "No limits on sending money abroad. Your bank will ask for proof of funds and the sale agreement."],
@@ -977,29 +1030,7 @@ window.DECK = {
             ["Tax on rental income", "Australian residents declare foreign rent in their tax return."],
             ["Tax when you sell", "Capital gains tax applies. Holding the property more than 12 months can halve the taxable gain."],
             ["Reporting", "Declare overseas income and gains each year."],
-            ["Your will", "Australia has no inheritance tax. Align your Australian will with a UAE-registered will."] ] } ] },
-        { key: "mena", label: "Middle East & UAE", countries: [
-          { name: "Saudi Arabia", items: [
-            ["Moving your money", "No limits on sending money abroad. Your bank will ask for proof of funds."],
-            ["Your currency", "No currency risk. The riyal and the dirham are both pegged to the US dollar."],
-            ["Tax on rental income", "Saudi Arabia does not tax individuals on rental income."],
-            ["Tax when you sell", "No personal tax on the gain at home."],
-            ["Reporting", "UAE banks share account information with Saudi Arabia under the Common Reporting Standard."],
-            ["Your will", "Sharia inheritance applies by default. Plan with a UAE succession adviser."] ] },
-          { name: "Egypt", items: [
-            ["Moving your money", "Banks may limit foreign-currency transfers. Ask your bank early."],
-            ["Your currency", "The pound has moved sharply against the dirham since 2024."],
-            ["Tax on rental income", "Residents whose business base is in Egypt are taxed on foreign income."],
-            ["Tax when you sell", "A future sale may fall under Egyptian tax rules."],
-            ["Reporting", "Declare overseas income in your Egyptian tax return."],
-            ["Your will", "Egyptian inheritance law applies by default. Align your wills."] ] },
-          { name: "Living in the UAE", items: [
-            ["Moving your money", "Funding from a UAE salary is simple. Savings still held at home follow that country’s transfer rules."],
-            ["Your currency", "Earning in dirhams removes currency risk while you live here. It returns if you move home."],
-            ["Tax on rental income", "No UAE personal tax. Check whether your home country still treats you as tax resident."],
-            ["Tax when you sell", "Some countries tax gains when you leave, or for years after. Check before you buy."],
-            ["Reporting", "UAE banks share account information with your home country. US citizens report wherever they live."],
-            ["Your will", "As a resident, UAE default inheritance rules apply to you. Register a will in the DIFC or Abu Dhabi."] ] } ] } ],
+            ["Your will", "Australia has no inheritance tax. Align your Australian will with a UAE-registered will."] ] } ] } ],
       foot: { q: "Didn’t find your country on the list? The same six checks apply.", t: "Book a consultation and we’ll help you understand what applies to your situation.", label: "Book a consultation", hook:{url: 'https://engageteam.app.n8n.cloud/webhook/815ef7b9-118e-44df-9bf4-00088615cb3a'},
         small: ["Tax, legal and succession rules depend on your circumstances and can change.", "This information is correct as of October 2026, and specialist advice should be taken before making any decisions."] } },
 
@@ -1031,7 +1062,7 @@ window.DECK = {
       panels: [
         { logo: "prime", h: "A more personal approach with betterhomes PRIME", btn: "Explore Prime", href: 'https://prime.bhomes.com/en',
           t: "For those considering an exceptional home or a prime property investment, our PRIME team can help shape the search around your priorities, with personal attention throughout the purchase." },
-        { logo: "leadingre", h: "Looking further afield?", btn: "Explore Leading RE", href: 'https://www.bhomes.com/en/global-affiliations',
+        { logo: "leadingre", h: "Looking further afield?", btn: "Explore Leading RE", href: 'https://www.leadingre.com/',
           t: "If your property plans extend beyond the UAE, we can introduce you to a local specialist through Leading Real Estate Companies of the World®." },
         { pale: true, h: "Return to it when you’re ready.", btn: "Save my handbook", save: true,
           t: "Keep your personalised handbook to revisit the locations, considerations and opportunities that interest you." } ],

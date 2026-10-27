@@ -25,7 +25,16 @@
    ============================================================ */
 
 window.DECK = {
-  meta: { title: "UAE property investment handbook", year: "2026", rail: "Investment guide", brand: "betterhomes" },
+  meta: { title: "UAE property investment handbook", year: "2026", rail: "Investment guide", brand: "betterhomes",
+    /* WEBHOOKS — optional named endpoints. A button can then say  hook: "consultant"  instead of repeating the URL.
+       A button can also carry its own:  hook: { url: "https://…", event: "book_consultation", data: { source: "08" } }
+       Button keys (one per button):  hook | href | jump | save.
+       Hook fields: url (required) · event (sent in the payload; defaults to the button label) · data (extra fields merged in)
+                    · done ("Done ✓") · fail ("Try again") · then ({ jump: "slide-id" } or { href: "…" } to run after success)
+       The payload is JSON: { event, slide, market, answers: { goal, market, budget, route, sid, … }, url, sent_at, …data }. */
+    hooks: {
+      // consultant: { url: "https://hooks.example.com/consultant", event: "speak_to_consultant" }
+    } },
 
   markets: {
     dubai:    { label: "Dubai" },
@@ -605,7 +614,7 @@ window.DECK = {
     { id: "s3-open", section: "s3", tpl: "focus", bg: "img/page 25.png", num: "03", title: "Your investment focus",
       goalLabels: { A1: "Rental income", A2: "Capital growth", A3: "UAE residency", A4: "Personal use", A5: "Portfolio diversification" },
       routes: { completed_rent: "Completed property to rent out", completed_resell: "Completed property to resell", off_plan_sell_before_handover: "Off-plan, sell before handover", off_plan_rent_after_handover: "Off-plan, rent out after handover", off_plan_resell_after_handover: "Off-plan, resell after handover", personal_use: "A home for my own use", undecided: "Still deciding" },
-      cta: { label: "Explore what to check before you buy", jump: "s4-open" },
+      cta: { label: "Explore what to check before you buy",jump: "s4-open"},
       variants: {
         A1: { lede: "A property with an income case you can examine.",
           body: "Your priority is rental income. A useful comparison begins with what similar homes have actually earned and what it costs to own, maintain and let the property. That gives you a clearer basis for judging the income it could provide.",
@@ -707,8 +716,8 @@ window.DECK = {
         "Market conditions can change how you buy, how long you hold a property and when it makes sense to sell. We’ll help you plan each decision around the current market and what you want your investment to achieve.",
         "What we’ll plan with you: how to buy, how long to hold, and when and how to sell.",
         "Or keep reading. The communities that follow offer a starting point for that conversation." ],
-      cta: { label: "Book a strategy consultation" } },
-
+      cta: { label: "Book a strategy consultation" }, hook:{url: 'https://engageteam.app.n8n.cloud/webhook/815ef7b9-118e-44df-9bf4-00088615cb3a', then:{jump:'s5-open'} },
+    },
     /* ───────────────────────── 05  COMMUNITIES ─────────────────────────
        Community profiles, pin positions and the archetype highlight grid
        live in communities.js — NOT here. These two slides only carry their
@@ -991,7 +1000,7 @@ window.DECK = {
             ["Tax when you sell", "Some countries tax gains when you leave, or for years after. Check before you buy."],
             ["Reporting", "UAE banks share account information with your home country. US citizens report wherever they live."],
             ["Your will", "As a resident, UAE default inheritance rules apply to you. Register a will in the DIFC or Abu Dhabi."] ] } ] } ],
-      foot: { q: "Didn’t find your country on the list? The same six checks apply.", t: "Book a consultation and we’ll help you understand what applies to your situation.", label: "Book a consultation",
+      foot: { q: "Didn’t find your country on the list? The same six checks apply.", t: "Book a consultation and we’ll help you understand what applies to your situation.", label: "Book a consultation", hook:{url: 'https://engageteam.app.n8n.cloud/webhook/815ef7b9-118e-44df-9bf4-00088615cb3a'},
         small: ["Tax, legal and succession rules depend on your circumstances and can change.", "This information is correct as of October 2026, and specialist advice should be taken before making any decisions."] } },
 
     /* ───────────────────────── 09  NEXT STEP ───────────────────────── */
@@ -1012,7 +1021,7 @@ window.DECK = {
        Estate Companies of the World and "Return to it when you're ready" (pale). A panel with a `logo` shows the logo and keeps its `h`
        as a hidden heading for screen readers. Buttons: `save` copies this personalised link (the URL carries every answer);
        the others have no target yet — add `href` (opens in a new tab) or `jump` (a slide id) when the forms exist. */
-    { id: "s9-begin", section: "s9", tpl: "begin", bg: "img/page 41.png", title: "Where would you like to begin?", btn: "Speak to consultant",
+    { id: "s9-begin", section: "s9", tpl: "begin", bg: "img/page 41.png", title: "Where would you like to begin?", btn: "Speak to consultant", hook:{url: 'https://engageteam.app.n8n.cloud/webhook/815ef7b9-118e-44df-9bf4-00088615cb3a'},
       cards: [
         { h: "Find properties that fit my goals", t: "Explore ready and off-plan opportunities around your priorities." },
         { h: "Compare my options", t: "Weigh up locations, property types and purchase routes." },

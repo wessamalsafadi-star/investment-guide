@@ -446,7 +446,7 @@ window.DECK = {
       paras: [
         "More GCC markets are opening up to international property investment, giving investors more choice across the region. Saudi Arabia is expanding international access, Qatar already allows foreign ownership in designated locations, and Muscat is developing a growing proposition around tourism, lifestyle communities and branded residences.",
         "For an investor, the useful question is no longer simply where you can buy. It is what you can buy, what it could earn, what it costs to own and how easy it may be to sell later." ],
-      callouts: [{ label: "Dubai", x: .66, y: .50 }, { label: "Abu Dhabi", x: .44, y: .62 }],
+      callouts: [{ label: "Abu Dhabi", x: .24, y: .58 }, { label: "Dubai", x: .72, y: .52 }],
       prompt: "Select a market to explore" },
 
     { id: "s2-2-dxb", section: "s2", market: "dubai", tpl: "glance", bg: "img/page 20.png", city: "Dubai", title: "Established scale",

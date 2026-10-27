@@ -1006,7 +1006,7 @@ window.DECK = {
     /* ───────────────────────── 09  NEXT STEP ───────────────────────── */
     /* 09 opener (the reference's slide 50). The three cards read the visitor's answers from the URL (market, bmin/bmax or budget, goal —
        written by form.html); `marketLabels` and `goalLabels` are the words shown for each answer. Anything missing shows "Not set". */
-    { id: "s9-open", section: "s9", tpl: "nextstep", bg: "img/page 40.png", num: "09", title: "Your next step",
+    { id: "s9-open", section: "s9", tpl: "nextstep", bg: "img/page 41.png", num: "09", title: "Your next step",
       kicker: "From your goals to your next property",
       paras: [
         "You now have a clearer view of the market, what to look for and the questions to ask before you buy. The next step is finding a property that fits what you want from the investment.",
@@ -1029,9 +1029,9 @@ window.DECK = {
         { h: "Understand the buying process", t: "Talk through the steps, costs and support involved." },
         { h: "Talk through my investment plan", t: "Discuss what you want to achieve before beginning your search." } ],
       panels: [
-        { logo: "prime", h: "A more personal approach with betterhomes PRIME", btn: "Explore Prime",
+        { logo: "prime", h: "A more personal approach with betterhomes PRIME", btn: "Explore Prime", href: 'https://prime.bhomes.com/en',
           t: "For those considering an exceptional home or a prime property investment, our PRIME team can help shape the search around your priorities, with personal attention throughout the purchase." },
-        { logo: "leadingre", h: "Looking further afield?", btn: "Explore Leading RE",
+        { logo: "leadingre", h: "Looking further afield?", btn: "Explore Leading RE", href: 'https://www.leadingre.com/',
           t: "If your property plans extend beyond the UAE, we can introduce you to a local specialist through Leading Real Estate Companies of the World®." },
         { pale: true, h: "Return to it when you’re ready.", btn: "Save my handbook", save: true,
           t: "Keep your personalised handbook to revisit the locations, considerations and opportunities that interest you." } ],

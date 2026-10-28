@@ -14,10 +14,13 @@
    FONTS — IvyMode (display) ships in /fonts; DM Sans (text) from Google Fonts.
    Same tokens as index.html so the two files read as one.
    ============================================================ */
-@font-face{ font-family:"IvyMode"; font-weight:400; font-style:normal; font-display:swap; src:url("fonts/IvyMode-Regular.ttf") format("truetype"); }
+@font-face{ font-family:"IvyMode"; font-weight:400; font-style:normal; font-display:swap; src:url("fonts/IvyMode-Regular.ttf") format("truetype"); ascent-override:118.3%; descent-override:30%; line-gap-override:0%; }
 @font-face{ font-family:"IvyMode"; font-weight:600; font-style:normal; font-display:swap; src:url("fonts/IvyMode-SemiBold.ttf") format("truetype"); }
 @font-face{ font-family:"Ivy Mode"; font-weight:600; font-style:normal; font-display:swap;
   src:url("fonts/IvyMode-Regular.woff2") format("woff2"), url("fonts/IvyMode-Regular.woff") format("woff"); }
+/* Ivy Epic — body face on the result screen (matches the Investor Direction design) */
+@font-face{ font-family:"IvyEpic"; font-weight:400; font-style:normal; font-display:swap; src:url("fonts/IvyEpic-Regular.otf") format("opentype"); ascent-override:100%; descent-override:28.6%; line-gap-override:20%; }
+@font-face{ font-family:"IvyEpic"; font-weight:600; font-style:normal; font-display:swap; src:url("fonts/IvyEpic-SemiBold.otf") format("opentype"); ascent-override:100%; descent-override:28.6%; line-gap-override:20%; }
 
 /* ============================================================
    TOKENS — identical to index.html so the two files read as one
@@ -65,7 +68,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ o
 .aside .why b{ display:block; font-weight:600; color:#fff; margin-bottom:.4rem; font-size:.9rem; }
 
 .main{ position:relative; overflow:hidden; }
-.panel{ position:absolute; inset:0; overflow-y:auto; overscroll-behavior:contain; -webkit-overflow-scrolling:touch; padding:var(--pad) var(--pad) 8rem; }
+.panel{ position:absolute; inset:0; overflow-y:auto; overscroll-behavior:contain; -webkit-overflow-scrolling:touch; padding:var(--pad) var(--pad) 4rem; }
 .panel.enter{ animation:slideIn .55s var(--ease); }
 .panel.exit{ animation:slideOut .45s var(--ease) forwards; pointer-events:none; }
 .panel.back.enter{ animation-name:slideInBack; } .panel.back.exit{ animation-name:slideOutBack; }
@@ -81,7 +84,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ o
 .group-t small{ font-family:var(--font-body); font-size:.78rem; color:var(--ink-2); }
 .err{ display:none; margin-top:1.4rem; padding:.9rem 1.1rem; background:rgba(255,120,122,.14); border-left:2px solid var(--salmon); font-size:.86rem; animation:fade .3s var(--ease); }
 .err.on{ display:block; }
-.note{ margin-top:1.4rem; padding:1rem 1.2rem; background:rgba(255,255,255,.65); border-left:2px solid var(--sand); font-size:.86rem; line-height:1.5; max-width:66ch; }
+.note{ margin-top:1.4rem; padding:1rem 1.2rem; background:rgba(255,255,255,.65); border-left:2px solid var(--sand); font-size:.86rem; line-height:1.5; max-width:66ch; display: none; }
 .note b{ display:block; font-weight:600; margin-bottom:.3rem; }
 
 /* options — one row per choice; the brand diamond is the selection mark */
@@ -139,44 +142,157 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ o
 .intro .help{ margin-top:1.4rem; }
 
 /* nav (same as the guide) */
-.nav{ position:absolute; right:3rem; bottom:2.6rem; z-index:6; display:flex; gap:.6rem; align-items:center; }
+.nav{ display:flex; gap:.6rem; align-items:center; max-width:62rem; margin-top:2.8rem; padding-top:1.6rem; border-top:1px solid var(--line); }
+.nav .spacer{ flex:1; }
 .nav button,.nav a{ display:flex; align-items:center; gap:.75rem; padding:.65rem 1.4rem; font-size:1rem; border:1px solid var(--slate); border-radius:4px; background:rgba(243,119,122,.01); backdrop-filter:blur(11px); color:var(--slate); text-decoration:none; transition:background .2s; }
 .nav button:hover{ background:#fff; } .nav button:disabled{ opacity:.35; cursor:default; }
 .nav .primary{ background:var(--salmon); color:var(--slate); border-color:var(--salmon); font-weight:600; }
 .nav .primary:hover{ background:#f68a8c; border-color:#f68a8c; }
-.nav .skip{ border:0; background:none; backdrop-filter:none; font-size:.85rem; text-decoration:underline; text-underline-offset:.2em; }
 .stage.on-dark .nav button:not(.primary){ background:rgba(31,52,63,.45); color:#fff; border-color:rgba(255,255,255,.15); }
-.stage.on-dark .nav .skip{ color:#fff; background:none; }
 .stage.on-dark .nav .primary{ background:var(--salmon); color:var(--slate); border-color:var(--salmon); }
 
-/* result */
+/* ============================================================
+   RESULT — "Investor Direction" screen.
+   Desktop: a fixed 1920×1080 board (px values straight from the design) scaled
+   to fit the viewport by fitResult(), so nothing scrolls. The hero photo sits
+   behind it full-bleed. ≤1100px: the same DOM reflows into a scrolling column.
+   ============================================================ */
+.app.is-result{ grid-template-rows:1fr; }
+.app.is-result .stage{ grid-template-rows:1fr; }
+.app.is-result .top,.app.is-result .nav{ display:none; }
 .stage.on-dark{ background:#000; }
-.result{ color:#fff; --ink:#fff; --ink-2:rgba(255,255,255,.78); --line:rgba(255,255,255,.22); grid-column:1/-1; }
-.result .inner{ max-width:92rem; }
-.result .kicker{ font-size:.86rem; color:var(--ink-2); }
-.result h1{ font-size:4.4rem; margin-top:.6rem; }
-.result .desc{ font-size:1.1rem; line-height:1.5; max-width:62ch; margin-top:1.4rem; }
-.result .block{ margin-top:2.6rem; padding-top:1.6rem; border-top:1px solid var(--line); }
-.result .block h2{ font-size:2rem; color:var(--sand); }
-.result .block p{ font-size:.95rem; line-height:1.5; color:var(--ink-2); max-width:62ch; margin-top:.8rem; }
-.result .grid{ display:grid; grid-template-columns:1fr 1fr; gap:0 4rem; }
-.also{ display:flex; gap:.6rem; flex-wrap:wrap; margin-top:1rem; }
-.also span{ padding:.5rem 1rem; border:1px solid var(--line); border-radius:3px; font-size:.88rem; }
-.shares{ margin-top:1.4rem; max-width:48rem; }
-.shares .bar{ display:flex; height:.9rem; gap:3px; }
-.shares .bar span{ height:100%; transition:width .6s var(--ease); background:var(--powder); }
-.shares .bar span:first-child{ background:var(--sand); }
-.shares ul{ margin-top:1rem; }
-.shares li{ display:grid; grid-template-columns:1.2rem 1fr auto; gap:.8rem; align-items:center; padding:.7rem 0; border-top:1px solid var(--line); font-size:.95rem; }
-.shares li .d{ width:.65rem; height:.65rem; margin-left:.3rem; transform:rotate(45deg); background:var(--powder); }
-.shares li:first-child .d{ background:var(--sand); }
-.shares li .pct{ font-family:var(--font-display); font-size:1.7rem; }
-.shares .cap{ font-size:.78rem; color:var(--ink-2); margin-top:.8rem; }
-.glance{ display:grid; grid-template-columns:repeat(3,1fr); gap:1.4rem; margin-top:1.4rem; }
-.glance div{ padding:1.2rem 1.4rem; background:rgba(0,0,0,.5); border:1px solid rgba(255,255,255,.11); border-radius:6px; backdrop-filter:blur(16.5px); }
-.glance .l{ font-size:.76rem; color:var(--ink-2); }
-.glance .v{ font-family:var(--font-display); font-size:2rem; margin-top:.5rem; line-height:1.15; }
-.result .open{ margin-top:1.2rem; padding:.9rem 1.2rem; background:rgba(217,185,160,.14); border-left:2px solid var(--sand); font-size:.9rem; max-width:62ch; }
+.panel.result{ padding:0; overflow:clip; color:#fff; background:#000; font-family:"IvyEpic",var(--font-body); font-size:16px; line-height:1.4; }
+.result .hero{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:59% 50%; transform:scale(1.224); transform-origin:59% 50%; opacity:1; pointer-events:none; }
+.result .board{ position:absolute; left:55%; top:50%; width:1920px; height:1080px; transform:translate(-50%,-50%); transform-origin:center; }
+.result h1,.result h2,.result .n,.result .v,.result .raside .t{ font-family:var(--font-display); font-weight:400; }
+
+/* header */
+.result .rh .wm{ position:absolute; left:60px; top:53.6px; width:256px; height:39.38px; }
+.result .rh .rule{ position:absolute; left:345px; top:80px; width:1591px; border-top:.5px solid #fff; }
+.result .rh .review{ position:absolute; left:1920px; top:68px; display:flex; align-items:center; gap:12px; font-size:12px; color:#fff; white-space:nowrap; padding:4px 0; }
+.result .rh .review .dia{ width:7.27px; height:7.27px; background:var(--sand); transform:rotate(45deg); }
+.result .rh .review:hover{ text-decoration:underline; text-underline-offset:.25em; }
+
+/* main column */
+.result .rmain{ position:absolute; left:-200px; top:127px; width:1209px; display:flex; flex-direction:column; gap:19px; }
+.result .kicker{ font-size:20px; line-height:54px; white-space:nowrap; }
+.result h1{ font-size:96px; line-height:1.2; white-space:nowrap; margin-top:-6px; }
+.result .desc{ font-size:16px; line-height:32px; max-width:967px; margin-top:6px; }
+.result .hr{ width:1204px; margin:0; border:0; border-top:.5px solid rgba(255,255,255,.66); }
+.result h2{ font-size:48px; line-height:1.5; white-space:nowrap; }
+.result .stats{ display:flex; align-items:center; gap:72px; height:148px; }
+.result .stat{ display:flex; flex-direction:column; gap:22px; flex:none; }
+.result .stat .n{ font-size:64px; line-height:80px; white-space:nowrap; }
+.result .stat .c{ font-size:16px; line-height:1.4; max-width:17em; }
+.result .vr{ height:148px; border-left:.5px solid rgba(255,255,255,.66); flex:none; }
+.result .cap{ font-size:16px; line-height:32px; margin-top:13px; }
+.result .cards{ display:flex; align-items:stretch; gap:13px; }
+.result .card{ box-sizing:border-box; flex:0 1 auto; min-height:205px; min-width:450px; padding:22px 35px; display:flex; flex-direction:column; justify-content:center; gap:11px; background:rgba(0,0,0,.01); border:.5px solid rgba(255,255,255,.44); border-radius:6px; backdrop-filter:blur(22px); }
+.result .card svg{ display:block; flex:none; height:48px; }
+.result .card .l{ font-size:16px; font-weight:600; line-height:22.4px; white-space:nowrap; }
+.result .card .v{ font-size:36px; line-height:1.375; white-space:nowrap; }
+.result .open{ font-size:14px; line-height:1.5; color:rgba(255,255,255,.8); max-width:70ch; margin-top:-4px; }
+
+/* laptop mock-up + aside */
+.result .laptop{ position:absolute; left:900px; top:95px; width:1037.86px; height:571px; transform:scale(1.2); transform-origin:top left; }
+.result .laptop svg{ position:absolute; inset:0; width:100%; height:100%; display:block; }
+.result .laptop .shot{ position:absolute; left:115.82px; top:43.09px; width:806.22px; height:474.04px; object-fit:cover; object-position:center; border-radius:3px; }
+.result .raside{ position:absolute; left:1319px; top:803px; width:549px; display:flex; flex-direction:column; gap:18px; }
+.result .raside .t{ font-size:32px; line-height:39px; max-width:547px; }
+.result .raside .b{ font-size:16px; line-height:22px; max-width:523px; }
+.result .cta{ width:230px; height:52px; box-sizing:border-box; display:flex; align-items:center; justify-content:center; gap:10px; border-radius:4px; background:var(--salmon); color:var(--slate); font-size:16px; font-weight:600; transition:background .2s; }
+.result .cta:hover{ background:#f68a8c; } .result .cta:disabled{ opacity:.6; cursor:default; }
+.result .cta svg{ display:block; flex:none; }
+
+/* ============================================================
+   INTRO — the "Investment guide form" design (Figma desktop 1920×1080 / mobile 400×941),
+   carried over verbatim and scoped under .page so its tokens and class names
+   (--sand, .cta, .track, .hero…) never touch the question steps or the result board.
+   ============================================================ */
+body.is-intro{ background:#EDE8E4; overflow:auto; height:auto; min-height:100%; }
+body.is-intro .app{ display:none; }
+body:not(.is-intro) .page{ display:none; }
+
+.page{ --ink:#1F343F; --sand:#EDE8E4; --coral:#F3777A; --coral-hover:#F0646A; --clay:#E0BB9E; --line:rgba(31,52,63,.22);
+  position:relative; display:flex; min-height:100vh; min-height:100dvh; margin:0; background:var(--sand); color:var(--ink);
+  font-family:"IvyEpic",system-ui,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; font-size:16px; line-height:29px; -webkit-font-smoothing:antialiased; }
+.page *,.page *::before,.page *::after{ box-sizing:border-box; }
+.page p,.page h1{ margin:0; }
+.page button{ font:inherit; }
+
+/* ---------- Desktop layout ---------- */
+.page .header{ position:absolute; top:1px; left:0; right:0; height:61px; z-index:2; display:flex; align-items:center; justify-content:space-between; padding:0 60px 3px; background:#fff; }
+.page .logo{ display:block; flex:none; }
+.page .logo--mono{ display:none; }
+
+.page .stepper--wide{ display:flex; align-items:center; }
+.page .stepper--narrow{ display:none; }
+.page .stepper__label{ font-size:12px; line-height:17px; white-space:nowrap; }
+.page .stepper__label--start{ margin-right:11px; }
+.page .track{ position:relative; top:1px; flex:0 1 439px; width:439px; height:20px; margin-right:19px; }
+.page .track > span{ position:absolute; display:block; }
+.page .track__rail{ left:0; right:0; top:9.5px; height:1px; background:rgba(31,52,63,.5); }
+.page .track__fill{ left:0; top:9px; width:36.9%; height:2px; background:var(--ink); }
+.page .track__now{ left:36.9%; top:10px; width:7.27px; height:7.27px; margin:-3.64px 0 0 -3.64px; transform:rotate(45deg); background:var(--ink); }
+.page .track__end{ right:.5px; top:10px; width:10px; height:10px; margin:-5px -5px 0 0; transform:rotate(45deg); background:var(--clay); }
+.page .track__pct{ left:36.9%; top:-16px; transform:translateX(-50%); font-size:12px; line-height:17px; white-space:nowrap; }
+
+.page .media{ position:relative; flex:0 0 42.656%; align-self:stretch; overflow:hidden; }
+.page .media img{ position:absolute; top:0; left:0; display:block; width:100%; height:100%; object-fit:cover; object-position:55.73% 50%; }
+
+.page .content{ flex:1 1 0; min-width:0; display:flex; flex-direction:column; padding:110px 60px 78px 63px; }
+.page .hero{ display:flex; flex-direction:column; gap:19px; }
+.page .eyebrow{ height:40px; font-size:20px; line-height:54px; }
+.page .title{ max-width:762px; min-height:145px; font-family:"IvyMode",Georgia,"Times New Roman",serif; font-weight:400; font-size:64px; line-height:66px; text-wrap:balance; }
+.page .lede{ display:flex; flex-direction:column; gap:10px; }
+.page .cta{ align-self:flex-start; display:inline-flex; align-items:center; justify-content:center; gap:10px; min-width:251px; height:52px; padding:0 27px; border:0; border-radius:4px; background:var(--coral); color:var(--ink); font-size:16px; font-weight:600; line-height:20px; cursor:pointer; }
+.page .cta:hover{ background:var(--coral-hover); }
+.page .cta:focus-visible{ outline:2px solid var(--ink); outline-offset:3px; }
+.page .cta svg{ display:block; flex:none; }
+.page .time{ font-size:14px; line-height:20px; }
+.page .foot{ margin-top:auto; border-top:1px solid var(--line); padding-top:14px; }
+
+@media (max-width:1200px){
+  .page .content{ padding:110px 40px 56px; }
+  .page .title{ font-size:52px; line-height:56px; }
+  .page .track{ flex-basis:240px; width:240px; }
+}
+
+/* ---------- Mobile layout ---------- */
+@media (max-width:860px){
+  .page{ font-size:14px; line-height:20px; flex-direction:column; background:#fff; }
+  body.is-intro{ background:#fff; }
+
+  .page .header{ top:0; height:72px; padding:0 24px; }
+  .page .logo--wide{ display:none; }
+  .page .logo--mono{ display:block; }
+  .page .stepper--wide{ display:none; }
+  .page .stepper--narrow{ display:block; position:relative; flex:none; width:236.82px; height:22.64px; }
+  .page .stepper--narrow > span{ position:absolute; display:block; font-size:8px; line-height:11.2px; white-space:nowrap; }
+  .page .ms-start{ left:0; top:10px; }
+  .page .ms-rail{ left:63.82px; top:17.5px; width:102px; height:1px; background:rgba(31,52,63,.5); }
+  .page .ms-fill{ left:64px; top:16.75px; width:71px; height:1.5px; background:var(--ink); }
+  .page .ms-now{ left:134.87px; top:17.87px; width:5.47px; height:5.47px; margin:-2.74px 0 0 -2.74px; transform:rotate(45deg); background:var(--ink); }
+  .page .ms-end{ left:166.14px; top:17.32px; width:7.52px; height:7.52px; margin:-3.76px 0 0 -3.76px; transform:rotate(45deg); background:var(--clay); }
+  .page .ms-pct{ left:123px; top:0; width:24px; text-align:center; }
+  .page .ms-end-label{ left:177.82px; top:10px; }
+
+  .page .media{ flex:none; align-self:auto; width:100%; aspect-ratio:400/396; }
+  .page .media img{ top:16.26%; left:-10.37%; width:120.75%; height:auto; max-width:none; object-fit:fill; }
+
+  .page .content{ flex:1 1 auto; align-items:center; padding:37px 24px 42px; background:var(--sand); text-align:center; }
+  .page .hero{ align-items:center; gap:17px; width:100%; margin-bottom:33px; }
+  .page .eyebrow{ height:20px; font-size:14px; line-height:20px; }
+  .page .title{ max-width:312px; min-height:140px; font-size:36px; line-height:44px; text-wrap:wrap; }
+  .page .lede{ gap:2px; max-width:327px; }
+  .page .cta{ align-self:center; width:calc(100% + 12px); max-width:364px; min-width:0; padding:0 10px; font-size:14px; line-height:17px; }
+  .page .time{ font-size:12px; line-height:17px; }
+  .page .foot{ align-self:center; width:calc(100% + 16px); max-width:368px; padding-top:13px; }
+  .page .foot p{ max-width:327px; margin:0 auto; }
+}
+@media (max-width:359px){
+  .page .header{ padding:0 16px; }
+}
 
 /* ============================================================ RESPONSIVE */
 @media (max-width:1100px){
@@ -187,20 +303,107 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ o
   .aside .big{ font-size:2.4rem; margin:0; } .aside .why{ display:none; } .aside img{ display:none; }
   .progress{ max-width:none; }
   .q{ font-size:2.2rem; } .intro .q{ font-size:2.8rem; }
-  .nav{ right:1.2rem; bottom:1.2rem; }
-  .result h1{ font-size:3rem; } .result .grid,.glance{ grid-template-columns:1fr; } .form{ grid-template-columns:1fr; } .range{ margin-left:0; }
+  .form{ grid-template-columns:1fr; } .range{ margin-left:0; }
+
+  /* result → scrolling column (mirrors the 400px mobile artboard) */
+  .panel.result{ overflow-y:auto; padding:0 16px 32px; }
+  .result .hero{ position:fixed; object-position:50% 50%; }
+  .result .board{ position:relative; left:auto; top:auto; width:auto; height:auto; transform:none!important; max-width:560px; margin:0 auto; }
+  .result .rh{ position:relative; display:flex; align-items:center; gap:14px; height:64px; }
+  .result .rh .wm{ position:static; width:140px; height:auto; flex:none; }
+  .result .rh .rule{ position:static; flex:1; }
+  .result .rh .review{ position:static; font-size:10px; flex:none; }
+  .result .rmain{ position:static; width:auto; margin-top:8px; }
+  .result .kicker{ font-size:14px; line-height:1.5; }
+  .result h1{ font-size:44px; line-height:1.15; white-space:normal; margin-top:4px; }
+  .result .desc{ font-size:14px; line-height:1.5; }
+  .result .hr{ width:auto; }
+  .result h2{ font-size:24px; line-height:1.4; white-space:normal; }
+  .result .stats{ flex-direction:column; align-items:stretch; gap:19px; height:auto; }
+  .result .stat .n{ font-size:56px; line-height:1.1; }
+  .result .vr{ height:0; border-left:0; border-top:.5px solid rgba(255,255,255,.66); }
+  .result .cap{ font-size:14px; line-height:1.4; margin-top:4px; }
+  .result .cards{ flex-direction:column; }
+  .result .card{ flex:none; min-height:0; padding:22px 28px; }
+  .result .card .l{ font-size:14px; }
+  .result .card .v{ font-size:24px; white-space:normal; }
+  .result .laptop{ position:relative; left:auto; top:auto; width:100%; height:auto; aspect-ratio:1037.86/571; margin-top:19px; }
+  .result .laptop .shot{ left:11.16%; top:7.55%; width:77.68%; height:83.02%; }
+  .result .raside{ position:static; width:auto; margin-top:28px; }
+  .result .raside .t{ font-size:20px; line-height:26px; }
+  .result .raside .b{ font-size:14px; line-height:22px; }
+  .result .cta{ width:100%; }
 }
 @media (max-width:640px){
   html{ font-size:12.5px; }
   .counter{ display:none; } .top{ grid-template-columns:auto 1fr; padding:0 1.4rem; }
-  .panel{ padding-bottom:7rem; }
   .range{ grid-template-columns:1fr; } .range .to{ display:none; }
   .form .phone{ grid-template-columns:8rem 1fr; }
-  .nav{ left:1.2rem; justify-content:flex-end; }
 }
 </style>
 </head>
 <body>
+<div class="page">
+
+  <header class="header">
+    <svg class="logo logo--wide" role="img" aria-label="betterhomes" width="131.35" height="20.2" viewBox="0 0 131.35 20.2">
+      <path fill="#1F343F" d="M6.93 7.32C5.76 7.32 4.81 7.73 3.96 8.44L3.96 8.98C4.61 8.46 5.24 8.25 5.9 8.25C6.55 8.25 7.37 8.6 7.84 9.42C8.3 10.24 8.55 11.55 8.55 13.46C8.55 17.06 7.54 19.22 5.68 19.22C3.82 19.22 3.58 18.32 3.22 17.01L3.22 0.05L0 3.28L0 19.38L0.63 19.38L1.86 18.16C2.84 19.06 4.18 19.6 6.09 19.6C9.31 19.6 11.96 16.98 11.96 13.24C11.96 9.5 9.75 7.37 6.93 7.37M63.42 19.36L66.67 19.36L66.67 0L63.42 3.22L63.42 19.36ZM70.58 7.29C69.21 7.29 68.23 7.73 67.38 8.44L67.38 8.93C67.98 8.49 68.58 8.3 69.18 8.3C71.18 8.3 71.21 10.43 71.21 11.22L71.21 20.2L74.43 16.98L74.43 11.47C74.43 8.6 73.01 7.32 70.58 7.32M16.46 12.34L21.57 12.34C21.84 9.5 20.78 7.62 19.25 7.62C17.72 7.62 16.57 9.67 16.46 12.34ZM16.46 12.7L16.46 12.78C16.46 16.57 18.07 18.32 20.4 18.32C22.72 18.32 23.07 17.75 24.16 16.38L24.44 16.55C22.96 18.73 21.02 19.6 18.92 19.6C15.62 19.6 13.13 17.31 13.13 13.68C13.13 10.05 15.81 7.29 19.44 7.29C23.07 7.29 24.6 9.8 24.46 12.7L16.49 12.7L16.46 12.7ZM33.31 18.35C32.24 19.08 31.21 19.63 29.76 19.63C26.92 19.63 26.59 17.64 26.59 16.52L26.59 8.05L25.15 8.05L25.15 7.67L26.54 7.56L29.7 3.49L29.79 3.49L29.79 7.56L34.32 7.56L32.93 8.05L29.76 8.05L29.76 16.63C29.76 17.17 29.76 18.65 31.29 18.65C32.82 18.65 32.35 18.48 33.06 18.1L33.23 18.37L33.31 18.35ZM41.12 18.35C40.05 19.08 39.02 19.63 37.57 19.63C34.73 19.63 34.4 17.64 34.4 16.52L34.4 8.05L32.95 8.05L32.95 7.67L34.35 7.56L37.51 3.49L37.6 3.49L37.6 7.56L41.04 7.56L40.76 8.05L37.6 8.05L37.6 16.63C37.6 17.17 37.6 18.65 39.13 18.65C40.65 18.65 40.19 18.48 40.9 18.1L41.06 18.37L41.12 18.35ZM44.34 12.34L49.45 12.34C49.72 9.5 48.65 7.62 47.12 7.62C45.6 7.62 44.45 9.67 44.34 12.34ZM44.34 12.7L44.34 12.78C44.34 16.57 45.95 18.32 48.27 18.32C50.59 18.32 50.95 17.75 52.04 16.38L52.31 16.55C50.84 18.73 48.9 19.6 46.8 19.6C43.49 19.6 41.01 17.31 41.01 13.68C41.01 10.05 43.68 7.29 47.32 7.29C50.95 7.29 52.48 9.8 52.34 12.7L44.37 12.7L44.34 12.7ZM61.65 7.43L60.8 9.83C60.42 9.64 59.98 9.56 59.63 9.56C58.54 9.56 57.64 10.35 57.28 11.55L57.28 19.39L54.06 19.39L54.06 8.03L57.12 7.26L57.2 7.26L57.2 10.87C57.77 8.71 59.11 7.32 60.69 7.32C62.28 7.32 61.51 7.4 61.65 7.45M84.99 13.54C84.99 9.99 83.93 7.59 82.07 7.59C80.22 7.59 79.23 9.88 79.23 13.41C79.23 16.93 80.3 19.3 82.13 19.3C83.96 19.3 84.97 17.01 84.97 13.54M75.82 13.52C75.82 9.78 78.55 7.29 82.21 7.29C85.87 7.29 88.41 9.61 88.41 13.38C88.41 17.15 85.65 19.6 82.02 19.6C78.39 19.6 75.82 17.28 75.82 13.52ZM108.31 11.49L108.31 19.36L105.06 19.36L105.06 11.17C105.06 10.35 105.06 8.3 103.04 8.3C101.02 8.3 101.4 8.68 100.42 9.77C100.58 10.27 100.64 10.84 100.64 11.49L100.64 19.36L97.42 19.36L97.42 11.17C97.42 10.35 97.42 8.3 95.37 8.3C93.32 8.3 93.81 8.63 92.97 9.53L92.97 19.36L89.75 19.36L89.75 8L92.88 7.24L92.97 7.24L92.97 9.12C93.98 8.05 95.07 7.29 96.82 7.29C98.56 7.29 99.77 7.97 100.31 9.39C101.38 8.16 102.52 7.29 104.49 7.29C106.45 7.29 108.31 8.6 108.31 11.47M113.09 12.34L118.19 12.34C118.47 9.5 117.4 7.62 115.87 7.62C114.34 7.62 113.2 9.67 113.09 12.34ZM113.09 12.7L113.09 12.78C113.09 16.57 114.7 18.32 117.02 18.32C119.34 18.32 119.7 17.75 120.79 16.38L121.06 16.55C119.59 18.73 117.65 19.6 115.55 19.6C112.24 19.6 109.76 17.31 109.76 13.68C109.76 10.05 112.43 7.29 116.06 7.29C119.7 7.29 121.22 9.8 121.09 12.7L113.12 12.7L113.09 12.7ZM122.1 18.73L122.54 17.15C123.41 18.32 124.99 19.33 126.82 19.33C128.65 19.33 129.39 18.54 129.39 17.39C129.39 16.25 128.11 15.56 126.71 15.02L125.78 14.66C124.5 14.17 122.26 13.27 122.26 10.95C122.26 8.63 123.87 7.29 126.88 7.29C129.88 7.29 130.18 7.84 130.75 8.14L130.37 9.53C129.61 8.66 128.24 7.62 126.52 7.62C124.8 7.62 124.23 8.41 124.23 9.39C124.23 10.38 125.62 11.22 126.93 11.71L127.83 12.04C129.09 12.53 131.35 13.41 131.35 15.84C131.35 18.27 129.74 19.63 126.49 19.63C123.25 19.63 122.75 19.14 122.1 18.73Z"/>
+    </svg>
+    <svg class="logo logo--mono" role="img" aria-label="betterhomes" width="48" height="40" viewBox="0 0 48 40">
+      <path fill="#1F343F" d="M13.67 14.46C11.38 14.46 9.44 15.28 7.77 16.65L7.77 17.74C9.04 16.73 10.32 16.27 11.6 16.27C13.22 16.27 14.53 16.95 15.44 18.58C16.34 20.21 16.85 22.79 16.85 26.58C16.85 33.75 14.87 37.98 11.22 37.98C8.9 37.98 7.09 36.21 6.36 33.58L6.36 0L0 6.39L0 38.32L1.25 38.32L3.7 35.87C5.63 37.64 8.25 38.72 12.03 38.72C18.39 38.72 23.59 33.54 23.59 26.11C23.59 19.25 19.21 14.46 13.67 14.46M26.3 38.32L32.66 38.32L32.66 0L26.3 6.39L26.3 38.32ZM40.39 14.44C37.72 14.44 35.75 15.33 34.06 16.71L34.06 17.67C35.27 16.79 36.42 16.43 37.64 16.43C41.59 16.43 41.63 20.63 41.63 22.22L41.63 40L48 33.61L48 22.69C48 17.03 45.2 14.44 40.39 14.44"/>
+    </svg>
+
+    <nav class="stepper stepper--wide" aria-label="Guide progress">
+      <span class="stepper__label stepper__label--start">Your priorities</span>
+      <div class="track" role="progressbar" aria-label="Guide progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="42">
+        <span class="track__rail"></span>
+        <span class="track__fill"></span>
+        <span class="track__now"></span>
+        <span class="track__end"></span>
+        <span class="track__pct">42%</span>
+      </div>
+      <span class="stepper__label">Your handbook</span>
+    </nav>
+
+    <div class="stepper stepper--narrow" role="progressbar" aria-label="Guide progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="42">
+      <span class="ms-start">Investor Ready</span>
+      <span class="ms-rail"></span>
+      <span class="ms-fill"></span>
+      <span class="ms-now"></span>
+      <span class="ms-end"></span>
+      <span class="ms-pct">42%</span>
+      <span class="ms-end-label">Your handbook</span>
+    </div>
+  </header>
+
+  <div class="media">
+    <picture>
+      <source media="(max-width:860px)" srcset="img/mobile.png">
+      <img src="img/intro.png" width="2400" height="1792" alt="Dubai skyline at sunset with a flowing golden silk ribbon winding around the Burj Khalifa and neighbouring towers" fetchpriority="high" decoding="async">
+    </picture>
+  </div>
+
+  <main class="content">
+    <section class="hero">
+      <p class="eyebrow">UAE property investment guide</p>
+      <h1 class="title">Your investment guide, built around your goals.</h1>
+      <div class="lede">
+        <p>Understand demand, explore areas that fit your plans and know what to check before you buy.</p>
+        <p>Answer seven questions to personalise your guide to Dubai, Abu Dhabi or both.</p>
+      </div>
+      <button type="button" class="cta" id="intro-cta">
+        <span>Personalise my guide</span>
+        <svg aria-hidden="true" width="22" height="12" viewBox="0 0 22 12" fill="none" stroke="#1F343F" stroke-width="1"><path d="M0 6H21.25"/><path d="M15.5 0.5L21.25 6L15.5 11.5"/></svg>
+      </button>
+      <p class="time">About 2 minutes.</p>
+    </section>
+
+    <footer class="foot">
+      <p>Informed by our market research and daily work with buyers, tenants and property owners.</p>
+    </footer>
+  </main>
+
+</div>
 <div class="app">
   <header class="top">
     <a class="wordmark" href="#" aria-label="betterhomes">betterhomes</a>
@@ -214,7 +417,6 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ o
   <main class="stage" id="stage">
     <aside class="aside" id="aside"></aside>
     <section class="main" id="main"></section>
-    <nav class="nav" id="nav"></nav>
   </main>
 </div>
 
@@ -254,15 +456,22 @@ const slug = (city, name) => city + "_" + name.toLowerCase().replace(/[^a-z0-9]+
 const CATALOGUE = Object.entries(COMMUNITIES).flatMap(([city, names]) => names.map(name => ({ id: slug(city, name), name, city })));
 const PHONE_CODES = [["+971","United Arab Emirates"],["+44","United Kingdom"],["+1","United States / Canada"],["+91","India"],["+92","Pakistan"],["+966","Saudi Arabia"],["+974","Qatar"],["+965","Kuwait"],["+973","Bahrain"],["+968","Oman"],["+20","Egypt"],["+961","Lebanon"],["+962","Jordan"],["+7","Russia / Kazakhstan"],["+86","China"],["+33","France"],["+49","Germany"],["+39","Italy"],["+34","Spain"],["+31","Netherlands"],["+41","Switzerland"],["+61","Australia"],["+27","South Africa"],["+234","Nigeria"],["+90","Türkiye"],["+98","Iran"],["+880","Bangladesh"],["+63","Philippines"],["+65","Singapore"],["+852","Hong Kong"]];
 
-/* Result copy — retained verbatim from the source profiles */
+/* Result copy (Investor Direction screen).
+   label     → the headline ("Growth Investor")
+   lead      → first clause of the description; additional goals are appended as "…, while <also> and <also>."
+   rest      → closing sentence
+   objective → "Main objective" card
+   short     → caption under each share figure */
 const PROFILES = {
-  rental_income: { title:"Rental income", desc:"You want a property that can generate rental income, with a clear view of what remains after ownership and letting costs. The starting point is the rent comparable homes have actually achieved, alongside tenant demand and the costs of keeping the property let.", start:"Your chosen purchase route, when rent could begin and the costs you would need to cover before then.", inside:"Explore the market, compare buying approaches and communities, and understand what to check before you buy — with your priorities in view." },
-  capital_growth: { title:"Capital growth", desc:"You are looking for a property with potential to grow in value. The opportunity depends on what you pay today, what could support future demand and how you might eventually sell.", start:"Comparable completed sales, the reasons a future buyer might choose the property and the full cost of holding and selling it.", inside:"Explore the market, compare buying approaches and communities, and understand what to check before you buy — with your priorities in view." },
-  uae_residency: { title:"UAE residency", desc:"Property is part of your plans for a longer-term connection to the UAE. Your search needs to bring together the relevant residency requirements and a property that makes sense for how you intend to use or hold it.", start:"Confirming the requirements for the residency route you are considering, then comparing properties against your wider priorities.", inside:"Explore the market, compare buying approaches and communities, and understand what to check before you buy — with your priorities in view." },
-  personal_use: { title:"Personal use", desc:"You want a home that suits the way you plan to live or spend time in the UAE. Location, layout and everyday convenience lead the search, alongside the full cost of ownership.", start:"How you would use the home, when you need it and which features would make the greatest difference to daily life.", inside:"Explore the market, compare buying approaches and communities, and understand what to check before you buy — with your priorities in view." },
-  portfolio_diversification: { title:"Portfolio diversification", desc:"You are considering how UAE property could fit within your wider investments. The question is what this purchase would add to your existing exposure, income needs and future commitments.", start:"What you already hold, where your investments are concentrated and the role you want this property to play.", inside:"Explore the market, compare buying approaches and communities, and understand what to check before you buy — with your priorities in view." },
-  exploring: { title:"Still exploring", desc:"You don’t need a fixed plan to begin exploring. Your handbook will help you compare the main investment approaches, understand the buying process and consider what matters most to you.", start:"What you want from ownership: rental income, growth in value, a home to use, residency planning or a role within your wider investments.", inside:"Explore the market, compare buying approaches and communities, and understand what to check before you buy." }
+  rental_income: { label:"Income Investor", lead:"You’re looking for a property that can generate rental income", rest:"The starting point is the rent comparable homes have actually achieved, alongside tenant demand and the costs of keeping the property let.", objective:"Rental income", short:"Rental income" },
+  capital_growth: { label:"Growth Investor", lead:"You’re looking for a property with the potential to grow in value", rest:"What you pay today, future demand and the costs of owning and selling all matter.", objective:"Long-term capital growth", short:"Capital growth" },
+  uae_residency: { label:"Residency Planner", lead:"Property is part of your plans for a longer-term connection to the UAE", rest:"Your search needs to bring together the relevant residency requirements and a property that makes sense for how you intend to use or hold it.", objective:"UAE residency", short:"UAE residency" },
+  personal_use: { label:"Home Buyer", lead:"You want a home that suits the way you plan to live or spend time in the UAE", rest:"Location, layout and everyday convenience lead the search, alongside the full cost of ownership.", objective:"A home of my own", short:"Personal use" },
+  portfolio_diversification: { label:"Portfolio Investor", lead:"You’re considering how UAE property could fit within your wider investments", rest:"The question is what this purchase would add to your existing exposure, income needs and future commitments.", objective:"Portfolio diversification", short:"Portfolio diversification" },
+  exploring: { label:"Still Exploring", lead:"You don’t need a fixed plan to begin exploring", rest:"Your handbook will help you compare the main investment approaches, understand the buying process and consider what matters most to you.", objective:"Still exploring", short:"Still exploring" }
 };
+/* How each goal reads when it is an additional goal inside the description sentence */
+const ALSO = { rental_income:"earning rental income", capital_growth:"growing in value over time", uae_residency:"supporting your UAE residency plans", personal_use:"having a home for your own use", portfolio_diversification:"diversifying your wider portfolio" };
 
 /* ============================================================ STATE (raw answers only; results are derived) */
 const A = {
@@ -288,7 +497,7 @@ const QUESTION_STEPS = () => steps().filter(s => s !== "intro" && s !== "result"
 
 const ASIDE = {
   market:{ section:"Where", why:["Why we ask","Your answer selects the city chapters and the community options you’ll see. It never changes your priorities."] },
-  communities:{ section:"Where", why:["Why we ask","If you already have places in mind, we’ll bring them to the front of the map. You can skip this and explore in the handbook."] },
+  communities:{ section:"Where", why:["Why we ask","If you already have places in mind, we’ll bring them to the front of the map. Choose at least one, or tell us you’re open to suggestions."] },
   goals:{ section:"What", why:["Why we ask","Your main priority leads the whole handbook. Other goals you add are reflected in the sections where they matter."] },
   route:{ section:"How", why:["Why we ask","Your plan shapes which buying steps and timing considerations we show first. Every route stays available."] },
   stage:{ section:"How", why:["Why we ask","Completed and off-plan homes follow different buying processes, so we’ll show the checks that apply."] },
@@ -302,14 +511,14 @@ const ASIDE = {
 function valid(step){
   switch(step){
     case "market": return !!A.market;
-    case "communities": return true;
+    case "communities": return A.community_mode === "open_to_suggestions" || A.community_ids.length > 0;
     case "goals": return !!A.goal_choice;
     case "route": return !!A.purchase_route;
     case "stage": return !!A.own_use_stage;
     case "timing": return !!A.timing_code;
     case "budget": return A.budget_mode === "open" || A.budget_mode === "undecided" || (A.budget_mode === "range" && budgetOk());
     case "funding": return !!A.funding_plan;
-    case "experience": return true;
+    case "experience": return A.experience_codes.length > 0;
     case "contact": return contactOk().ok;
     default: return true;
   }
@@ -329,7 +538,7 @@ function budgetError(){
 }
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 function phoneE164(){
-  if (!A.phone_num.trim()) return { blank:true };
+  if (!A.phone_num.trim()) return { error:"Enter your mobile number." };
   const digits = A.phone_num.replace(/[\s().-]/g, "");
   if (!A.phone_cc) return { error:"Choose a country code for your mobile number." };
   if (!/^\d{6,14}$/.test(digits)) return { error:"Enter your mobile number with digits only, without the country code." };
@@ -388,7 +597,17 @@ function budgetLabel(){
   if (mx === null) return "From " + aed(mn);
   return aed(mn) + " – " + aed(mx);
 }
-const marketLabel = () => A.market === "undecided" ? "Still exploring" : label(MARKETS, A.market);
+/* Compact money for the result cards: 750000 → "750k", 3000000 → "3m", 1500000 → "1.5m" */
+const aedShort = n => n >= 1e6 ? String(+(n / 1e6).toFixed(1)) + "m" : String(Math.round(n / 1e3)) + "k";
+function budgetShort(){
+  if (A.budget_mode === "open") return "Flexible";
+  if (A.budget_mode !== "range") return "Still deciding";
+  const mn = A.budget_min, mx = A.budget_max;
+  if (mn === 0) return "Up to AED " + aedShort(mx);
+  if (mx === null) return "From AED " + aedShort(mn);
+  return "AED " + aedShort(mn) + "–" + aedShort(mx);
+}
+const marketLabel = () => A.market === "undecided" ? "Still exploring" : A.market === "both" ? "Dubai + Abu Dhabi" : label(MARKETS, A.market);
 const routeLabel = () => A.purchase_route === "undecided" ? "Still exploring" : label(ROUTES, A.purchase_route);
 
 /* ============================================================ RENDER HELPERS */
@@ -396,6 +615,15 @@ const $ = (s, el = document) => el.querySelector(s);
 const h = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const opt = (field, id, text, on, extra = "") => `<button type="button" class="opt" role="${extra.includes("multi") ? "checkbox" : "radio"}" data-field="${field}" data-val="${h(id)}" aria-pressed="${on}" aria-checked="${on}" ${extra.includes("disabled") ? "disabled" : ""}><span class="d"></span><span>${h(text)}</span></button>`;
 const head = (q, help) => `<h1 class="q">${h(q)}</h1>${help ? `<p class="help">${h(help)}</p>` : ""}`;
+
+/* SVG assets for the result screen (from the Investor Direction design) */
+const SVG = {
+  wordmark: `<svg class="wm" viewBox="0 0 256 39.38" role="img" aria-label="betterhomes"><path transform="translate(0 0.1)" d="M13.52 14.15C11.23 14.15 9.37 14.95 7.72 16.34L7.72 17.4C8.99 16.39 10.22 15.96 11.49 15.96C12.77 15.96 14.37 16.66 15.27 18.25C16.18 19.85 16.66 22.4 16.66 26.13C16.66 33.15 14.69 37.35 11.07 37.35C7.45 37.35 6.97 35.6 6.28 33.04L6.28 0L0 6.28L0 37.67L1.22 37.67L3.62 35.28C5.53 37.03 8.14 38.1 11.87 38.1C18.14 38.1 23.31 32.99 23.31 25.7C23.31 18.41 19 14.26 13.52 14.26" fill="#FFFFFF"/><path transform="translate(123.6 0)" d="M0 37.73L6.33 37.73L6.33 0L0 6.28L0 37.73Z" fill="#FFFFFF"/><path transform="translate(131.32 14.21)" d="M6.23 0C3.56 0 1.65 0.85 0 2.23L0 3.19C1.17 2.34 2.34 1.97 3.51 1.97C7.4 1.97 7.45 6.12 7.45 7.66L7.45 25.17L13.73 18.89L13.73 8.14C13.73 2.55 10.96 0.05 6.23 0.05" fill="#FFFFFF"/><path transform="translate(25.6 14.21)" d="M6.49 9.84L16.44 9.84C16.97 4.31 14.9 0.64 11.92 0.64C8.94 0.64 6.71 4.63 6.49 9.84ZM6.49 10.54L6.49 10.7C6.49 18.09 9.63 21.5 14.15 21.5C18.68 21.5 19.37 20.38 21.5 17.72L22.03 18.04C19.16 22.3 15.38 24 11.28 24C4.84 24 0 19.53 0 12.45C0 5.37 5.21 0 12.29 0C19.37 0 22.35 4.89 22.08 10.54L6.54 10.54L6.49 10.54Z" fill="#FFFFFF"/><path transform="translate(49.01 6.81)" d="M15.91 28.95C13.84 30.38 11.81 31.45 8.99 31.45C3.46 31.45 2.82 27.56 2.82 25.38L2.82 8.89L0 8.89L0 8.14L2.71 7.93L8.89 0L9.05 0L9.05 7.93L17.88 7.93L15.16 8.89L8.99 8.89L8.99 25.59C8.99 26.66 8.99 29.53 11.97 29.53C14.95 29.53 14.05 29.21 15.43 28.47L15.75 29L15.91 28.95Z" fill="#FFFFFF"/><path transform="translate(64.22 6.81)" d="M15.91 28.95C13.84 30.38 11.81 31.45 8.99 31.45C3.46 31.45 2.82 27.56 2.82 25.38L2.82 8.89L0 8.89L0 8.14L2.71 7.93L8.89 0L9.05 0L9.05 7.93L15.75 7.93L15.22 8.89L9.05 8.89L9.05 25.59C9.05 26.66 9.05 29.53 12.03 29.53C15.01 29.53 14.1 29.21 15.48 28.47L15.8 29L15.91 28.95Z" fill="#FFFFFF"/><path transform="translate(79.92 14.21)" d="M6.49 9.84L16.44 9.84C16.97 4.31 14.9 0.64 11.92 0.64C8.94 0.64 6.71 4.63 6.49 9.84ZM6.49 10.54L6.49 10.7C6.49 18.09 9.63 21.5 14.15 21.5C18.68 21.5 19.37 20.38 21.5 17.72L22.03 18.04C19.16 22.3 15.38 24 11.28 24C4.84 24 0 19.53 0 12.45C0 5.37 5.21 0 12.29 0C19.37 0 22.35 4.89 22.08 10.54L6.54 10.54L6.49 10.54Z" fill="#FFFFFF"/><path transform="translate(105.37 14.15)" d="M14.79 0.32L13.14 5C12.4 4.63 11.55 4.47 10.86 4.47C8.73 4.47 6.97 6.01 6.28 8.35L6.28 23.62L0 23.62L0 1.49L5.96 0L6.12 0L6.12 7.02C7.24 2.82 9.84 0.11 12.93 0.11C16.02 0.11 14.53 0.27 14.79 0.37" fill="#FFFFFF"/><path transform="translate(147.76 14.21)" d="M17.88 12.19C17.88 5.27 15.8 0.58 12.19 0.58C8.57 0.58 6.65 5.05 6.65 11.92C6.65 18.78 8.73 23.41 12.29 23.41C15.86 23.41 17.82 18.94 17.82 12.19M0 12.13C0 4.84 5.32 0 12.45 0C19.58 0 24.53 4.52 24.53 11.87C24.53 19.21 19.16 24 12.08 24C5 24 0 19.48 0 12.13Z" fill="#FFFFFF"/><path transform="translate(174.9 14.1)" d="M36.18 8.3L36.18 23.62L29.85 23.62L29.85 7.66C29.85 6.07 29.85 2.08 25.91 2.08C21.98 2.08 22.72 2.82 20.8 4.95C21.12 5.91 21.23 7.02 21.23 8.3L21.23 23.62L14.95 23.62L14.95 7.66C14.95 6.07 14.95 2.08 10.96 2.08C6.97 2.08 7.93 2.71 6.28 4.47L6.28 23.62L0 23.62L0 1.49L6.12 0L6.28 0L6.28 3.67C8.25 1.6 10.38 0.11 13.78 0.11C17.19 0.11 19.53 1.44 20.59 4.2C22.67 1.81 24.9 0.11 28.73 0.11C32.56 0.11 36.18 2.66 36.18 8.25" fill="#FFFFFF"/><path transform="translate(213.9 14.21)" d="M6.49 9.84L16.44 9.84C16.97 4.31 14.9 0.64 11.92 0.64C8.94 0.64 6.71 4.63 6.49 9.84ZM6.49 10.54L6.49 10.7C6.49 18.09 9.63 21.5 14.15 21.5C18.68 21.5 19.37 20.38 21.5 17.72L22.03 18.04C19.16 22.3 15.38 24 11.28 24C4.84 24 0 19.53 0 12.45C0 5.37 5.21 0 12.29 0C19.37 0 22.35 4.89 22.08 10.54L6.54 10.54L6.49 10.54Z" fill="#FFFFFF"/><path transform="translate(237.96 14.21)" d="M0 22.3L0.85 19.21C2.55 21.5 5.64 23.47 9.21 23.47C12.77 23.47 14.21 21.92 14.21 19.69C14.21 17.45 11.71 16.12 8.99 15.06L7.18 14.37C4.68 13.41 0.32 11.65 0.32 7.13C0.32 2.61 3.46 0 9.31 0C15.16 0 15.75 1.06 16.87 1.65L16.12 4.36C14.63 2.66 11.97 0.64 8.62 0.64C5.27 0.64 4.15 2.18 4.15 4.1C4.15 6.01 6.86 7.66 9.42 8.62L11.17 9.26C13.62 10.22 18.04 11.92 18.04 16.66C18.04 21.39 14.9 24.05 8.57 24.05C2.23 24.05 1.28 23.09 0 22.3Z" fill="#FFFFFF"/></svg>`,
+  market: `<svg viewBox="0 0 37 48" width="37" height="48" aria-hidden="true"><path d="M18.5 0C27.47 0 37 6.78 37 18.76C37 26.35 32.42 33.58 28.03 38.79C25.82 41.42 23.6 43.59 21.95 45.1C21.12 45.86 20.42 46.45 19.94 46.86C19.47 47.25 18.98 47.62 18.5 48C18.02 47.62 17.53 47.25 17.06 46.86C16.57 46.45 15.88 45.85 15.05 45.09C13.39 43.58 11.18 41.41 8.97 38.77C4.58 33.56 0 26.33 0 18.76C0 6.78 9.53 0 18.5 0ZM24.02 9.99C21.68 9.99 19.93 11.51 18.5 13.22C17.08 11.51 15.32 9.99 12.97 9.99C9.41 9.99 6.53 12.97 6.53 16.66C6.53 22.96 15.85 29.83 18.5 31.07C21.16 29.83 30.47 22.96 30.47 16.66C30.47 12.97 27.58 9.99 24.02 9.99Z" fill="#86B8CB" fill-rule="evenodd"/></svg>`,
+  budget: `<svg viewBox="0 0 48 48" width="48" height="48" aria-hidden="true"><path transform="translate(22.5 31)" d="M3 0L3 11.5L0 11.5L0 0L3 0Z" fill="#86B8CB" fill-rule="evenodd"/><path transform="translate(9 2)" d="M0 15C0 6.72 6.72 0 15 0C23.28 0 30 6.72 30 15C30 23.28 23.28 30 15 30C6.72 30 0 23.28 0 15ZM16.5 6L16.5 7.5L19.5 7.5L19.5 10.5L13.99 10.5C13.17 10.5 12.5 11.17 12.5 12C12.5 12.83 13.17 13.5 14 13.5L16 13.5C18.48 13.5 20.5 15.52 20.5 18C20.5 20.32 18.75 22.22 16.5 22.47L16.5 24L13.5 24L13.5 22.5L10.5 22.5L10.5 19.5L16 19.5C16.83 19.5 17.5 18.83 17.5 18C17.5 17.17 16.83 16.5 16 16.5L14 16.5C11.52 16.5 9.5 14.48 9.5 12C9.5 9.68 11.25 7.78 13.5 7.53L13.5 6L16.5 6Z" fill="#86B8CB" fill-rule="evenodd"/><path transform="translate(22.67 30.73)" d="M0 12.82C0.75 13.11 1.49 13.4 2.27 13.62C3.06 13.84 4.18 14.11 5.47 14.27C8.03 14.6 11.43 14.55 14.37 12.85C17.26 11.18 19 8.26 20.01 5.88C20.52 4.68 20.86 3.57 21.07 2.77C21.27 2.02 21.4 1.26 21.52 0.5C20.86 0.35 20.2 0.2 19.52 0.12C18.86 0.04 17.93 -0.03 16.82 0.01C14.62 0.07 11.68 0.55 8.82 2.19C5.98 3.83 3.88 6.27 2.51 8.25C1.81 9.24 1.29 10.14 0.95 10.79C0.59 11.45 0.3 12.14 0 12.82Z" fill="#86B8CB" fill-rule="evenodd"/><path transform="translate(3.81 30.73)" d="M21.52 12.82C20.77 13.11 20.03 13.4 19.26 13.62C18.46 13.84 17.35 14.11 16.05 14.27C13.49 14.6 10.1 14.55 7.16 12.85C4.26 11.18 2.52 8.26 1.51 5.88C1 4.68 0.67 3.57 0.46 2.77C0.26 2.02 0.13 1.26 0 0.5C0.67 0.35 1.32 0.2 2 0.12C2.66 0.04 3.59 -0.03 4.7 0.01C6.91 0.07 9.85 0.55 12.7 2.19C15.54 3.83 17.64 6.27 19.02 8.25C19.71 9.24 20.23 10.14 20.58 10.79C20.93 11.45 21.23 12.14 21.52 12.82Z" fill="#86B8CB" fill-rule="evenodd"/></svg>`,
+  objective: `<svg viewBox="0 0 48 48" width="48" height="48" aria-hidden="true"><path transform="translate(39.01 0)" d="M8.99 2.29L3.6 7.68L2.46 8.82L2.29 8.99L0 6.7L0.17 6.53L6.7 0L8.99 2.29Z" fill="#86B8CB"/><path transform="translate(20.71 5.31)" d="M11.61 1.78C13.99 -0.59 17.83 -0.59 20.2 1.78C22.58 4.15 22.58 8 20.2 10.37C19.88 10.7 19.36 11.08 18.76 11.48C18.14 11.9 17.39 12.38 16.54 12.89C14.85 13.91 12.79 15.08 10.8 16.18C8.81 17.29 6.88 18.34 5.44 19.11C3.63 20.07 1.82 21.03 0 21.98C0.96 20.17 1.91 18.35 2.88 16.54C3.65 15.11 4.69 13.18 5.8 11.19C6.91 9.19 8.08 7.13 9.1 5.44C9.61 4.6 10.09 3.84 10.5 3.22C10.9 2.63 11.29 2.1 11.61 1.78Z" fill="#86B8CB"/><path transform="translate(0 23.93)" d="M22.62 19.57C22.27 24.29 16.05 25.77 13.62 21.7L10.26 16.1L20.33 6.02L18.05 3.73L7.97 13.81L2.36 10.45C-1.7 8.02 -0.22 1.8 4.5 1.45L24.07 0L22.62 19.57Z" fill="#86B8CB"/></svg>`,
+  laptop: `<svg viewBox="0 0 1037.86 571" aria-hidden="true"><defs><linearGradient id="g1" x1="0" y1="0.5" x2="1" y2="0.5" gradientTransform="matrix(0 -1 0.016551 0 0.49174 1)"><stop offset="0" stop-color="#575554"/><stop offset="0.46" stop-color="#575554"/><stop offset="1" stop-color="#131313"/></linearGradient><linearGradient id="g2" x1="0" y1="0.5" x2="1" y2="0.5" gradientTransform="matrix(-1 -6.5916e-15 -1.2246e-16 53.825 1 -26.412)"><stop offset="0" stop-color="#454545"/><stop offset="0.01" stop-color="#484848"/><stop offset="0.02" stop-color="#5D5D5D"/><stop offset="0.03" stop-color="#7C7C7C"/><stop offset="0.4" stop-color="#838383"/><stop offset="0.41" stop-color="#838383"/><stop offset="0.94" stop-color="#6A6A6A"/><stop offset="0.96" stop-color="#474747"/><stop offset="0.97" stop-color="#383838"/><stop offset="0.98" stop-color="#3C3C3C"/><stop offset="0.99" stop-color="#636363"/><stop offset="1" stop-color="#7C7C7C"/></linearGradient><linearGradient id="g3" x1="0" y1="0.5" x2="1" y2="0.5" gradientTransform="matrix(1 0 0 53.825 -0 -26.412)"><stop offset="0" stop-color="#1F1F1F"/><stop offset="0.01" stop-color="#222222"/><stop offset="0.02" stop-color="#373737"/><stop offset="0.03" stop-color="#565656"/><stop offset="0.4" stop-color="#5E5E5E"/><stop offset="0.41" stop-color="#5E5E5E"/><stop offset="0.94" stop-color="#444444"/><stop offset="0.96" stop-color="#212121"/><stop offset="0.97" stop-color="#121212"/><stop offset="0.98" stop-color="#161616"/><stop offset="0.99" stop-color="#3D3D3D"/><stop offset="1" stop-color="#565656"/></linearGradient><linearGradient id="g4" x1="0" y1="0.5" x2="1" y2="0.5" gradientTransform="matrix(0.99985 0 0 20.416 0.00014707 -9.708)"><stop offset="0" stop-color="#565656"/><stop offset="0.06" stop-color="#444444"/><stop offset="0.51" stop-color="#565656"/><stop offset="0.94" stop-color="#444444"/><stop offset="1" stop-color="#565656"/></linearGradient><linearGradient id="g5" x1="0" y1="0.5" x2="1" y2="0.5" gradientTransform="matrix(-1 -6.5916e-15 -1.2246e-16 53.825 1 -26.412)"><stop offset="0" stop-color="#454545"/><stop offset="0.01" stop-color="#525252"/><stop offset="0.02" stop-color="#757575"/><stop offset="0.03" stop-color="#6B6968"/><stop offset="0.4" stop-color="#6B6968"/><stop offset="0.41" stop-color="#6B6968"/><stop offset="0.94" stop-color="#8D8D8D"/><stop offset="0.95" stop-color="#636363"/><stop offset="0.97" stop-color="#2B2B2B"/><stop offset="0.98" stop-color="#2F2F2F"/><stop offset="0.99" stop-color="#565454"/><stop offset="1" stop-color="#6B6968"/></linearGradient><linearGradient id="g6" x1="0" y1="0.5" x2="1" y2="0.5" gradientTransform="matrix(0 -0.99995 0.6674 0 0.16632 0.99995)"><stop offset="0" stop-color="#504E4E"/><stop offset="0.09" stop-color="#575555"/><stop offset="0.24" stop-color="#6D6B6B"/><stop offset="0.42" stop-color="#908D8D"/><stop offset="0.45" stop-color="#979494"/><stop offset="1" stop-color="#7B7878"/></linearGradient><linearGradient id="g7" x1="0" y1="0.5" x2="1" y2="0.5" gradientTransform="matrix(0 -1.0004 0.034833 0 0.48258 1.0004)"><stop offset="0" stop-color="#1A1A1A"/><stop offset="0.28" stop-color="#1C1C1C"/><stop offset="0.45" stop-color="#242424"/><stop offset="0.59" stop-color="#333333"/><stop offset="0.71" stop-color="#474747"/><stop offset="0.82" stop-color="#616161"/><stop offset="0.92" stop-color="#818181"/><stop offset="1" stop-color="#9F9F9F"/></linearGradient><linearGradient id="g8" x1="0" y1="0.5" x2="1" y2="0.5" gradientTransform="matrix(1 0 0 53.825 -0 -26.412)"><stop offset="0" stop-color="#202020"/><stop offset="0.01" stop-color="#2D2D2D"/><stop offset="0.02" stop-color="#4F4F4F"/><stop offset="0.03" stop-color="#6B6968"/><stop offset="0.4" stop-color="#6B6968"/><stop offset="0.41" stop-color="#6B6968"/><stop offset="0.94" stop-color="#686868"/><stop offset="0.95" stop-color="#4B4B4B"/><stop offset="0.96" stop-color="#222222"/><stop offset="0.97" stop-color="#131313"/><stop offset="0.98" stop-color="#262625"/><stop offset="0.99" stop-color="#3E3D3C"/><stop offset="1" stop-color="#6B6968"/></linearGradient><linearGradient id="g9" x1="0" y1="0.5" x2="1" y2="0.5" gradientTransform="matrix(0.99985 0 0 20.416 0.00014707 -9.708)"><stop offset="0" stop-color="#838180"/><stop offset="0.06" stop-color="#6B6968"/><stop offset="0.51" stop-color="#838180"/><stop offset="0.94" stop-color="#6B6968"/><stop offset="1" stop-color="#838180"/></linearGradient></defs><path transform="translate(0 553.94)" d="M0 0C36.49 11.31 74.5 17.06 112.71 17.06L925.14 17.06C963.37 17.06 1001.37 11.31 1037.86 0L0 0Z" fill="url(#g1)"/><path transform="translate(0 547.66)" d="M0 0L0 6.21L418.19 6.21C422.31 6.21 426.4 6.81 430.41 7.77C430.88 7.89 431.36 7.99 431.84 8.08L431.84 0.01L0 0.01L0 0Z" fill="url(#g2)"/><path transform="translate(606.02 547.66)" d="M431.84 0L431.84 6.21L13.66 6.21C9.53 6.21 5.44 6.81 1.43 7.77C0.96 7.89 0.48 7.99 0 8.08L0 0.01L431.84 0.01L431.84 0Z" fill="url(#g3)"/><path transform="translate(431.84 547.66)" d="M174.17 0L174.17 7.61C172.39 7.92 170.57 8.08 168.74 8.08L5.43 8.08C3.61 8.08 1.79 7.92 0 7.61L0 0L174.16 0L174.17 0Z" fill="url(#g4)"/><path transform="translate(0 546.76)" d="M0 0L0 6.21L418.19 6.21C422.31 6.21 426.4 6.81 430.41 7.77C430.88 7.89 431.36 7.99 431.84 8.08L431.84 0.01L0 0.01L0 0Z" fill="url(#g5)"/><path transform="translate(94.27 3.59)" d="M822.66 0L25.85 0C11.58 0 0 11.07 0 24.71L0 541.34L3.69 541.34L3.69 21.18C3.69 20.1 3.78 19.02 3.95 17.97C4 17.62 4.06 17.27 4.14 16.93C4.22 16.59 4.29 16.25 4.38 15.92C4.47 15.58 4.58 15.25 4.68 14.92C5.6 12.11 7.11 9.54 9.07 7.37C9.3 7.11 9.54 6.87 9.79 6.62C9.9 6.5 10.03 6.38 10.16 6.25C11.28 5.18 12.54 4.21 13.88 3.4C14.32 3.13 14.79 2.86 15.26 2.61C15.73 2.37 16.2 2.14 16.69 1.93C17.02 1.8 17.34 1.66 17.67 1.54C20.18 0.6 22.91 0.07 25.77 0.07L822.58 0.07C826.39 0.07 829.98 1 833.11 2.63C833.59 2.87 834.04 3.13 834.49 3.41C835.09 3.77 835.67 4.17 836.22 4.58C836.5 4.8 836.77 5.01 837.03 5.23C837.43 5.56 837.83 5.91 838.2 6.27C838.33 6.39 838.45 6.51 838.57 6.63C838.81 6.88 839.05 7.12 839.28 7.38C842.64 11.08 844.68 15.92 844.68 21.21L844.68 541.37L848.42 541.37L848.42 23.18C847.59 10.25 836.36 0.01 822.62 0.01L822.66 0Z" fill="url(#g6)"/><path transform="translate(94.27 0)" d="M0 24.35C0 10.91 11.58 0 25.85 0L822.57 0C836.85 0 848.42 10.91 848.42 24.35L848.42 26.3C847.58 13.57 836.36 3.48 822.62 3.48L25.9 3.48C11.63 3.48 0.05 14.38 0.05 27.83L0 24.35Z" fill="url(#g7)"/><path transform="translate(98.75 527.01)" d="M840.34 0L0 0L0 17.96L840.34 17.96L840.34 0Z" fill="#000000"/><path transform="translate(98.75 3.59)" d="M840.33 22.08L840.33 523.42L0 523.42L0 22.08C0 9.9 9.91 0 22.09 0L818.25 0C830.43 0 840.34 9.9 840.34 22.08L840.33 22.08Z" fill="#000000"/><path transform="translate(606.02 546.76)" d="M431.84 0L431.84 6.21L13.66 6.21C9.53 6.21 5.44 6.81 1.43 7.77C0.96 7.89 0.48 7.99 0 8.08L0 0.01L431.84 0.01L431.84 0Z" fill="url(#g8)"/><path transform="translate(431.84 546.76)" d="M174.17 0L174.17 7.61C172.39 7.92 170.57 8.08 168.74 8.08L5.43 8.08C3.61 8.08 1.79 7.92 0 7.61L0 0L174.16 0L174.17 0Z" fill="url(#g9)"/><path transform="translate(94.27 544.96)" d="M848.42 0L848.42 1.8L844.68 1.8L3.69 1.8L0 1.8L0 0L848.42 0Z" fill="#131313"/></svg>`
+};
 
 const PANELS = {
   intro: () => `<div class="intro"><h1 class="q">Find your investment focus</h1>
@@ -413,7 +641,7 @@ const PANELS = {
       if (!items.length) return "";
       return `<span class="city">${city === "dubai" ? "Dubai" : "Abu Dhabi"}</span>` + items.map(c => `<button type="button" data-community="${c.id}" aria-pressed="${A.community_ids.includes(c.id)}">${h(c.name)}</button>`).join("");
     }).join("");
-    return head("Any areas already in mind?", "Select the communities you are considering, or leave this open and explore them in your handbook.") +
+    return head("Any areas already in mind?", "Select the communities you are considering, or tell us you’re open to suggestions.") +
       `<div class="search"><input type="search" id="csearch" placeholder="Search for a community" value="${h(UI.search)}" aria-label="Search for a community" ${open ? "disabled" : ""}></div>
        <div class="chips" style="${open ? "opacity:.35;pointer-events:none" : ""}">${groups || `<span class="empty">No communities match that search.</span>`}</div>
        <div class="opts compact openchip">${opt("community_mode", "open_to_suggestions", "I’m open to suggestions", open)}</div>`;
@@ -456,7 +684,7 @@ const PANELS = {
       `<div class="form">
         <div><label class="hint" for="fname" style="margin:0 0 .4rem;font-weight:600;color:var(--ink)">Full name</label><input id="fname" data-text="full_name" type="text" autocomplete="name" value="${h(A.full_name)}" aria-invalid="${!!e.full_name}">${e.full_name ? `<div class="hint" style="color:var(--salmon)">${e.full_name}</div>` : ""}</div>
         <div><label class="hint" for="femail" style="margin:0 0 .4rem;font-weight:600;color:var(--ink)">Email address</label><input id="femail" data-text="email" type="email" autocomplete="email" inputmode="email" value="${h(A.email)}" aria-invalid="${!!e.email}"><div class="hint">${e.email ? `<span style="color:var(--salmon)">${e.email}</span>` : "We’ll use this to send your personalised handbook."}</div></div>
-        <div class="full"><label class="hint" style="margin:0 0 .4rem;font-weight:600;color:var(--ink)">Mobile number (optional)</label>
+        <div class="full"><label class="hint" style="margin:0 0 .4rem;font-weight:600;color:var(--ink)">Mobile number</label>
           <div class="phone"><label class="sel"><select data-text="phone_cc" aria-label="Country code"><option value="" ${A.phone_cc ? "" : "selected"}>Code</option>${PHONE_CODES.map(([c, n]) => `<option value="${c}" ${A.phone_cc === c ? "selected" : ""}>${c} ${n}</option>`).join("")}</select></label>
           <input data-text="phone_num" type="tel" autocomplete="tel-national" inputmode="tel" placeholder="Mobile number" value="${h(A.phone_num)}" aria-invalid="${!!e.phone}" aria-label="Mobile number"></div>
           ${e.phone ? `<div class="hint" style="color:var(--salmon)">${e.phone}</div>` : ""}</div>
@@ -469,19 +697,27 @@ const PANELS = {
 
   result: () => {
     const d = derive(), p = PROFILES[d.result_copy_key], ex = d.result_mode === "exploring";
-    return `<div class="inner">
-      <p class="kicker">Your investment focus</p><h1>${h(p.title)}</h1><p class="desc">${h(p.desc)}</p>
-      ${d.additional_goals.length ? `<div class="block"><h2>Also important to you</h2><div class="also">${d.additional_goals.map(g => `<span>${h(GOAL_LABEL[g])}</span>`).join("")}</div><p>Your main priority leads this guide. Your other goals are reflected in the relevant sections too.</p></div>` : ""}
-      ${ex ? "" : `<div class="block"><h2>Your priorities in this guide</h2><div class="shares"><div class="bar">${d.chart_items.map(c => `<span style="width:${c.pct}%"></span>`).join("")}</div>
-        <ul>${d.chart_items.map(c => `<li><span class="d"></span><span>${h(c.label)}</span><span class="pct">${c.pct}%</span></li>`).join("")}</ul>
-        <p class="cap">These shares show the emphasis given to your selected goals in the handbook.</p></div></div>`}
-      <div class="grid">
-        <div class="block"><h2>Start with</h2><p>${h(p.start)}</p></div>
-        <div class="block"><h2>Inside your personalised handbook</h2><p>${h(p.inside)}</p></div>
+    const also = d.additional_goals.map(g => ALSO[g]);
+    const desc = p.lead + (also.length ? ", while " + (also.length === 1 ? also[0] : also.slice(0, -1).join(", ") + " and " + also[also.length - 1]) : "") + ". " + p.rest;
+    const stats = d.chart_items.map((c, i) => `<div class="stat"><p class="n">${c.pct}%</p><p class="c">${h(PROFILES[c.goal].short)}${i === 0 && d.chart_items.length > 1 ? " · your main priority" : ""}</p></div>`).join(`<span class="vr"></span>`);
+    const card = (icon, l, v) => `<div class="card">${SVG[icon]}<p class="l">${h(l)}</p><p class="v">${h(v)}</p></div>`;
+    return `<img class="hero" alt="" src="img/results.png">
+    <div class="board">
+      <header class="rh" style="position: absolute; left: -235px;">${SVG.wordmark}<span class="rule"></span><button type="button" class="review" data-nav="back"><span class="dia"></span>Review my answers</button></header>
+      <div class="rmain">
+        <section><p class="kicker">Your investment direction</p><h1>${h(p.label)}</h1><p class="desc">${h(desc)}</p></section>
+        <hr class="hr">
+        ${ex ? "" : `<section><h2>Your plans at a glance</h2><div class="stats">${stats}</div><p class="cap">These shares show the emphasis given to your goals in the guide.</p></section><hr class="hr">`}
+        <h2>Your priorities in this guide</h2>
+        <div class="cards">${card("market", "Preferred market", marketLabel())}${card("budget", "Investment budget", budgetShort())}${card("objective", "Main objective", p.objective)}</div>
+        ${d.show_open_plans_message ? `<p class="open">Some of your plans are still open, so those parts of your handbook remain broad.</p>` : ""}
       </div>
-      <div class="block"><h2>Your plans at a glance</h2>
-        ${d.show_open_plans_message ? `<div class="open">Some of your plans are still open, so those parts of your handbook remain broad.</div>` : ""}
-        <div class="glance"><div><div class="l">Preferred market</div><div class="v">${h(marketLabel())}</div></div><div><div class="l">Property price range</div><div class="v">${h(budgetLabel())}</div></div><div><div class="l">Purchase plan</div><div class="v">${h(routeLabel())}</div></div></div></div>
+      <div class="laptop">${SVG.laptop}<img class="shot" alt="Preview of the interactive property investment guide on a laptop" src="img/profile.png"></div>
+      <aside class="raside">
+        <p class="t">The UAE’s first personalised, interactive property investment handbook.</p>
+        <p class="b">Explore Dubai and Abu Dhabi with your goals in mind. Understand the markets, compare areas and know what to check before you buy.</p>
+        <button type="button" class="cta" data-nav="next"><span>Open my guide</span><svg viewBox="0 0 21.75 12" width="21.75" height="12" aria-hidden="true" overflow="visible"><path d="M0 6H21.75M15.75 0L21.75 6L15.75 12" fill="none" stroke="#1F343F" stroke-width="1"/></svg></button>
+      </aside>
     </div>`;
   }
 };
@@ -492,19 +728,31 @@ function render(dir = 1){
   const main = $("#main"), prev = $(".panel", main);
   const el = document.createElement("div");
   el.className = `panel ${isResult ? "result" : ""} ${dir < 0 ? "back" : ""} enter`;
-  el.innerHTML = PANELS[step]() + `<div class="err" id="err"></div>`;
+  el.innerHTML = PANELS[step]() + `<div class="err" id="err"></div>` + navHtml(step);
   if (prev){ prev.classList.toggle("back", dir < 0); prev.classList.add("exit"); prev.addEventListener("animationend", () => prev.remove(), { once:true }); setTimeout(() => prev.remove(), 600); }
   main.appendChild(el);
   $("#stage").classList.toggle("on-dark", isResult);
+  $(".app").classList.toggle("is-result", isResult);
+  document.body.classList.toggle("is-intro", isIntro);   // intro renders the .page design; everything else the .app frame
   $("#aside").style.display = isResult ? "none" : "";
   if (isResult) main.style.gridColumn = "1/-1"; else main.style.gridColumn = "";
   renderAside(step, isIntro);
-  renderNav(step);
   renderProgress(step);
   UI.showErr = false;
+  if (isResult) fitResult();
   const first = el.querySelector("input:not([type=checkbox]),select"); if (first && step === "contact") setTimeout(() => first.focus(), 300);
 }
-function rerender(){ const el = $(".panel:not(.exit)", $("#main")); if (!el) return; el.innerHTML = PANELS[UI.step]() + `<div class="err" id="err"></div>`; renderNav(UI.step); if (UI.showErr) showError(); }
+/* Scale the 1920×1080 result board to the viewport (no scrolling). ≤1100px the CSS reflows it instead. */
+function fitResult(){
+  const panel = $(".panel.result:not(.exit)"); if (!panel) return;
+  const board = $(".board", panel); if (!board) return;
+  const w = panel.clientWidth, hgt = panel.clientHeight;
+  if (w <= 1100){ board.style.transform = ""; return; }
+  const s = Math.min(w / 1920, hgt / 1080);
+  board.style.transform = `translate(-50%,-50%) scale(${s})`;
+}
+window.addEventListener("resize", fitResult);
+function rerender(){ const el = $(".panel:not(.exit)", $("#main")); if (!el) return; el.innerHTML = PANELS[UI.step]() + `<div class="err" id="err"></div>` + navHtml(UI.step); if (UI.showErr) showError(); }
 
 function renderAside(step, isIntro){
   const qs = QUESTION_STEPS(), i = qs.indexOf(step);
@@ -518,21 +766,51 @@ function renderProgress(step){
   const pct = step === "result" ? 100 : i < 0 ? 0 : Math.round(i / n * 100);
   $("#pfill").style.width = pct + "%"; $("#pdot").style.left = pct + "%";
   $("#counter").textContent = i >= 0 ? `Question ${String(i + 1).padStart(2, "0")} / ${n}` : step === "result" ? "Your result" : "";
+  renderStepper(pct);
 }
-function renderNav(step){
+/* The design's stepper (.page header). Same geometry as the Figma file; only the position moves with progress. */
+function renderStepper(pct){
+  const page = $(".page"); if (!page) return;
+  page.querySelectorAll("[role=progressbar]").forEach(el => el.setAttribute("aria-valuenow", pct));
+  $(".track__fill", page).style.width = pct + "%";
+  $(".track__now", page).style.left = pct + "%";
+  $(".track__pct", page).style.left = pct + "%";
+  $(".track__pct", page).textContent = pct + "%";
+  const railL = 63.82, railW = 102, x = railL + railW * pct / 100;   // mobile track, px from the Figma artboard
+  $(".ms-fill", page).style.width = (railW * pct / 100) + "px";
+  $(".ms-now", page).style.left = x + "px";
+  $(".ms-pct", page).style.left = (x - 12) + "px";
+  $(".ms-pct", page).textContent = pct + "%";
+}
+$("#intro-cta").addEventListener("click", () => go(1));
+/* Back / Next live under the question. The intro uses the design's own CTA; the result board carries its own buttons. */
+function navHtml(step){
+  if (step === "intro" || step === "result") return "";
   const back = `<button type="button" id="back"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M7 1 2 6l5 5M2 6h10"/></svg> Back</button>`;
   const next = l => `<button type="button" class="primary" id="next">${l} <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="m5 1 5 5-5 5M10 6H0"/></svg></button>`;
-  let html = "";
-  if (step === "intro") html = next("Personalise my handbook");
-  else if (step === "result") html = back + next("Open my guide");
-  else if (step === "contact") html = back + next("See my investment focus");
-  else if (step === "communities" || step === "experience") html = back + `<button type="button" class="skip" id="skip">Skip this question</button>` + next("Next");
-  else html = back + next("Next");
-  $("#nav").innerHTML = html;
+  return `<nav class="nav" aria-label="Form navigation">${back}<span class="spacer"></span>${next(step === "contact" ? "See my investment focus" : "Next")}</nav>`;
+}
+/* Auto-advance: a step moves on by itself once the allowed number of options is chosen. */
+function autoAdvance(field, val){
+  switch(field){
+    case "market": case "purchase_route": case "own_use_stage": case "timing_code": case "funding_plan": return true;
+    case "budget_mode": return val !== "range";                                         // a range waits for both amounts
+    case "goal_choice": return val === "exploring";                                     // otherwise up to two more goals may follow
+    case "additional_goals": return A.additional_goals.length >= SHARES.maxAdditional;  // cap reached
+    case "experience_codes": return ["first_investment","prefer_not_to_say"].includes(val) && A.experience_codes.includes(val); // exclusive answers
+    case "community_mode": return A.community_mode === "open_to_suggestions";
+    default: return false;
+  }
+}
+let advanceTimer = null;
+function advanceSoon(){
+  clearTimeout(advanceTimer);
+  const from = UI.step;
+  advanceTimer = setTimeout(() => { if (UI.step === from && valid(from)) go(1); }, 280);   // let the selected state show first
 }
 function showError(){
   const s = UI.step, el = $("#err"); if (!el) return;
-  const msg = s === "budget" ? budgetError() : s === "contact" ? "Check the highlighted fields above." : s === "goals" ? "Choose a main priority to continue." : "Choose one option to continue.";
+  const msg = s === "budget" ? budgetError() : s === "contact" ? "Check the highlighted fields above." : s === "goals" ? "Choose a main priority to continue." : s === "communities" ? "Choose at least one community, or tell us you’re open to suggestions." : s === "experience" ? "Choose at least one option to continue." : "Choose one option to continue.";
   el.textContent = msg; el.classList.add("on");
 }
 
@@ -586,7 +864,10 @@ function set(field, val){
 
 $("#main").addEventListener("click", e => {
   const b = e.target.closest("button"); if (!b) return;
-  if (b.dataset.field){ set(b.dataset.field, b.dataset.val); UI.showErr = false; rerender(); return; }
+  if (b.dataset.nav){ go(b.dataset.nav === "back" ? -1 : 1); return; }
+  if (b.id === "back"){ clearTimeout(advanceTimer); go(-1); return; }
+  if (b.id === "next"){ clearTimeout(advanceTimer); go(1); return; }
+  if (b.dataset.field){ set(b.dataset.field, b.dataset.val); UI.showErr = false; rerender(); if (autoAdvance(b.dataset.field, b.dataset.val)) advanceSoon(); return; }
   if (b.dataset.community){
     const id = b.dataset.community;
     if (A.community_ids.includes(id)) A.community_ids = A.community_ids.filter(x => x !== id); else A.community_ids.push(id);
@@ -601,15 +882,9 @@ $("#main").addEventListener("input", e => {
 });
 $("#main").addEventListener("change", e => {
   const t = e.target;
-  if (t.dataset.budget){ const v = t.value; const parsed = v === "" ? undefined : v === "null" ? null : +v; if (t.dataset.budget === "min") A.budget_min = parsed; else A.budget_max = parsed; UI.showErr = false; $("#err")?.classList.remove("on"); return; }
+  if (t.dataset.budget){ const v = t.value; const parsed = v === "" ? undefined : v === "null" ? null : +v; if (t.dataset.budget === "min") A.budget_min = parsed; else A.budget_max = parsed; UI.showErr = false; $("#err")?.classList.remove("on"); if (budgetOk()) advanceSoon(); return; }
   if (t.dataset.text === "phone_cc"){ A.phone_cc = t.value; return; }
   if (t.id === "optin"){ A.marketing_opt_in = t.checked; return; }
-});
-$("#nav").addEventListener("click", e => {
-  const b = e.target.closest("button"); if (!b) return;
-  if (b.id === "back") go(-1);
-  else if (b.id === "next") go(1);
-  else if (b.id === "skip"){ if (UI.step === "communities"){ A.community_ids = []; A.community_mode = "skipped"; } if (UI.step === "experience") A.experience_codes = []; go(1); }
 });
 document.addEventListener("keydown", e => {
   if (e.key === "Enter" && !e.target.matches("button,select")){ e.preventDefault(); go(1); }
@@ -667,14 +942,14 @@ async function deliver(payload){
   return true;
 }
 async function submit(){
-  const btn = $("#next"); if (btn) btn.disabled = true;
+  document.querySelectorAll("#next,[data-nav=next]").forEach(b => b.disabled = true);
   submission = submission || buildPayload();
   try { sessionStorage.setItem("bh_handbook_submission", JSON.stringify(submission)); } catch (e) {}
   try { await deliver(submission); } catch (e) { console.error(e); }
   location.href = GUIDE_URL + guideHash(submission);
 }
 
-render(1, true);
+render(1);
 </script>
 </body>
 </html>

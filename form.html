@@ -538,12 +538,23 @@ function budgetError(){
   return "";
 }
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+/* National-number lengths (digits after the country code, leading 0 removed). Anything not listed falls back to E.164's 15-digit total. */
+const PHONE_LEN = { "+971":[9], "+44":[10], "+1":[10], "+91":[10], "+92":[10], "+966":[9], "+974":[8], "+965":[8], "+973":[8], "+968":[8],
+  "+20":[10], "+961":[7,8], "+962":[9], "+7":[10], "+86":[11], "+33":[9], "+49":[10,11], "+39":[9,10], "+34":[9], "+31":[9], "+41":[9],
+  "+61":[9], "+27":[9], "+234":[10], "+90":[10], "+98":[10], "+880":[10], "+63":[10], "+65":[8], "+852":[8] };
 function phoneE164(){
   if (!A.phone_num.trim()) return { error:"Enter your mobile number." };
-  const digits = A.phone_num.replace(/[\s().-]/g, "");
   if (!A.phone_cc) return { error:"Choose a country code for your mobile number." };
-  if (!/^\d{6,14}$/.test(digits)) return { error:"Enter your mobile number with digits only, without the country code." };
-  return { value: A.phone_cc + digits.replace(/^0+/, "") };
+  const digits = A.phone_num.replace(/[\s().-]/g, "");
+  if (!/^\d+$/.test(digits)) return { error:"Enter your mobile number with digits only, without the country code." };
+  const national = digits.replace(/^0+/, "");
+  const allowed = PHONE_LEN[A.phone_cc] || [];
+  const maxTotal = 15 - (A.phone_cc.length - 1);                       // E.164: 15 digits including the country code
+  const ok = allowed.length ? allowed.includes(national.length) : national.length >= 6 && national.length <= maxTotal;
+  if (!ok) return { error: allowed.length
+      ? `A ${A.phone_cc} mobile number should have ${allowed.join(" or ")} digits after the country code.`
+      : "That mobile number doesn’t look right. Check the digits and country code." };
+  return { value: A.phone_cc + national };
 }
 function contactOk(){
   const errs = {};
@@ -706,7 +717,7 @@ const PANELS = {
     <div class="board">
       <header class="rh" style="position: absolute; left: -235px;">${SVG.wordmark}<span class="rule"></span><button type="button" class="review" data-nav="first"><span class="dia"></span>Review my answers</button></header>
       <div class="rmain">
-        <section><p class="kicker">Your investment direction</p><h1>${h(p.label)}</h1><p class="desc">${h(desc)}</p></section>
+        <section><p class="t" style="font-size: 30px; font-weight: 600;">The UAE’s first personalised, interactive property investment handbook.</p><p class="kicker">Your investment direction</p><h1>${h(p.label)}</h1><p class="desc">${h(desc)}</p></section>
         <hr class="hr">
         ${ex ? "" : `<section><h2>Your plans at a glance</h2><div class="stats">${stats}</div><p class="cap">These shares show the emphasis given to your goals in the guide.</p></section><hr class="hr">`}
         <h2>Your priorities in this guide</h2>
@@ -715,7 +726,6 @@ const PANELS = {
       </div>
       <div class="laptop">${SVG.laptop}<img class="shot" alt="Preview of the interactive property investment guide on a laptop" src="img/profile.png"></div>
       <aside class="raside">
-        <p class="t">The UAE’s first personalised, interactive property investment handbook.</p>
         <p class="b">Explore Dubai and Abu Dhabi with your goals in mind. Understand the markets, compare areas and know what to check before you buy.</p>
         <button type="button" class="cta" data-nav="next"><span>Open my guide</span><svg viewBox="0 0 21.75 12" width="21.75" height="12" aria-hidden="true" overflow="visible"><path d="M0 6H21.75M15.75 0L21.75 6L15.75 12" fill="none" stroke="#1F343F" stroke-width="1"/></svg></button>
       </aside>

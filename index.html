@@ -159,7 +159,12 @@ img{ display:block; max-width:100%; }
 .bar-top{ position:absolute; left:60px; top:0; right:0; height:60.5px; background:var(--white); }
 .bar-left::after{ content:""; position:absolute; left:0; top:60.25px; width:60px; height:.5px; background:var(--ink); }
 .burger{ position:absolute; left:0; top:0; width:60px; height:60px; display:grid; place-items:center; color:var(--ink); }
-.burger svg{ display:block; }
+.burger svg{ display:block; overflow:visible; }
+/* the three bars morph into an × while the contents popup is open (.stage.toc-open, set by app.js) */
+.burger path{ transform-box:fill-box; transform-origin:center; transition:transform .3s ease,opacity .2s ease; }
+.stage.toc-open .burger path:nth-child(1){ transform:translateY(8.95px) rotate(45deg) scaleX(.72); }
+.stage.toc-open .burger path:nth-child(2){ opacity:0; transform:scaleX(0); }
+.stage.toc-open .burger path:nth-child(3){ transform:translateY(-8.95px) rotate(-45deg) scaleX(.72); }
 .side-label{ position:absolute; left:16px; writing-mode:vertical-rl; transform:rotate(180deg); font:400 16px/25.2px var(--font-text); color:var(--ink); white-space:nowrap; }
 .side-label.top{ top:100px; } .side-label.bottom{ bottom:59.65px; }
 .logo{ position:absolute; left:85px; top:19px; display:block; color:var(--ink); }
@@ -1394,7 +1399,7 @@ img{ display:block; max-width:100%; }
       <div class="chrome" id="chrome">
         <div class="bar-top"></div>
         <div class="bar-left"></div>
-        <button class="burger" id="burger" aria-label="Table of contents">
+        <button class="burger" id="burger" aria-label="Table of contents" aria-expanded="false">
           <svg width="29.84" height="19.9" viewBox="0 0 29.84 19.9" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M0 1H29.84"/><path d="M0 9.95H29.84"/><path d="M0 18.9H29.84"/></svg>
         </button>
         <p class="side-label top" id="sidetop">Investment guide</p>

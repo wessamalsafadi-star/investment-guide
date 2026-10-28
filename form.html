@@ -381,9 +381,10 @@ body:not(.is-intro) .page{ display:none; }
 
   <div class="media">
     <picture>
-      <source media="(max-width:860px)" srcset="img/mobile.png">
-      <img src="img/intro.png" width="2400" height="1792" alt="Dubai skyline at sunset with a flowing golden silk ribbon winding around the Burj Khalifa and neighbouring towers" fetchpriority="high" decoding="async">
-    </picture>
+  <source media="(max-width:860px)" srcset="img/mobile.png">
+  <img src="img/intro.png" width="2400" height="1792" alt="…" fetchpriority="high" decoding="async"
+       onerror="this.onerror=null; this.closest('picture').querySelector('source')?.remove(); this.src='img/intro.png';">
+</picture>
   </div>
 
   <main class="content">

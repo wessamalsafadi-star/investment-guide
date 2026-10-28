@@ -66,7 +66,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ o
 .aside .big{ font-family:var(--font-display); font-size:7rem; line-height:.9; margin-top:1.2rem; }
 .aside .why{ font-size:.86rem; line-height:1.5; max-width:22rem; color:rgba(255,255,255,.82); }
 .aside .why b{ display:none; font-weight:600; color:#fff; margin-bottom:.4rem; font-size:.9rem; }
-#aside > div{display: none;}
+#aside > div{display: block;}
 .main{ position:relative; overflow:hidden; }
 .panel{ position:absolute; inset:0; overflow-y:auto; overscroll-behavior:contain; -webkit-overflow-scrolling:touch; padding:var(--pad) var(--pad) 4rem; }
 .panel.enter{ animation:slideIn .55s var(--ease); }
@@ -221,6 +221,7 @@ body:not(.is-intro) .page{ display:none; }
 .page p,.page h1{ margin:0; }
 .page button{ font:inherit; }
 
+
 /* ---------- Desktop layout ---------- */
 .page .header{ position:absolute; top:1px; left:0; right:0; height:61px; z-index:2; display:flex; align-items:center; justify-content:space-between; padding:0 60px 3px; background:#fff; }
 .page .logo{ display:block; flex:none; }
@@ -249,6 +250,8 @@ body:not(.is-intro) .page{ display:none; }
 .page .cta{ align-self:flex-start; display:inline-flex; align-items:center; justify-content:center; gap:10px; min-width:251px; height:52px; padding:0 27px; border:0; border-radius:4px; background:var(--coral); color:var(--ink); font-size:16px; font-weight:600; line-height:20px; cursor:pointer; }
 .page .cta:hover{ background:var(--coral-hover); }
 .page .cta:focus-visible{ outline:2px solid var(--ink); outline-offset:3px; }
+#aside > div:nth-child(2){display: none;}
+#aside > div > div:nth-child(1){display: none;}
 .page .cta svg{ display:block; flex:none; }
 .page .time{ font-size:14px; line-height:20px; }
 .page .foot{ margin-top:auto; border-top:1px solid var(--line); padding-top:14px; }
@@ -301,7 +304,7 @@ body:not(.is-intro) .page{ display:none; }
   html{ font-size:13px; }
   .stage{ grid-template-columns:1fr; grid-template-rows:auto 1fr; }
   .aside{ padding:1.4rem var(--pad); flex-direction:row; align-items:center; gap:1.4rem; }
-  .aside .big{ font-size:2.4rem; margin:0; } .aside .why{ display:none; } .aside img{ display:none; }
+  .aside .big{ font-size:2.4rem; margin:0; } .aside .why{ display:none; } #aside > div:nth-child(2){display: none;}.aside img{ display:none; }
   .progress{ max-width:none; }
   .q{ font-size:2.2rem; } .intro .q{ font-size:2.8rem; }
   .form{ grid-template-columns:1fr; } .range{ margin-left:0; }

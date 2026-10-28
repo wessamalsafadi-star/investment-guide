@@ -749,8 +749,8 @@
     const s = byId(state.id);
     if (b.dataset.market) { state.market = b.dataset.market; if (b.dataset.stay) { delete state.choices["pin-" + s.id]; rerender(); } else { writeHash(true); rerender(); } return; }
     if (b.dataset.choice) { const [k, v] = b.dataset.choice.split(":"); state.choices[k] = v; }
-    if (b.closest(".switch")) { state.choices[b.closest(".switch").dataset.key] = b.dataset.val; delete state.choices["pg-" + s.id]; local["open-" + s.id] = -1; rerender(); return; }
     if (b.dataset.goal !== undefined) { setGoal(b.dataset.goal); local["row-" + s.id] = 0; rerender(); return; }
+    if (b.closest(".switch") && b.dataset.val !== undefined) { state.choices[b.closest(".switch").dataset.key] = b.dataset.val; delete state.choices["pg-" + s.id]; local["open-" + s.id] = -1; rerender(); return; }
     if (b.dataset.hook) { runHook(b, JSON.parse(b.dataset.hook)); return; }
     if (b.dataset.save) {
       const url = location.href, done = () => { const t = b.querySelector(".lbl") || b.firstChild; const old = t.textContent; t.textContent = "Link copied "; setTimeout(() => t.textContent = old, 2000); };

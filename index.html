@@ -905,6 +905,16 @@ img{ display:block; max-width:100%; }
 .toc.slide.open{ display:block; animation:fadeIn .3s ease; }
 .stage.toc-open .pager{ display:none; }
 
+/* ============================================================ THANK-YOU POPUP (after a webhook button) */
+.thanks{ position:absolute; inset:0; z-index:25; display:none; place-items:center; padding:60px; background:rgba(0,0,0,.6); -webkit-backdrop-filter:blur(11px); backdrop-filter:blur(11px); color:var(--white); }
+.thanks.open{ display:grid; animation:fadeIn .3s ease; }
+.thanks .box{ width:640px; max-width:100%; padding:52px 56px 48px; border-radius:8px; background:rgba(0,0,0,.5); box-shadow:inset 0 0 0 1px rgba(255,255,255,.22); -webkit-backdrop-filter:blur(16.5px); backdrop-filter:blur(16.5px); text-align:center; display:flex; flex-direction:column; align-items:center; animation:fade .35s ease; }
+.thanks .diamond{ width:10px; height:10px; margin-bottom:28px; }
+.thanks h2{ font:400 40px/48px var(--font-display); }
+.thanks p{ font:400 16px/24px var(--font-text); margin-top:18px; max-width:46ch; }
+.thanks .btn{ margin-top:36px; height:52px; padding:0 24px; display:inline-flex; align-items:center; gap:12px; border-radius:4px; background:var(--coral); color:var(--ink); font:600 16px/19.5px var(--font-text); transition:background .2s; }
+.thanks .btn:hover{ background:var(--coral-hover); }
+
 /* ============================================================ MENU OVERLAY */
 .menu{ position:absolute; inset:0; overflow:auto; z-index:20; background:rgba(0,0,0,.72); -webkit-backdrop-filter:blur(16.5px); backdrop-filter:blur(16.5px); color:var(--white); display:none; grid-template-columns:1fr 1.6fr; gap:60px; padding:96px 256px 80px 184px; }
 .menu.open{ display:grid; animation:fadeIn .3s ease; }
@@ -982,6 +992,10 @@ img{ display:block; max-width:100%; }
   .menu h2{ font-size:28px; line-height:34px; }
   .menu .list{ columns:1; }
   .menu .hint{ display:none; }
+  .thanks{ position:fixed; padding:16px; }
+  .thanks .box{ padding:32px 24px 28px; }
+  .thanks h2{ font-size:26px; line-height:32px; }
+  .thanks .btn{ width:100%; justify-content:center; margin-top:24px; }
 
   /* ---- shared controls ---- */
   .choices{ flex-wrap:wrap; gap:10px; }
@@ -1452,6 +1466,16 @@ img{ display:block; max-width:100%; }
 
       <!-- Table of contents popup: opened by the hamburger, filled by app.js → openToc() -->
       <div class="toc slide tpl-toc" id="toc" role="dialog" aria-modal="true" aria-label="Table of contents"><div id="tocbody"></div></div>
+
+      <!-- Thank-you popup: opened by app.js → openThanks() after a webhook button (Book a consultation, Speak to consultant…) succeeds -->
+      <div class="thanks" id="thanks" role="dialog" aria-modal="true" aria-labelledby="thanks-title" hidden>
+        <div class="box">
+          <span class="diamond" aria-hidden="true"></span>
+          <h2 id="thanks-title">Thank you for your interest</h2>
+          <p>A betterhomes property expert will call you to answer your questions and discuss options that fit your investment goals.</p>
+          <button type="button" class="btn" id="thanksclose"><span class="lbl">Return to my guide </span><svg class="arrow-r" width="22" height="14" viewBox="0 0 22 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M14 1l6 6-6 6M20 7H0"/></svg></button>
+        </div>
+      </div>
 
       <div class="menu" id="menu" role="dialog" aria-label="Contents">
         <button class="close" id="menuclose" aria-label="Close menu"><svg width="21.2" height="21.1" viewBox="0 0 21.2 21.1" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M1 1L20.2 20.1"/><path d="M20.2 1L1 20.1"/></svg></button>

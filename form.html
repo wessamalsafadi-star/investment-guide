@@ -282,8 +282,7 @@ body:not(.is-intro) .page{ display:none; }
   .page .ms-end-label{ left:177.82px; top:10px; }
 
   .page .media{ flex:none; align-self:auto; width:100%; aspect-ratio:400/396; }
-  .page .media img{ top:16.26%; left:-10.37%; width:120.75%; height:auto; max-width:none; object-fit:fill; }
-
+.page .media img{ top:0; left:0; width:100%; height:100%; max-width:none; object-fit:cover; object-position:50% 50%; }
   .page .content{ flex:1 1 auto; align-items:center; padding:37px 24px 42px; background:var(--sand); text-align:center; }
   .page .hero{ align-items:center; gap:17px; width:100%; margin-bottom:33px; }
   .page .eyebrow{ height:20px; font-size:14px; line-height:20px; }
@@ -293,7 +292,7 @@ body:not(.is-intro) .page{ display:none; }
   .page .time{ font-size:12px; line-height:17px; }
   .page .foot{ align-self:center; width:calc(100% + 16px); max-width:368px; padding-top:13px; }
   .page .foot p{ max-width:327px; margin:0 auto; }
-}
+    .result .laptop{ width: 80%;}}
 @media (max-width:359px){
   .page .header{ padding:0 16px; }
 }
@@ -331,7 +330,7 @@ body:not(.is-intro) .page{ display:none; }
   .result .card{ flex:none; min-height:0; padding:22px 28px; }
   .result .card .l{ font-size:14px; }
   .result .card .v{ font-size:24px; white-space:normal; }
-  .result .laptop{ position:relative; left:auto; top:auto; width:100%; height:auto; aspect-ratio:1037.86/571; margin-top:19px; }
+  .result .laptop{ position:relative; left:auto; top:auto; width:80%; height:auto; aspect-ratio:1037.86/571; margin-top:19px; }
   .result .laptop .shot{ left:11.16%; top:7.55%; width:77.68%; height:83.02%; }
   .result .raside{ position:static; width:auto; margin-top:28px; }
   .result .raside .t{ font-size:20px; line-height:26px; }
@@ -705,7 +704,7 @@ const PANELS = {
     const card = (icon, l, v) => `<div class="card">${SVG[icon]}<p class="l">${h(l)}</p><p class="v">${h(v)}</p></div>`;
     return `<img class="hero" alt="" src="img/results.png">
     <div class="board">
-      <header class="rh" style="position: absolute; left: -235px;">${SVG.wordmark}<span class="rule"></span><button type="button" class="review" data-nav="back"><span class="dia"></span>Review my answers</button></header>
+      <header class="rh" style="position: absolute; left: -235px;">${SVG.wordmark}<span class="rule"></span><button type="button" class="review" data-nav="first"><span class="dia"></span>Review my answers</button></header>
       <div class="rmain">
         <section><p class="kicker">Your investment direction</p><h1>${h(p.label)}</h1><p class="desc">${h(desc)}</p></section>
         <hr class="hr">
@@ -750,8 +749,17 @@ function fitResult(){
   const board = $(".board", panel); if (!board) return;
   const w = panel.clientWidth, hgt = panel.clientHeight;
   if (w <= 1100){ board.style.transform = ""; return; }
-  const s = Math.min(w / 1920, hgt / 1080);
-  board.style.transform = `translate(-50%,-50%) scale(${s})`;
+  board.style.transform = "translate(-50%,-50%)";                     // measure at scale 1
+  const b = board.getBoundingClientRect();
+  let l = 0, t = 0, r = 1920, btm = 1080;
+  board.querySelectorAll(".rh > *, .rmain, .laptop, .raside").forEach(el => {
+    const x = el.getBoundingClientRect();
+    l = Math.min(l, x.left - b.left); t = Math.min(t, x.top - b.top);
+    r = Math.max(r, x.right - b.left); btm = Math.max(btm, x.bottom - b.top);
+  });
+  const s = Math.min(w / (r - l + 40), hgt / (btm - t + 40));
+  const cx = (l + r) / 2 - 960, cy = (t + btm) / 2 - 540;            // content centre vs board centre
+  board.style.transform = `translate(calc(-50% - ${cx * s}px), calc(-50% - ${cy * s}px)) scale(${s})`;
 }
 window.addEventListener("resize", fitResult);
 function rerender(){ const el = $(".panel:not(.exit)", $("#main")); if (!el) return; el.innerHTML = PANELS[UI.step]() + `<div class="err" id="err"></div>` + navHtml(UI.step); if (UI.showErr) showError(); }
@@ -827,6 +835,17 @@ function go(delta){
   UI.step = list[j]; UI.dir = delta; render(delta);
 }
 
+/* Which raw answers belong to each question step, and what "empty" looks like for each field. */
+const STEP_FIELDS = { market:["market"], communities:["community_mode","community_ids"], goals:["goal_choice","additional_goals"],
+  route:["purchase_route","own_use_stage","timing_code"], stage:["own_use_stage"], timing:["timing_code"],
+  budget:["budget_mode","budget_min","budget_max","funding_plan"], experience:["experience_codes"] };
+const EMPTY = { community_mode:"skipped", community_ids:[], additional_goals:[], experience_codes:[], budget_min:undefined, budget_max:undefined };
+/* resetAfter(step): an answer on `step` changed, so every answer on the steps after it is cleared and the cached submission is thrown away. */
+function resetAfter(step){
+  const list = QUESTION_STEPS(), i = list.indexOf(step);
+  list.slice(i + 1).forEach(s => (STEP_FIELDS[s] || []).forEach(f => { A[f] = f in EMPTY ? (Array.isArray(EMPTY[f]) ? [] : EMPTY[f]) : null; }));
+  submission = null;
+}
 /* ============================================================ ANSWER CHANGES + RESET RULES (Branches tab) */
 function set(field, val){
   switch(field){
@@ -866,14 +885,21 @@ function set(field, val){
 
 $("#main").addEventListener("click", e => {
   const b = e.target.closest("button"); if (!b) return;
+  if (b.dataset.nav === "first"){ UI.step = QUESTION_STEPS()[0]; render(-1); return; }
   if (b.dataset.nav){ go(b.dataset.nav === "back" ? -1 : 1); return; }
   if (b.id === "back"){ clearTimeout(advanceTimer); go(-1); return; }
   if (b.id === "next"){ clearTimeout(advanceTimer); go(1); return; }
-  if (b.dataset.field){ set(b.dataset.field, b.dataset.val); UI.showErr = false; rerender(); if (autoAdvance(b.dataset.field, b.dataset.val)) advanceSoon(); return; }
+    if (b.dataset.field){
+    const before = JSON.stringify(A);
+    set(b.dataset.field, b.dataset.val);
+    if (JSON.stringify(A) !== before) resetAfter(UI.step);
+    UI.showErr = false; rerender(); if (autoAdvance(b.dataset.field, b.dataset.val)) advanceSoon(); return;
+  }
   if (b.dataset.community){
     const id = b.dataset.community;
     if (A.community_ids.includes(id)) A.community_ids = A.community_ids.filter(x => x !== id); else A.community_ids.push(id);
     A.community_mode = A.community_ids.length ? "selected" : "skipped";
+    resetAfter("communities");                                   // ← new
     rerender(); $("#csearch")?.focus(); return;
   }
 });
@@ -884,7 +910,12 @@ $("#main").addEventListener("input", e => {
 });
 $("#main").addEventListener("change", e => {
   const t = e.target;
-  if (t.dataset.budget){ const v = t.value; const parsed = v === "" ? undefined : v === "null" ? null : +v; if (t.dataset.budget === "min") A.budget_min = parsed; else A.budget_max = parsed; UI.showErr = false; $("#err")?.classList.remove("on"); if (budgetOk()) advanceSoon(); return; }
+  if (t.dataset.budget){
+    const v = t.value; const parsed = v === "" ? undefined : v === "null" ? null : +v;
+    if (t.dataset.budget === "min") A.budget_min = parsed; else A.budget_max = parsed;
+    resetAfter("budget");                                        // ← new
+    UI.showErr = false; $("#err")?.classList.remove("on"); if (budgetOk()) advanceSoon(); return;
+  }  
   if (t.dataset.text === "phone_cc"){ A.phone_cc = t.value; return; }
   if (t.id === "optin"){ A.marketing_opt_in = t.checked; return; }
 });
@@ -950,7 +981,11 @@ async function submit(){
   try { await deliver(submission); } catch (e) { console.error(e); }
   location.href = GUIDE_URL + guideHash(submission);
 }
-
+window.addEventListener("pageshow", e => {
+  if (!e.persisted) return;
+  document.querySelectorAll("#next,[data-nav=next]").forEach(b => b.disabled = false);
+  submission = null;                      // rebuild the payload if they change an answer and submit again
+});
 render(1);
 </script>
 </body>

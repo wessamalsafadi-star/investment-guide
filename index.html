@@ -152,6 +152,13 @@ img{ display:block; max-width:100%; }
 .slide.light .switch .track{ background:rgba(31,52,63,.08); border:1px solid rgba(31,52,63,.2); }
 .slide.light .switch .track button{ color:var(--ink); } .slide.light .switch .track button[aria-pressed="true"]{ background:var(--ink); color:var(--white); }
 
+/* scroll cues (08 "Scroll", 2.3 "Scroll", 03 "See more"): shared behaviour — the chevron turns when the end is reached,
+   and the button disappears when its container has nothing to scroll (app.js → syncCue) */
+.cue{ cursor:pointer; transition:opacity .35s; }
+.cue svg{ transition:transform .3s; }
+.cue.up svg{ transform:rotate(180deg); }
+.cue[hidden]{ display:none!important; }
+
 /* ============================================================ CHROME */
 .chrome{ position:absolute; inset:0; z-index:5; pointer-events:none; }
 .chrome > *{ pointer-events:auto; }
@@ -574,7 +581,10 @@ img{ display:block; max-width:100%; }
 .tpl-global .blk p{ font:400 16px/22px var(--font-text); margin-top:10px; }
 .tpl-global .fade{ position:absolute; left:-90px; right:-90px; bottom:0; height:213px; background:linear-gradient(180deg,rgba(0,0,0,0) 0%,#000 100%); pointer-events:none; z-index:2; }
 .tpl-global .ratenote{ position:absolute; left:0; bottom:20px; z-index:3; font:400 12px/17px var(--font-text); opacity:.75; }
-.tpl-global .scrollhint{ position:absolute; left:50%; bottom:20px; transform:translateX(-50%); z-index:3; text-align:center; font:400 16px/22px var(--font-text); pointer-events:none; }
+.tpl-global .scrollhint{ position:absolute; left:50%; bottom:20px; transform:translateX(-50%); z-index:3; text-align:center; font:400 16px/22px var(--font-text); color:var(--white); }
+.tpl-global .scrollhint svg{ display:block; margin:0 auto 6px; }
+.tpl-global .scroll.scrolled:not(.end) ~ .scrollhint{ opacity:0; pointer-events:none; }
+.tpl-global .scrollhint.up{ display:flex; flex-direction:column-reverse; } .tpl-global .scrollhint.up svg{ margin:6px auto 0; }
 
 /* focus (03 Your investment focus: goal tabs, summary card, accordion rows, CTA) */
 .tpl-focus .inner{ padding-top:29px; }
@@ -607,7 +617,9 @@ img{ display:block; max-width:100%; }
 .tpl-focus .hr{ margin-top:20px; }
 .tpl-focus .cta{ width:379px; height:52px; display:flex; align-items:center; justify-content:center; gap:12px; border-radius:4px; background:var(--coral); color:var(--ink); font:600 16px/19.5px var(--font-text); transition:background .2s; }
 .tpl-focus .cta:hover{ background:var(--coral-hover); }
-.tpl-focus .seemore{ font:400 16px/22px var(--font-text); display:flex; flex-direction:column; align-items:center; gap:8px; }
+.tpl-focus .seemore{ font:400 16px/22px var(--font-text); color:var(--white); display:flex; flex-direction:column; align-items:center; gap:8px; }
+.tpl-focus .seemore svg{ display:block; }
+.tpl-focus .seemore.up{ flex-direction:column-reverse; }
 
 /* checklist (4.1 / 4.2: three accordion glass cards per page) */
 .tpl-checklist .title-row .tag{ font:400 32px/39px var(--font-display); text-align:right; }
@@ -929,7 +941,7 @@ img{ display:block; max-width:100%; }
   .slide .bg.second{ display:none; }
   .tpl-cities .cc .ph{
     background-color: black;
-    opacity: 0.6;
+    opacity: 0.7;
   }
   .tpl-checklist.four-up .step{         padding: 10px 10px;
         min-width: 370px; }

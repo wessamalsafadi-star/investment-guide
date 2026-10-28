@@ -701,6 +701,7 @@
     toc.classList.toggle("open", open);
     document.body.classList.toggle("toc-open", open);
     stage.classList.toggle("toc-open", open);
+    $("#burger").setAttribute("aria-expanded", open); $("#burger").setAttribute("aria-label", open ? "Close contents" : "Table of contents");
     // the popup sits UNDER the chrome, which switches to the contents slide's "min" style (hairline rail + bar) while it is open
     const cur = byId(state.id) || {};
     stage.classList.toggle("chrome-none", !open && cur.tpl === "cover");

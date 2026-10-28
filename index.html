@@ -879,6 +879,15 @@ img{ display:block; max-width:100%; }
 .tpl-process .detail li{ font:400 16px/22px var(--font-text); padding:0 0 8px 18.5px; position:relative; } .tpl-process .detail li::before{ content:""; position:absolute; left:0; top:8px; width:6.7px; height:6.7px; background:var(--paper); transform:rotate(45deg); }
 .tpl-process .detail .end{ margin-top:15px; }
 
+/* ============================================================ TABLE OF CONTENTS POPUP
+   Opened by the hamburger. A dimmed, blurred backdrop over the current slide with the contents panel
+   on the sand page (same two-column rows as the contents slide). Rows jump to their slide and close it. */
+/* It is a full-stage .slide.tpl-toc placed UNDER the chrome (z 4 < 5), so the contents slide's own styles lay it out identically and
+   the same hairline rail + top bar show over it (app.js sets .chrome-min while it is open). The burger closes it; Back / Next are hidden. */
+.toc.slide{ display:none; z-index:4; }
+.toc.slide.open{ display:block; animation:fadeIn .3s ease; }
+.stage.toc-open .pager{ display:none; }
+
 /* ============================================================ MENU OVERLAY */
 .menu{ position:absolute; inset:0; overflow:auto; z-index:20; background:rgba(0,0,0,.72); -webkit-backdrop-filter:blur(16.5px); backdrop-filter:blur(16.5px); color:var(--white); display:none; grid-template-columns:1fr 1.6fr; gap:60px; padding:96px 256px 80px 184px; }
 .menu.open{ display:grid; animation:fadeIn .3s ease; }
@@ -942,6 +951,10 @@ img{ display:block; max-width:100%; }
   .stage.chrome-none .chrome > :not(.burger){ display:none; }
   .stage.chrome-none .burger{ display:grid; color:var(--white); }
   .stage.chrome-none .chrome > .bar-top{ display:none; }
+
+  /* ---- contents popup ---- */
+  .toc.slide{ position:fixed; inset:0; min-height:0; overflow:auto; }
+  body.toc-open{ overflow:hidden; }
 
   /* ---- menu ---- */
   .menu{ position:fixed; inset:0; grid-template-columns:1fr; gap:28px; padding:70px 16px 40px; overflow:auto; }
@@ -1415,6 +1428,9 @@ img{ display:block; max-width:100%; }
           <button type="button" id="next" class="next"><span>Next</span><svg width="10" height="12" viewBox="0 0 10 12" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><path d="M0 6H9"/><path d="M4 0L10 6L4 12"/></svg></button>
         </nav>
       </div>
+
+      <!-- Table of contents popup: opened by the hamburger, filled by app.js → openToc() -->
+      <div class="toc slide tpl-toc" id="toc" role="dialog" aria-modal="true" aria-label="Table of contents"><div id="tocbody"></div></div>
 
       <div class="menu" id="menu" role="dialog" aria-label="Contents">
         <button class="close" id="menuclose" aria-label="Close menu"><svg width="21.2" height="21.1" viewBox="0 0 21.2 21.1" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M1 1L20.2 20.1"/><path d="M20.2 1L1 20.1"/></svg></button>

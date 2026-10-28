@@ -431,7 +431,7 @@
         <div class="scroll"><div class="grid" style="grid-template-columns:repeat(${shown.length},1fr);--rows:${rows}">${shown.map(c => `<div class="gc ${c.uae ? (c.key === "abudhabi" ? "ad" : "") : "other"}"><h3>${h(c.name)}</h3>
           ${c.blocks.map(b => `<div class="blk"><div class="l">${h(b.l)}</div>${b.s ? `<div class="s">${h(cv(b.s))}</div>` : ""}${b.v ? `<div class="v">${h(cv(b.v))}</div>` : ""}${(b.paras || (b.t ? [b.t] : [])).map(p => `<p>${h(cv(p))}</p>`).join("")}${b.v2 ? `<div class="v">${h(cv(b.v2))}</div>` : ""}${b.t2 ? `<p>${h(cv(b.t2))}</p>` : ""}</div>`).join("")}</div>`).join("")}</div></div>
         ${curKey === "AED" ? "" : `<p class="ratenote">Converted from AED at an indicative rate of 1 AED = ${CURRENCIES[curKey].symbol}${CURRENCIES[curKey].rate} (${CURRENCY_AS_OF}) · figures rounded</p>`}
-        <div class="fade"></div><div class="scrollhint">${ICO.chev}<br>Scroll</div></div>`;
+        <div class="fade"></div><button type="button" class="scrollhint cue" data-cue="1" aria-label="Scroll the comparison">${ICO.chev}<br><span class="lbl" data-more="Scroll" data-less="Back to top">Scroll</span></button></div>`;
     },
 
     focus: s => {
@@ -446,7 +446,7 @@
         <div class="intro"><p class="t-body">${h(c.lede)}</p><p class="t-body">${h(c.body)}</p></div>
         <div class="sum"><h3>Your plans at a glance</h3><div class="items">${[["Preferred market", lab, ICO.pin], ["Property price range", budget, ICO.house], ["Purchase plan", route, ICO.receipt]].map(([l, v, ic]) => `<div class="item">${ic}<div class="l">${h(l)}</div><div class="v">${h(v)}</div></div>`).join("")}</div></div>
         <div class="rows">${c.rows.map((r, i) => `<button type="button" class="row" data-row="${i}" aria-expanded="${i === openRow}"><div class="rh"><span>${h(r.h)}</span>${ICO.chev}</div><div class="body">${r.paras.map(p => `<p>${h(p)}</p>`).join("")}</div></button>`).join("")}</div>
-        <div class="cta-row"><button type="button" class="cta" ${actAttrs(s.cta, `data-go="next"`)}><span class="lbl">${h(s.cta.label)} </span>${ICO.arrow}</button><span class="seemore">See more ${ICO.chev}</span></div></div>`;
+        <div class="cta-row"><button type="button" class="cta" ${actAttrs(s.cta, `data-go="next"`)}><span class="lbl">${h(s.cta.label)} </span>${ICO.arrow}</button><button type="button" class="seemore cue" data-cue="1" aria-label="See more"><span class="lbl" data-more="See more" data-less="See less">See more</span>${ICO.chev}</button></div></div>`;
     },
 
     checklist: s => {
@@ -624,6 +624,7 @@
     const p = path(), i = p.findIndex(s => s.id === id);
     preload(p[i + 1]); preload(p[i - 1]);
     document.title = (slide.title || DECK.meta.title) + " · betterhomes";
+    syncCues();
   }
   function current() { const all = slidesEl.querySelectorAll(".slide:not(.exit)"); return all[all.length - 1] || null; }
     function rerender() {
@@ -642,6 +643,7 @@
     el.replaceChildren(...kept, ...tmp.childNodes);
     el.classList.add("settled");                       // the cards' entrance animation only plays once per slide
     writeHash(true); updateChrome(s);
+    syncCues();
   }
   function updateChrome(slide) {
     const p = path(), i = p.findIndex(s => s.id === slide.id), n = p.length;
@@ -737,7 +739,7 @@
     }
     if (b.dataset.href) { window.open(b.dataset.href, "_blank", "noopener"); return; }
     if (b.dataset.region) { state.choices["region-" + s.id] = b.dataset.region; rerender(); return; }
-    if (b.dataset.cue) { const sc = b.closest(".inner").querySelector(".scroll"); sc.scrollTo({ top: sc.classList.contains("end") ? 0 : sc.scrollHeight, behavior: "smooth" }); return; }
+    if (b.dataset.cue) { const sc = cueTarget(b); if (sc) sc.scrollTo({ top: sc.classList.contains("end") ? 0 : sc.scrollHeight, behavior: "smooth" }); return; }
     if (b.dataset.view) { state.choices["view-" + s.id] = b.dataset.view; rerender(); return; }
     if (b.dataset.tab !== undefined) { state.choices[(s.tpl === "process" ? "step-" : "tab-") + s.id] = b.dataset.tab; rerender(); return; }
     if (b.dataset.page !== undefined) { state.choices["pg-" + s.id] = b.dataset.page; local["open-" + s.id] = -1; rerender(); return; }
@@ -755,12 +757,22 @@
     const s = byId(state.id); (local["seen-" + s.id] ||= new Set()).add(+card.dataset.reveal); rerender();
   });
 
-  slidesEl.addEventListener("scroll", e => {
-    const sc = e.target; if (!sc.classList || !sc.classList.contains("scroll")) return;
+  /* scroll cues ("Scroll" on 08 and 2.3, "See more" on 03): the cue button scrolls its container (.scroll, or the
+     accordion .rows on 03) to the bottom, flips to "back to top" once the end is reached, and hides itself when
+     there is nothing to scroll. cueTarget() finds the container; syncCue() keeps the button in step with it. */
+  const cueTarget = b => b.closest(".inner").querySelector(".scroll, .rows");
+  function syncCue(sc) {
+    if (!sc || !sc.classList) return;
     sc.classList.toggle("scrolled", sc.scrollTop > 20);
     sc.classList.toggle("end", sc.scrollTop + sc.clientHeight >= sc.scrollHeight - 10);
-    const cue = sc.parentElement.querySelector(".cue"); if (cue) cue.classList.toggle("up", sc.classList.contains("end"));
-  }, true);
+    const cue = sc.closest(".inner")?.querySelector(".cue"); if (!cue) return;
+    const up = sc.classList.contains("end");
+    cue.classList.toggle("up", up);
+    cue.hidden = sc.scrollHeight <= sc.clientHeight + 1;
+    const l = cue.querySelector(".lbl"); if (l && l.dataset.more) l.textContent = up ? l.dataset.less : l.dataset.more;
+  }
+  function syncCues() { const el = current(); if (el) el.querySelectorAll(".scroll, .rows").forEach(syncCue); }
+  slidesEl.addEventListener("scroll", e => { const sc = e.target; if (sc.classList && (sc.classList.contains("scroll") || sc.classList.contains("rows"))) syncCue(sc); }, true);
 
   slidesEl.addEventListener("change", e => {
     const sel = e.target.closest("select[data-select]"); if (!sel) return;

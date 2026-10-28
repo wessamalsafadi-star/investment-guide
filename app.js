@@ -268,8 +268,8 @@
         headers: { "Content-Type": hk.contentType || "application/json", ...(hk.headers || {}) }, body: JSON.stringify(payload) });
       if (hk.mode !== "no-cors" && !r.ok) throw new Error("HTTP " + r.status);
       say(hk.done || "Done ✓"); b.classList.add("sent");
-      const t = hk.then || {};
-      if (t.jump && byId(t.jump)) render(t.jump, 1); else if (t.href) window.open(t.href, "_blank", "noopener");
+      // Thank the visitor in a popup. "Return to my guide" closes it and then runs the button's `then` (a jump or a link), if any.
+      openThanks(hk.then || {});
     } catch (err) {
       console.error("hook failed", err); say(hk.fail || "Try again"); delete b.dataset.busy; b.removeAttribute("aria-busy");
       setTimeout(() => say(original), 2500);
@@ -694,6 +694,25 @@
     return !!t;
   }
 
+  /* ---------------- thank-you popup (after a webhook button) ----------------
+     Shown by runHook() once the request succeeds. The copy lives in index.html (#thanks). The "Return to my guide"
+     button closes it and then runs the originating button's `then` ({ jump } or { href }); Escape and the backdrop just close it. */
+  const thanks = $("#thanks");
+  let thanksThen = null;
+  function openThanks(then) {
+    thanksThen = then || null;
+    thanks.classList.add("open"); thanks.hidden = false;
+    const btn = $("#thanksclose"); if (btn) btn.focus();
+  }
+  function closeThanks(run) {
+    if (!thanks.classList.contains("open")) return;
+    thanks.classList.remove("open"); thanks.hidden = true;
+    const t = run ? thanksThen : null; thanksThen = null;
+    if (!t) return;
+    if (t.jump && byId(t.jump)) render(t.jump, 1); else if (t.href) window.open(t.href, "_blank", "noopener");
+  }
+  thanks.addEventListener("click", e => { if (e.target.closest("#thanksclose")) closeThanks(true); else if (e.target === thanks) closeThanks(false); });
+
   /* ---------------- table-of-contents popup ----------------
      The hamburger opens the contents as an overlay on top of the current slide (it no longer navigates to the
      "contents" slide, which still sits in the deck for Next / Back). Any row jumps and closes the popup.
@@ -792,7 +811,7 @@
     if (toc.classList.contains("open") && /^(Arrow|Page| $)/.test(e.key)) return;   // the slides stay put while the contents popup is open
     if (e.key === "ArrowRight" || e.key === "PageDown" || (e.key === " " && !onButton)) { e.preventDefault(); go(1); }
     else if (e.key === "ArrowLeft" || e.key === "PageUp") { e.preventDefault(); go(-1); }
-    else if (e.key === "Escape") { openMenu(false); openToc(false); }
+    else if (e.key === "Escape") { openMenu(false); openToc(false); closeThanks(false); }
     else if (e.key.toLowerCase() === "m") { openToc(false); openMenu(!menu.classList.contains("open")); }
   });
   // swipe — a horizontal drag moves to the next / previous slide, EXCEPT when it starts inside something that

@@ -685,8 +685,34 @@
     delete state.choices.goals;                       // additional goals only come from the form
     DECK.slides.filter(s => s.tpl === "map" || s.tpl === "communities").forEach(s => delete state.choices["pin-" + s.id]);
   }
-  // The hamburger opens the table of contents (the menu overlay with the market / goal switches stays on the M key).
-$("#burger").addEventListener("click", () => { openMenu(false); render("contents", 1); });
+  // jumpByNum(): "01" → the first slide of that section; "1.2" → the slide with that num. Used by the contents slide and the TOC popup.
+  function jumpByNum(num) {
+    const t = DECK.slides.find(x => x.num === num) || DECK.slides.find(x => x.section === DECK.sections.find(sec => sec.num === num)?.id);
+    if (t) render(t.id, 1);
+    return !!t;
+  }
+
+  /* ---------------- table-of-contents popup ----------------
+     The hamburger opens the contents as an overlay on top of the current slide (it no longer navigates to the
+     "contents" slide, which still sits in the deck for Next / Back). Any row jumps and closes the popup.
+     The menu overlay with the market / goal switches stays on the M key. */
+  const toc = $("#toc");
+  function openToc(open) {
+    toc.classList.toggle("open", open);
+    document.body.classList.toggle("toc-open", open);
+    stage.classList.toggle("toc-open", open);
+    // the popup sits UNDER the chrome, which switches to the contents slide's "min" style (hairline rail + bar) while it is open
+    const cur = byId(state.id) || {};
+    stage.classList.toggle("chrome-none", !open && cur.tpl === "cover");
+    stage.classList.toggle("chrome-min", open || cur.tpl === "toc");
+    if (!open) return;
+    $("#tocbody").innerHTML = TPL.toc(byId("contents"));                   // the contents slide's own markup, so the popup is identical to it
+  }
+  $("#burger").addEventListener("click", () => { openMenu(false); openToc(!toc.classList.contains("open")); });
+  toc.addEventListener("click", e => {
+    const b = e.target.closest("button[data-jump]"); if (!b) return;
+    openToc(false); jumpByNum(b.dataset.jump);
+  });
   $("#menuclose").addEventListener("click", () => openMenu(false));
   menu.addEventListener("click", e => {
     const b = e.target.closest("button"); if (!b) return;
@@ -718,7 +744,7 @@ $("#burger").addEventListener("click", () => { openMenu(false); render("contents
     if (b.dataset.row !== undefined) { const i = +b.dataset.row; local["row-" + s.id] = local["row-" + s.id] === i ? -1 : i; rerender(); return; }
     if (b.dataset.pin) { if (s.tpl === "communities" && state.choices["pin-" + s.id] === b.dataset.pin) delete state.choices["pin-" + s.id]; else state.choices["pin-" + s.id] = b.dataset.pin; rerender(); return; }
     if (b.dataset.chips !== undefined) { state.choices["chips-" + s.id] = b.dataset.chips; rerender(); return; }
-    if (b.dataset.jump) { const t = DECK.slides.find(x => x.num === b.dataset.jump) || DECK.slides.find(x => x.section === DECK.sections.find(sec => sec.num === b.dataset.jump)?.id); if (t) render(t.id, 1); return; }
+    if (b.dataset.jump) { jumpByNum(b.dataset.jump); return; }
     if (b.dataset.jumpId) { if (byId(b.dataset.jumpId)) render(b.dataset.jumpId, 1); return; }
     if (b.dataset.go === "next") go(1);
   });
@@ -750,10 +776,11 @@ $("#burger").addEventListener("click", () => { openMenu(false); render("contents
   document.addEventListener("keydown", e => {
     if (e.target.matches("input,textarea,select")) return;
     const onButton = e.target.closest && e.target.closest("button");
+    if (toc.classList.contains("open") && /^(Arrow|Page| $)/.test(e.key)) return;   // the slides stay put while the contents popup is open
     if (e.key === "ArrowRight" || e.key === "PageDown" || (e.key === " " && !onButton)) { e.preventDefault(); go(1); }
     else if (e.key === "ArrowLeft" || e.key === "PageUp") { e.preventDefault(); go(-1); }
-    else if (e.key === "Escape") openMenu(false);
-    else if (e.key.toLowerCase() === "m") openMenu(!menu.classList.contains("open"));
+    else if (e.key === "Escape") { openMenu(false); openToc(false); }
+    else if (e.key.toLowerCase() === "m") { openToc(false); openMenu(!menu.classList.contains("open")); }
   });
   // swipe — a horizontal drag moves to the next / previous slide, EXCEPT when it starts inside something that
   // scrolls sideways itself (the compare tables' .scrollx on phones, the 2.3 global cards, any select or input):

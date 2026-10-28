@@ -73,7 +73,7 @@ window.DECK = {
           "2.3 How the UAE compares with global property markets" ] },
         { title: "Your investment focus", page: "03", items: [] },
         { title: "What to check before you buy", page: "04", items: [
-          "4.1 Verify your property", "4.2 Know the full cost before you buy", "4.3 Check whether the property fits your investment goal" ] },
+          "4.1 Verify your property", "4.2 Know the full cost before you buy" ] },
         { title: "The communities worth considering", page: "05", items: [ "5.1 Dubai communities", "5.2 Abu Dhabi communities" ] },
         { title: "What happens after you choose a property", page: "06", items: [
           "6.1 Buying a ready property in Dubai", "6.2 Buying an off-plan property in Dubai", "6.3 Buying a ready property in Abu Dhabi", "6.4 Buying an off-plan property in Abu Dhabi" ] },

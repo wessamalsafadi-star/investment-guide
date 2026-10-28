@@ -80,6 +80,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ o
 
 .q{ font-size:3rem; max-width:34ch; }
 .help{ font-size:1rem; color:var(--ink-2); margin-top:1rem; max-width:62ch; line-height:1.5; }
+.q2{ font-size:2.1rem; margin-top:3.2rem; }
 .group-t{ font-family:var(--font-display); font-size:1.5rem; margin-top:2.4rem; padding-bottom:.6rem; border-bottom:1px solid var(--line); display:flex; justify-content:space-between; align-items:baseline; }
 .group-t small{ font-family:var(--font-body); font-size:.78rem; color:var(--ink-2); }
 .err{ display:none; margin-top:1.4rem; padding:.9rem 1.1rem; background:rgba(255,120,122,.14); border-left:2px solid var(--salmon); font-size:.86rem; animation:fade .3s var(--ease); }
@@ -490,7 +491,7 @@ function steps(){
   const s = ["intro","market","communities","goals","route"];
   if (A.purchase_route === "personal_use") s.push("stage");
   if (A.purchase_route && A.purchase_route !== "undecided") s.push("timing");
-  s.push("budget","funding","experience","contact","result");
+  s.push("budget","experience","contact","result");   // budget + funding share one page
   return s;
 }
 const QUESTION_STEPS = () => steps().filter(s => s !== "intro" && s !== "result");
@@ -502,8 +503,7 @@ const ASIDE = {
   route:{ section:"How", why:["Why we ask","Your plan shapes which buying steps and timing considerations we show first. Every route stays available."] },
   stage:{ section:"How", why:["Why we ask","Completed and off-plan homes follow different buying processes, so we’ll show the checks that apply."] },
   timing:{ section:"When", why:["Why we ask","These are intentions, not deadlines. We use them to bring the relevant timing considerations forward."] },
-  budget:{ section:"How much", why:["Why we ask","The range you give is used to tailor the relevant checks and your plan summary. It doesn’t test affordability."] },
-  funding:{ section:"How much", why:["Why we ask","Own funds, mortgage or payment plan each come with different checks. We’ll show the ones that fit your plan."] },
+  budget:{ section:"How much", why:["Why we ask","The range you give is used to tailor the relevant checks and your plan summary; it doesn’t test affordability. Own funds, mortgage or payment plan each come with different checks, and we’ll show the ones that fit your plan."] },
   experience:{ section:"You", why:["Why we ask","It helps us pitch the explanations. Every essential check stays in your handbook whatever you answer."] },
   contact:{ section:"You", why:["Why we ask","Your name personalises the handbook, and your email is where we send your copy. Nothing else is required."] }
 };
@@ -516,8 +516,7 @@ function valid(step){
     case "route": return !!A.purchase_route;
     case "stage": return !!A.own_use_stage;
     case "timing": return !!A.timing_code;
-    case "budget": return A.budget_mode === "open" || A.budget_mode === "undecided" || (A.budget_mode === "range" && budgetOk());
-    case "funding": return !!A.funding_plan;
+    case "budget": return (A.budget_mode === "open" || A.budget_mode === "undecided" || (A.budget_mode === "range" && budgetOk())) && !!A.funding_plan;
     case "experience": return A.experience_codes.length > 0;
     case "contact": return contactOk().ok;
     default: return true;
@@ -665,12 +664,12 @@ const PANELS = {
     const sel = (id, val, items, placeholder) => `<label class="sel"><select data-budget="${id}" aria-label="${placeholder}"><option value="" ${val === undefined ? "selected" : ""}>${placeholder}</option>${items.map(([v, l]) => `<option value="${v}" ${String(val) === String(v) ? "selected" : ""}>${l}</option>`).join("")}</select></label>`;
     const amounts = AMOUNTS.map(n => [n, aed(n)]);
     return head("What property price range are you considering?", "Think about the total purchase price, including any amount you would borrow. Purchase fees are additional.") +
-      `<div class="opts">${opt("budget_mode", "range", "A price range", A.budget_mode === "range")}
+      `<div class="opts">${opt("budget_mode", "range", "I have a price range in mind", A.budget_mode === "range")}
         ${A.budget_mode === "range" ? `<div class="range" style="margin-bottom:1.4rem"><div class="field"><label>From</label>${sel("min", A.budget_min, [["0","No minimum"], ...amounts], "Select an amount")}</div><div class="to">to</div><div class="field"><label>To</label>${sel("max", A.budget_max === null ? "null" : A.budget_max, [...amounts, ["null","No upper limit"]], "Select an amount")}</div></div>` : ""}
-        ${opt("budget_mode", "open", "I’m open to different price ranges", A.budget_mode === "open")}${opt("budget_mode", "undecided", "I haven’t decided yet", A.budget_mode === "undecided")}</div>`;
+        ${opt("budget_mode", "open", "I’m open to different price ranges", A.budget_mode === "open")}${opt("budget_mode", "undecided", "I haven’t decided yet", A.budget_mode === "undecided")}</div>
+       <h2 class="q q2">How do you expect to fund the purchase?</h2>
+       <div class="opts" style="margin-top:1.4rem">${FUNDING.map(([id, t]) => opt("funding_plan", id, t, A.funding_plan === id)).join("")}</div>`;
   },
-
-  funding: () => head("How do you expect to fund the purchase?") + `<div class="opts">${FUNDING.map(([id, t]) => opt("funding_plan", id, t, A.funding_plan === id)).join("")}</div>`,
 
   experience: () => head("Have you invested in property before?", "Select all that apply.") + `<div class="opts" role="group">${EXPERIENCE.map(([id, t]) => opt("experience_codes", id, t, A.experience_codes.includes(id), "multi")).join("")}</div>`,
 
@@ -793,8 +792,8 @@ function navHtml(step){
 /* Auto-advance: a step moves on by itself once the allowed number of options is chosen. */
 function autoAdvance(field, val){
   switch(field){
-    case "market": case "purchase_route": case "own_use_stage": case "timing_code": case "funding_plan": return true;
-    case "budget_mode": return val !== "range";                                         // a range waits for both amounts
+    case "market": case "purchase_route": case "own_use_stage": case "timing_code": return true;
+    case "budget_mode": case "funding_plan": return valid("budget");                    // budget + funding share a page: move on once both are answered
     case "goal_choice": return val === "exploring";                                     // otherwise up to two more goals may follow
     case "additional_goals": return A.additional_goals.length >= SHARES.maxAdditional;  // cap reached
     case "experience_codes": return ["first_investment","prefer_not_to_say"].includes(val) && A.experience_codes.includes(val); // exclusive answers
@@ -810,7 +809,7 @@ function advanceSoon(){
 }
 function showError(){
   const s = UI.step, el = $("#err"); if (!el) return;
-  const msg = s === "budget" ? budgetError() : s === "contact" ? "Check the highlighted fields above." : s === "goals" ? "Choose a main priority to continue." : s === "communities" ? "Choose at least one community, or tell us you’re open to suggestions." : s === "experience" ? "Choose at least one option to continue." : "Choose one option to continue.";
+  const msg = s === "budget" ? (!A.budget_mode ? "Choose a price range option to continue." : budgetError() || (!A.funding_plan ? "Choose how you expect to fund the purchase to continue." : "")) : s === "contact" ? "Check the highlighted fields above." : s === "goals" ? "Choose a main priority to continue." : s === "communities" ? "Choose at least one community, or tell us you’re open to suggestions." : s === "experience" ? "Choose at least one option to continue." : "Choose one option to continue.";
   el.textContent = msg; el.classList.add("on");
 }
 

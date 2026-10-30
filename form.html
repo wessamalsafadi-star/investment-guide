@@ -801,7 +801,7 @@ const PANELS = {
     <div class="board">
       <header class="rh" style="position: absolute; left: -235px;">${SVG.wordmark}<span class="rule"></span><button type="button" class="review" data-nav="first"><span class="dia"></span>Review my answers</button></header>
       <div class="rmain">
-        <section><p class="t" style="font-size: 30px; font-weight: 600;">The UAE’s first personalised, interactive property investment handbook.</p><p class="kicker">Your investment direction</p><h1>${h(p.label)}</h1><p class="desc">${h(desc)}</p></section>
+        <section><p class="kicker">Your investment direction</p><h1>${h(p.label)}</h1><p class="desc">${h(desc)}</p></section>
         <hr class="hr">
         ${ex ? "" : `<section><h2>Your plans at a glance</h2><div class="stats">${stats}</div><p class="cap">These shares show the emphasis given to your goals in the guide.</p></section><hr class="hr">`}
         <h2>Your priorities in this guide</h2>
@@ -810,6 +810,7 @@ const PANELS = {
       </div>
       <div class="laptop">${SVG.laptop}<img class="shot" alt="Preview of the interactive property investment guide on a laptop" src="img/profile.png"></div>
       <aside class="raside">
+        <p class="t">The UAE’s first personalised, interactive property investment handbook.</p>
         <p class="b">Explore Dubai and Abu Dhabi with your goals in mind. Understand the markets, compare areas and know what to check before you buy.</p>
         <button type="button" class="cta" data-nav="next"><span>Open my guide</span><svg viewBox="0 0 21.75 12" width="21.75" height="12" aria-hidden="true" overflow="visible"><path d="M0 6H21.75M15.75 0L21.75 6L15.75 12" fill="none" stroke="#1F343F" stroke-width="1"/></svg></button>
       </aside>

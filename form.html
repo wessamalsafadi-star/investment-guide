@@ -100,17 +100,38 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ o
 .opts.compact .opt{ padding:.8rem .9rem .8rem .4rem; font-size:.95rem; }
 .opts .opt .sub{ display:block; font-weight:400; font-size:.82rem; color:var(--ink-2); margin-top:.15rem; }
 
-/* chips for communities */
-.search{ margin-top:1.6rem; max-width:62rem; display:flex; gap:.6rem; align-items:center; }
-.search input{ flex:1; padding:.75rem 1rem; border:1px solid var(--line); background:#fff; font-size:.95rem; border-radius:3px; }
-.chips{ display:flex; flex-wrap:wrap; gap:.55rem; margin-top:1.2rem; max-width:62rem; }
-.chips button{ padding:.6rem 1.1rem; font-size:.84rem; font-weight:600; color:var(--slate); background:rgba(255,255,255,.7); border:1px solid var(--line); border-radius:6px; transition:background .2s,color .2s,border-color .2s; }
-.chips button:hover{ background:#fff; }
-.chips button[aria-pressed="true"]{ background:var(--slate); color:#fff; border-color:var(--slate); border-radius:6px; }
-.chips button[aria-pressed="true"]::after{ content:"×"; margin-left:.6rem; opacity:.7; }
-.chips .city{ width:100%; font-family:var(--font-display); font-size:1.2rem; color:var(--denim); margin:1rem 0 .2rem; display:flex; align-items:center; gap:.6rem; }
-.chips .city::before{ content:""; width:.6rem; height:.6rem; border:1px solid currentColor; transform:rotate(45deg); }
-.chips .empty{ font-size:.86rem; color:var(--ink-2); }
+/* communities — a multi-select dropdown: the field shows the chosen communities as removable tags;
+   the panel holds a search box and the communities grouped by city, each toggling on click. */
+.dd{ position:relative; margin-top:1.6rem; max-width:62rem; }
+.dd.disabled{ opacity:.35; pointer-events:none; }
+.dd .trigger{ position:relative; display:flex; flex-wrap:wrap; gap:.45rem; align-items:center; width:100%; min-height:3.3rem; padding:.5rem 2.8rem .5rem .6rem; background:#fff; border:1px solid var(--line); border-radius:3px; cursor:pointer; transition:border-color .2s; }
+.dd .trigger:hover,.dd[data-open="true"] .trigger{ border-color:var(--slate); }
+.dd .trigger:focus-visible{ outline:2px solid var(--salmon); outline-offset:3px; }
+.dd .trigger::after{ content:""; position:absolute; right:1.1rem; top:50%; width:.5rem; height:.5rem; border:solid var(--slate); border-width:0 1px 1px 0; transform:translateY(-70%) rotate(45deg); transition:transform .25s; pointer-events:none; }
+.dd[data-open="true"] .trigger::after{ transform:translateY(-20%) rotate(225deg); }
+.dd .ph{ padding:.25rem .4rem; font-size:.95rem; color:var(--ink-2); }
+.dd .tag{ display:inline-flex; align-items:center; gap:.45rem; padding:.35rem .4rem .35rem .75rem; font-size:.82rem; font-weight:600; color:#fff; background:var(--slate); border-radius:6px; }
+.dd .tag .x{ width:1.3rem; height:1.3rem; display:grid; place-items:center; border-radius:4px; font-size:1rem; line-height:1; opacity:.7; transition:opacity .2s,background .2s; }
+.dd .tag .x:hover{ opacity:1; background:rgba(255,255,255,.15); }
+.dd .menu{ display:none; position:absolute; left:0; right:0; top:calc(100% + .4rem); z-index:10; background:#fff; border:1px solid var(--line); border-radius:4px; box-shadow:0 14px 34px rgba(31,52,63,.16); }
+.dd[data-open="true"] .menu{ display:block; animation:fade .2s var(--ease); }
+.dd .search{ padding:.7rem; border-bottom:1px solid var(--line); }
+.dd .search input{ width:100%; padding:.7rem 1rem; border:1px solid var(--line); background:var(--mist); font-size:.95rem; border-radius:3px; }
+.dd .list{ max-height:22rem; overflow-y:auto; overscroll-behavior:contain; padding:.3rem 0 .5rem; }
+.dd .city{ display:flex; align-items:center; gap:.55rem; padding:.9rem .9rem .35rem; font-family:var(--font-display); font-size:1.1rem; color:var(--denim); }
+.dd .city::before{ content:""; width:.55rem; height:.55rem; border:1px solid currentColor; transform:rotate(45deg); }
+.dd .item{ display:grid; grid-template-columns:1.3rem 1fr; gap:.7rem; align-items:center; width:100%; text-align:left; padding:.6rem .9rem; font-size:.92rem; transition:background .15s; }
+.dd .item:hover{ background:var(--mist); }
+.dd .item .d{ width:.65rem; height:.65rem; margin-left:.3rem; border:1px solid var(--slate); transform:rotate(45deg); transition:background .2s,transform .2s; }
+.dd .item[aria-selected="true"]{ font-weight:600; }
+.dd .item[aria-selected="true"] .d{ background:var(--slate); transform:rotate(45deg) scale(1.25); }
+.dd .empty{ padding:1.1rem .9rem; font-size:.86rem; color:var(--ink-2); }
+.dd .foot{ display:flex; align-items:center; gap:1rem; padding:.65rem .9rem; border-top:1px solid var(--line); font-size:.82rem; color:var(--ink-2); }
+.dd .foot .spacer{ flex:1; }
+.dd .foot button{ font-size:.82rem; font-weight:600; color:var(--denim); padding:.3rem .2rem; }
+.dd .foot button:hover{ text-decoration:underline; text-underline-offset:3px; }
+.dd .foot .done{ padding:.45rem 1rem; color:var(--slate); background:var(--salmon); border-radius:4px; }
+.dd .foot .done:hover{ background:#f68a8c; text-decoration:none; }
 .openchip{ margin-top:1.6rem; }
 .openchip .opt{ border-bottom:1px solid var(--line); }
 
@@ -122,6 +143,20 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ o
 .sel select{ appearance:none; -webkit-appearance:none; width:100%; padding:.75rem 2.4rem .75rem 1rem; font-size:.95rem; background:#fff; border:1px solid var(--line); border-radius:3px; cursor:pointer; }
 .sel select:has(option[value=""]:checked){ color:var(--ink-2); }
 .sel::after{ content:""; position:absolute; right:1rem; top:50%; width:.45rem; height:.45rem; border:solid var(--slate); border-width:0 1px 1px 0; transform:translateY(-70%) rotate(45deg); pointer-events:none; }
+
+/* question 05: the anchor line and the gap before the open answers */
+.anchor{ font-size:.86rem; color:var(--ink-2); margin-top:.9rem; }
+.opts.timing{ margin-top:1.4rem; }
+.opts.timing .gap{ height:1.6rem; display: none;}
+.opts.timing .gap + .opt{ font-size:.95rem; }
+
+/* question 04: property type on the left, the dependent plan dropdown on the right */
+.route{ display:grid; grid-template-columns:1fr 1fr; gap:1rem 3rem; align-items:start; max-width:62rem; }
+.route .group-t{ margin-top:2rem; border-bottom:0; padding-bottom:.4rem; font-family:var(--font-body); font-size:.86rem; color:var(--ink-2); }
+.route .opts{ margin-top:0; }
+.route .plan{ animation:fade .35s var(--ease); }
+.route .plan .group-t{ font-family:var(--font-display); font-size:1.5rem; color:var(--ink); padding-bottom:.9rem; }
+.route .plan .sel select{ padding:.9rem 2.6rem .9rem 1rem; font-size:1.05rem; }
 
 /* contact */
 .form{ display:grid; grid-template-columns:1fr 1fr; gap:1.4rem 1.6rem; max-width:62rem; margin-top:2rem; }
@@ -306,7 +341,7 @@ body:not(.is-intro) .page{ display:none; }
   .aside .big{ font-size:2.4rem; margin:0; } .aside .why{ display:none; } #aside > div:nth-child(2){display: none;}.aside img{ display:none; }
   .progress{ max-width:none; }
   .q{ font-size:2.2rem; } .intro .q{ font-size:2.8rem; }
-  .form{ grid-template-columns:1fr; } .range{ margin-left:0; }
+  .form{ grid-template-columns:1fr; } .range{ margin-left:0; } .route{ grid-template-columns:1fr; }
 
   /* result → scrolling column (mirrors the 400px mobile artboard) */
   .panel.result{ overflow-y:auto; padding:0 16px 32px; }
@@ -437,18 +472,32 @@ const SHARES = { single:100, main:70, pool:30, maxAdditional:2 };
 const MARKETS = [["dubai","Dubai"],["abu_dhabi","Abu Dhabi"],["both","Both Dubai and Abu Dhabi"],["undecided","I haven’t decided yet"]];
 const GOALS = [["rental_income","Earn rental income"],["capital_growth","Buy a property with potential to grow in value"],["uae_residency","Support my UAE residency plans"],["personal_use","Have a home for my own use"],["portfolio_diversification","Diversify my wider investments"]];
 const GOAL_LABEL = Object.fromEntries(GOALS);
-const ROUTES = [["completed_rent","Buy a completed property and rent it out"],["completed_resell","Buy a completed property to resell"],["off_plan_sell_before_handover","Buy off-plan and sell before handover"],["off_plan_rent_after_handover","Buy off-plan and rent it out after handover"],["off_plan_resell_after_handover","Buy off-plan and resell after handover"],["personal_use","Buy a home for my own use"],["undecided","I haven’t decided yet"]];
-const STAGES = [["completed","A completed home"],["off_plan","An off-plan home"],["both","I’m open to both"],["undecided","I haven’t decided yet"]];
+/* Question 04 is two parts: the property type (STAGES), then a plan that depends on it (PLANS[stage]).
+   The chosen plan is stored as `purchase_route`, keeping the route ids the guide and timing step already use.
+   "I haven’t decided yet" has no second part (route = "undecided"). */
+const STAGES = [["ready","Ready property"],["off_plan","Off-plan property"],["undecided","I haven’t decided yet"]];
+const PLANS = {
+  ready: [["completed_rent","Rent it out"],["completed_resell","Resell it"]],
+  off_plan: [["off_plan_sell_before_handover","Sell before handover"],["off_plan_rent_after_handover","Rent it out after handover"],["off_plan_resell_after_handover","Resell after handover"]]
+};
+const ROUTES = [...Object.values(PLANS).flat(), ["undecided","I haven’t decided yet"]];
+/* Question 05 depends on the plan chosen in 04. Selling plans ask when you would consider selling; rental plans ask when
+   rental income should begin. `sub` is the anchor line under the title; a null option draws the gap before the open answers;
+   <b> marks the figure. The codes stay the same across variants so the guide can read them. */
+const SELL_OPTS = [["within_12m","Within 1 year"],["more_than_12m_to_3y","Over 1 to 3 years"],["more_than_3y_to_5y","Over 3 to 5 years"],["more_than_5y","More than 5 years"],null,["opportunity_dependent","It depends on the opportunity"],["undecided","I haven’t decided yet"]];
+const RENT_OPTS = [["asap","As soon as possible"],["within_12m","Within 1 year"],["more_than_12m","More than 1 year"],null,["flexible","My timing is flexible"],["undecided","I haven’t decided yet"]];
 const TIMING = {
-  completed_rent: { q:"When would you like rental income to begin?", anchor:"purchase", opts:[["asap","As soon as possible after purchase"],["within_12m","Within 12 months of purchase"],["more_than_12m","More than 12 months after purchase"],["flexible","My timing is flexible"],["undecided","I haven’t decided yet"]] },
-  off_plan_rent_after_handover: { q:"When would you like rental income to begin?", anchor:"handover", opts:[["asap","As soon as possible after handover"],["within_12m","Within 12 months of handover"],["more_than_12m","More than 12 months after handover"],["flexible","My timing is flexible"],["undecided","I haven’t decided yet"]] },
-  completed_resell: { q:"When would you consider selling?", anchor:"purchase", opts:[["within_12m","Within 12 months of purchase"],["more_than_12m_to_3y","More than 12 months to 3 years after purchase"],["more_than_3y_to_5y","More than 3 to 5 years after purchase"],["more_than_5y","More than 5 years after purchase"],["opportunity_dependent","It depends on the opportunity"],["undecided","I haven’t decided yet"]] },
-  off_plan_sell_before_handover: { q:"When would you consider selling your off-plan purchase?", anchor:"purchase_before_handover", opts:[["within_12m","Within 12 months of purchase"],["more_than_12m_to_3y","More than 12 months to 3 years after purchase"],["more_than_3y_before_handover","More than 3 years after purchase, before handover"],["opportunity_and_progress_dependent","It depends on the opportunity and project progress"],["undecided","I haven’t decided yet"]] },
-  off_plan_resell_after_handover: { q:"When would you consider selling after handover?", anchor:"handover", opts:[["asap","As soon as possible after handover"],["within_12m","Within 12 months of handover"],["more_than_12m_to_3y","More than 12 months to 3 years after handover"],["more_than_3y_to_5y","More than 3 to 5 years after handover"],["more_than_5y","More than 5 years after handover"],["opportunity_dependent","It depends on the opportunity"],["undecided","I haven’t decided yet"]] },
-  personal_use: { q:"When would you like to start using the home?", help:"Think about when you would like to start using the home, from now.", anchor:"form_submission", opts:[["asap","As soon as possible"],["within_12m","Within 12 months"],["more_than_12m_to_3y","In more than 12 months to 3 years"],["more_than_3y","In more than 3 years"],["flexible","My timing is flexible"],["undecided","I haven’t decided yet"]] }
+  completed_rent:                { q:"When would you like rental income to begin?", sub:"After purchase", anchor:"purchase", opts:RENT_OPTS },
+  off_plan_rent_after_handover:  { q:"When would you like rental income to begin?", sub:"After handover", anchor:"handover", opts:RENT_OPTS },
+  completed_resell:              { q:"When would you consider selling?", sub:"After purchase", anchor:"purchase", opts:SELL_OPTS },
+  off_plan_sell_before_handover: { q:"When would you consider selling?", sub:"After purchase, before handover", anchor:"purchase_before_handover",
+    opts:[["within_12m","Within 1 year"],["more_than_12m_to_3y","Over 1 to 3 years"],["more_than_3y_before_handover","More than 3 years, before handover"],null,["opportunity_and_progress_dependent","It depends on the opportunity and project progress"],["undecided","I haven’t decided yet"]] },
+  off_plan_resell_after_handover:{ q:"When would you consider selling?", sub:"After handover", anchor:"handover", opts:SELL_OPTS }
 };
 const AMOUNTS = [500000,750000,1000000,1500000,2000000,3000000,5000000,7500000,10000000,15000000,20000000,30000000];
-const FUNDING = [["own_funds","Use my own funds"],["own_funds_mortgage","Use my own funds and a mortgage"],["developer_payment_plan","Pay in stages through a developer payment plan"],["developer_plan_then_mortgage","Use a developer payment plan, then explore a mortgage at handover"],["multiple_options","I’m considering more than one option"],["undecided","I haven’t decided yet"]];
+/* Question 06. Developer payment plans only apply to off-plan homes, so `stages` says which property types (from 04) see each option. */
+const FUNDING = [["own_funds","Pay in cash"],["own_funds_mortgage","Use a mortgage alongside my own funds"],["developer_payment_plan","Pay in stages through a developer payment plan",["off_plan","undecided"]],["developer_plan_then_mortgage","Use a developer payment plan, then consider a mortgage at handover",["off_plan","undecided"]],["multiple_options","I’m considering more than one option"],["undecided","I haven’t decided yet"]];
+const fundingOptions = () => FUNDING.filter(([, , stages]) => !stages || stages.includes(A.stage || "undecided"));
 const EXPERIENCE = [["uae","Yes, in the UAE"],["outside_uae","Yes, outside the UAE"],["first_investment","This would be my first property investment"],["prefer_not_to_say","Prefer not to say"]];
 /* Community names MUST mirror communities.js (`name` field) so the guide can pick them up by name. IDs are derived.
    When a community is added, renamed or removed in communities.js, update this list too. */
@@ -481,20 +530,19 @@ const ALSO = { rental_income:"earning rental income", capital_growth:"growing in
 const A = {
   market:null, community_mode:"skipped", community_ids:[],
   goal_choice:null, additional_goals:[],
-  purchase_route:null, own_use_stage:null, timing_code:null,
+  stage:null, purchase_route:null, timing_code:null,
   budget_mode:null, budget_min:undefined, budget_max:undefined,
   funding_plan:null, experience_codes:[],
   full_name:"", email:"", phone_cc:"", phone_num:"", marketing_opt_in:false
 };
-const UI = { step:"intro", dir:1, search:"", showErr:false };
+const UI = { step:"intro", dir:1, search:"", showErr:false, ddOpen:false };   // ddOpen: the communities dropdown is open
 let submission = null;
 
 /* ============================================================ FLOW */
 function steps(){
   const s = ["intro","market","communities","goals","route"];
-  if (A.purchase_route === "personal_use") s.push("stage");
   if (A.purchase_route && A.purchase_route !== "undecided") s.push("timing");
-  s.push("budget","experience","contact","result");   // budget + funding share one page
+  s.push("budget","funding","experience","contact","result");
   return s;
 }
 const QUESTION_STEPS = () => steps().filter(s => s !== "intro" && s !== "result");
@@ -503,10 +551,10 @@ const ASIDE = {
   market:{ section:"Where", why:["Why we ask","Your answer selects the city chapters and the community options you’ll see. It never changes your priorities."] },
   communities:{ section:"Where", why:["Why we ask","If you already have places in mind, we’ll bring them to the front of the map. Choose at least one, or tell us you’re open to suggestions."] },
   goals:{ section:"What", why:["Why we ask","Your main priority leads the whole handbook. Other goals you add are reflected in the sections where they matter."] },
-  route:{ section:"How", why:["Why we ask","Your plan shapes which buying steps and timing considerations we show first. Every route stays available."] },
-  stage:{ section:"How", why:["Why we ask","Completed and off-plan homes follow different buying processes, so we’ll show the checks that apply."] },
+  route:{ section:"How", why:["Why we ask","Ready and off-plan homes follow different buying processes, and your plan shapes which steps and timing considerations we show first. Every route stays available."] },
   timing:{ section:"When", why:["Why we ask","These are intentions, not deadlines. We use them to bring the relevant timing considerations forward."] },
-  budget:{ section:"How much", why:["Why we ask","The range you give is used to tailor the relevant checks and your plan summary; it doesn’t test affordability. Own funds, mortgage or payment plan each come with different checks, and we’ll show the ones that fit your plan."] },
+  budget:{ section:"How much", why:["Why we ask","The range you give is used to tailor the relevant checks and your plan summary; it doesn’t test affordability."] },
+  funding:{ section:"How", why:["Why we ask","Cash, a mortgage or a payment plan each come with different checks, and we’ll show the ones that fit your plan."] },
   experience:{ section:"You", why:["Why we ask","It helps us pitch the explanations. Every essential check stays in your handbook whatever you answer."] },
   contact:{ section:"You", why:["Why we ask","Your name personalises the handbook, and your email is where we send your copy. Nothing else is required."] }
 };
@@ -516,10 +564,10 @@ function valid(step){
     case "market": return !!A.market;
     case "communities": return A.community_mode === "open_to_suggestions" || A.community_ids.length > 0;
     case "goals": return !!A.goal_choice;
-    case "route": return !!A.purchase_route;
-    case "stage": return !!A.own_use_stage;
+    case "route": return !!A.stage && !!A.purchase_route;   // the plan is auto-set to "undecided" when the type is undecided
     case "timing": return !!A.timing_code;
-    case "budget": return (A.budget_mode === "open" || A.budget_mode === "undecided" || (A.budget_mode === "range" && budgetOk())) && !!A.funding_plan;
+    case "budget": return A.budget_mode === "open" || A.budget_mode === "undecided" || (A.budget_mode === "range" && budgetOk());
+    case "funding": return !!A.funding_plan;
     case "experience": return A.experience_codes.length > 0;
     case "contact": return contactOk().ok;
     default: return true;
@@ -580,12 +628,12 @@ function derive(){
     chart = [main, ...additional].map(g => ({ goal: g, label: GOAL_LABEL[g], pct: weights[g] }));
   }
   const route = A.purchase_route;
-  const stage = route === "personal_use" ? A.own_use_stage : /^completed_/.test(route || "") ? "completed" : /^off_plan_/.test(route || "") ? "off_plan" : "undecided";
+  const stage = A.stage === "ready" ? "completed" : A.stage === "off_plan" ? "off_plan" : "undecided";
   const t = route && route !== "undecided" ? TIMING[route] : null;
   const funding_review_needed = stage === "completed" && ["developer_payment_plan","developer_plan_then_mortgage"].includes(A.funding_plan);
   const review_flags = [];
   if ([main, ...additional].includes("rental_income") && route === "off_plan_sell_before_handover") review_flags.push("rental_goal_with_pre_handover_sale");
-  const show_open_plans_message = !exploring && (route === "undecided" || ["multiple_options","undecided"].includes(A.funding_plan) || (route === "personal_use" && ["both","undecided"].includes(A.own_use_stage)));
+  const show_open_plans_message = !exploring && (route === "undecided" || ["multiple_options","undecided"].includes(A.funding_plan));
   return {
     result_mode: exploring ? "exploring" : "focused",
     goal_selection_mode: exploring ? "exploring" : "focused",
@@ -648,15 +696,23 @@ const PANELS = {
   communities: () => {
     const cities = A.market === "dubai" ? ["dubai"] : A.market === "abu_dhabi" ? ["abudhabi"] : ["dubai","abudhabi"];
     const q = UI.search.trim().toLowerCase();
-    const open = A.community_mode === "open_to_suggestions";
+    const open = A.community_mode === "open_to_suggestions", dd = UI.ddOpen && !open, n = A.community_ids.length;
     const groups = cities.map(city => {
       const items = CATALOGUE.filter(c => c.city === city && (!q || c.name.toLowerCase().includes(q)));
       if (!items.length) return "";
-      return `<span class="city">${city === "dubai" ? "Dubai" : "Abu Dhabi"}</span>` + items.map(c => `<button type="button" data-community="${c.id}" aria-pressed="${A.community_ids.includes(c.id)}">${h(c.name)}</button>`).join("");
+      return `<div class="city">${city === "dubai" ? "Dubai" : "Abu Dhabi"}</div>` + items.map(c => { const on = A.community_ids.includes(c.id);
+        return `<button type="button" class="item" role="option" data-community="${c.id}" aria-selected="${on}"><span class="d"></span><span>${h(c.name)}</span></button>`; }).join("");
     }).join("");
-    return head("Any areas already in mind?", "Select the communities you are considering, or tell us you’re open to suggestions.") +
-      `<div class="search"><input type="search" id="csearch" placeholder="Search for a community" value="${h(UI.search)}" aria-label="Search for a community" ${open ? "disabled" : ""}></div>
-       <div class="chips" style="${open ? "opacity:.35;pointer-events:none" : ""}">${groups || `<span class="empty">No communities match that search.</span>`}</div>
+    const tags = A.community_ids.map(id => { const c = CATALOGUE.find(x => x.id === id); return c ? `<span class="tag">${h(c.name)}<button type="button" class="x" data-untag="${c.id}" aria-label="Remove ${h(c.name)}">×</button></span>` : ""; }).join("");
+    return head("Any areas already in mind?", "Choose the communities you are considering from the list, or tell us you’re open to suggestions.") +
+      `<div class="dd ${open ? "disabled" : ""}" id="dd" data-open="${dd}">
+         <div class="trigger" id="ddtoggle" role="button" tabindex="${open ? -1 : 0}" aria-haspopup="listbox" aria-expanded="${dd}" aria-label="Communities">${tags || `<span class="ph">Select one or more communities</span>`}</div>
+         <div class="menu">
+           <div class="search"><input type="search" id="csearch" placeholder="Search for a community" value="${h(UI.search)}" aria-label="Search for a community"></div>
+           <div class="list" id="ddlist" role="listbox" aria-multiselectable="true">${groups || `<div class="empty">No communities match that search.</div>`}</div>
+           <div class="foot"><span>${n ? `${n} selected` : "Nothing selected yet"}</span><span class="spacer"></span>${n ? `<button type="button" data-clear="1">Clear all</button>` : ""}<button type="button" class="done" data-done="1">Done</button></div>
+         </div>
+       </div>
        <div class="opts compact openchip">${opt("community_mode", "open_to_suggestions", "I’m open to suggestions", open)}</div>`;
   },
 
@@ -667,12 +723,21 @@ const PANELS = {
        ${named ? `<div class="group-t">Other priorities <small>Optional · up to two</small></div><div class="opts compact" role="group" style="animation:fade .35s var(--ease)">${GOALS.filter(([id]) => id !== main).map(([id, t]) => opt("additional_goals", id, t, A.additional_goals.includes(id), "multi" + (A.additional_goals.length >= 2 && !A.additional_goals.includes(id) ? " disabled" : ""))).join("")}</div>` : ""}`;
   },
 
-  route: () => head("What are you considering doing with the property?", "Choose the plan closest to yours. It’s fine if you haven’t decided yet. Off-plan means buying a property before construction is complete.") +
-    `<div class="opts">${ROUTES.map(([id, t]) => opt("purchase_route", id, t, A.purchase_route === id)).join("")}</div>`,
+  route: () => {
+    const plans = A.stage && PLANS[A.stage];
+    return head("What are you considering doing with the property?", "Choose the property type closest to your plans, then what you would like to do with it. It’s fine if you haven’t decided yet. Off-plan means buying a property before construction is complete.") +
+      `<div class="route">
+         <div><div class="group-t">Select one</div><div class="opts" role="radiogroup">${STAGES.map(([id, t]) => opt("stage", id, t, A.stage === id)).join("")}</div></div>
+         ${plans ? `<div class="plan"><div class="group-t">What would you like to do with it?</div>
+           <label class="sel"><select data-plan="1" aria-label="What would you like to do with it?"><option value="" ${A.purchase_route ? "" : "selected"}>Select a plan</option>${plans.map(([id, l]) => `<option value="${id}" ${A.purchase_route === id ? "selected" : ""}>${h(l)}</option>`).join("")}</select></label></div>` : ""}
+       </div>`;
+  },
 
-  stage: () => head("Are you considering a completed or off-plan home?") + `<div class="opts">${STAGES.map(([id, t]) => opt("own_use_stage", id, t, A.own_use_stage === id)).join("")}</div>`,
-
-  timing: () => { const t = TIMING[A.purchase_route]; return head(t.q, t.help) + `<div class="opts">${t.opts.map(([id, l]) => opt("timing_code", id, l, A.timing_code === id)).join("")}</div>`; },
+  timing: () => {
+    const t = TIMING[A.purchase_route];
+    const row = ([id, l]) => `<button type="button" class="opt" role="radio" data-field="timing_code" data-val="${h(id)}" aria-pressed="${A.timing_code === id}" aria-checked="${A.timing_code === id}"><span class="d"></span><span>${l}</span></button>`;
+    return head(t.q) + `<p class="anchor">${h(t.sub)} · Select one</p><div class="opts timing">${t.opts.map(o => o ? row(o) : `<div class="gap"></div>`).join("")}</div>`;
+  },
 
   budget: () => {
     const sel = (id, val, items, placeholder) => `<label class="sel"><select data-budget="${id}" aria-label="${placeholder}"><option value="" ${val === undefined ? "selected" : ""}>${placeholder}</option>${items.map(([v, l]) => `<option value="${v}" ${String(val) === String(v) ? "selected" : ""}>${l}</option>`).join("")}</select></label>`;
@@ -681,9 +746,10 @@ const PANELS = {
       `<div class="opts">${opt("budget_mode", "range", "I have a price range in mind", A.budget_mode === "range")}
         ${A.budget_mode === "range" ? `<div class="range" style="margin-bottom:1.4rem"><div class="field"><label>From</label>${sel("min", A.budget_min, [["0","No minimum"], ...amounts], "Select an amount")}</div><div class="to">to</div><div class="field"><label>To</label>${sel("max", A.budget_max === null ? "null" : A.budget_max, [...amounts, ["null","No upper limit"]], "Select an amount")}</div></div>` : ""}
         ${opt("budget_mode", "open", "I’m open to different price ranges", A.budget_mode === "open")}${opt("budget_mode", "undecided", "I haven’t decided yet", A.budget_mode === "undecided")}</div>
-       <h2 class="q q2">How do you expect to fund the purchase?</h2>
-       <div class="opts" style="margin-top:1.4rem">${FUNDING.map(([id, t]) => opt("funding_plan", id, t, A.funding_plan === id)).join("")}</div>`;
+`;
   },
+
+  funding: () => head("How do you plan to pay for the property?") + `<p class="anchor">Select one</p><div class="opts timing">${fundingOptions().map(([id, t]) => opt("funding_plan", id, t, A.funding_plan === id)).join("")}</div>`,
 
   experience: () => head("Have you invested in property before?", "Select all that apply.") + `<div class="opts" role="group">${EXPERIENCE.map(([id, t]) => opt("experience_codes", id, t, A.experience_codes.includes(id), "multi")).join("")}</div>`,
 
@@ -738,6 +804,7 @@ const PANELS = {
 function render(dir = 1){
   const step = UI.step, isResult = step === "result", isIntro = step === "intro";
   const main = $("#main"), prev = $(".panel", main);
+  UI.ddOpen = false; UI.search = "";                   // the communities dropdown starts closed on every visit
   const el = document.createElement("div");
   el.className = `panel ${isResult ? "result" : ""} ${dir < 0 ? "back" : ""} enter`;
   el.innerHTML = PANELS[step]() + `<div class="err" id="err"></div>` + navHtml(step);
@@ -814,8 +881,10 @@ function navHtml(step){
 /* Auto-advance: a step moves on by itself once the allowed number of options is chosen. */
 function autoAdvance(field, val){
   switch(field){
-    case "market": case "purchase_route": case "own_use_stage": case "timing_code": return true;
-    case "budget_mode": case "funding_plan": return valid("budget");                    // budget + funding share a page: move on once both are answered
+    case "market": case "timing_code": return true;
+    case "stage": return A.stage === "undecided";                                          // otherwise the plan dropdown decides
+    case "budget_mode": return valid("budget");                                        // a range waits for both amounts
+    case "funding_plan": return true;
     case "goal_choice": return val === "exploring";                                     // otherwise up to two more goals may follow
     case "additional_goals": return A.additional_goals.length >= SHARES.maxAdditional;  // cap reached
     case "experience_codes": return ["first_investment","prefer_not_to_say"].includes(val) && A.experience_codes.includes(val); // exclusive answers
@@ -831,7 +900,7 @@ function advanceSoon(){
 }
 function showError(){
   const s = UI.step, el = $("#err"); if (!el) return;
-  const msg = s === "budget" ? (!A.budget_mode ? "Choose a price range option to continue." : budgetError() || (!A.funding_plan ? "Choose how you expect to fund the purchase to continue." : "")) : s === "contact" ? "Check the highlighted fields above." : s === "goals" ? "Choose a main priority to continue." : s === "communities" ? "Choose at least one community, or tell us you’re open to suggestions." : s === "experience" ? "Choose at least one option to continue." : "Choose one option to continue.";
+  const msg = s === "budget" ? (!A.budget_mode ? "Choose a price range option to continue." : budgetError()) : s === "funding" ? "Choose how you plan to pay to continue." : s === "contact" ? "Check the highlighted fields above." : s === "goals" ? "Choose a main priority to continue." : s === "communities" ? "Choose at least one community, or tell us you’re open to suggestions." : s === "experience" ? "Choose at least one option to continue." : s === "route" ? (!A.stage ? "Choose a property type to continue." : "Choose what you would like to do with it to continue.") : "Choose one option to continue.";
   el.textContent = msg; el.classList.add("on");
 }
 
@@ -848,8 +917,8 @@ function go(delta){
 
 /* Which raw answers belong to each question step, and what "empty" looks like for each field. */
 const STEP_FIELDS = { market:["market"], communities:["community_mode","community_ids"], goals:["goal_choice","additional_goals"],
-  route:["purchase_route","own_use_stage","timing_code"], stage:["own_use_stage"], timing:["timing_code"],
-  budget:["budget_mode","budget_min","budget_max","funding_plan"], experience:["experience_codes"] };
+  route:["stage","purchase_route","timing_code"], timing:["timing_code"],
+  budget:["budget_mode","budget_min","budget_max"], funding:["funding_plan"], experience:["experience_codes"] };
 const EMPTY = { community_mode:"skipped", community_ids:[], additional_goals:[], experience_codes:[], budget_min:undefined, budget_max:undefined };
 /* resetAfter(step): an answer on `step` changed, so every answer on the steps after it is cleared and the cached submission is thrown away. */
 function resetAfter(step){
@@ -867,7 +936,7 @@ function set(field, val){
       if (kept.length !== A.community_ids.length){ A.community_ids = kept; if (!kept.length && A.community_mode === "selected") A.community_mode = "skipped"; }
       break; }
     case "community_mode":
-      if (A.community_mode === "open_to_suggestions") A.community_mode = "skipped"; else { A.community_mode = "open_to_suggestions"; A.community_ids = []; }
+      if (A.community_mode === "open_to_suggestions") A.community_mode = "skipped"; else { A.community_mode = "open_to_suggestions"; A.community_ids = []; UI.ddOpen = false; UI.search = ""; }
       break;
     case "goal_choice":
       A.goal_choice = val;
@@ -877,10 +946,12 @@ function set(field, val){
       if (A.additional_goals.includes(val)) A.additional_goals = A.additional_goals.filter(g => g !== val);
       else if (A.additional_goals.length < SHARES.maxAdditional && val !== A.goal_choice) A.additional_goals.push(val);
       break;
+    case "stage":
+      if (A.stage !== val){ A.stage = val; A.purchase_route = val === "undecided" ? "undecided" : null; A.timing_code = null; }   // a new type clears the plan
+      break;
     case "purchase_route":
-      if (A.purchase_route !== val){ A.timing_code = null; if (val !== "personal_use") A.own_use_stage = null; }
+      if (A.purchase_route !== val) A.timing_code = null;
       A.purchase_route = val; break;
-    case "own_use_stage": A.own_use_stage = val; break;
     case "timing_code": A.timing_code = val; break;
     case "budget_mode":
       A.budget_mode = val; if (val !== "range"){ A.budget_min = undefined; A.budget_max = undefined; } break;
@@ -894,8 +965,30 @@ function set(field, val){
   }
 }
 
+/* Communities dropdown helpers: rerender while keeping the list scrolled where it was, and open / close it. */
+function ddRerender(){
+  const list = $("#ddlist"), top = list ? list.scrollTop : 0;
+  rerender();
+  const l = $("#ddlist"); if (l) l.scrollTop = top;
+}
+function ddSet(open){
+  if (UI.ddOpen === open) return;
+  UI.ddOpen = open; if (!open) UI.search = "";
+  ddRerender();
+  if (open) $("#csearch")?.focus(); else $("#ddtoggle")?.focus();
+}
+function ddToggleCommunity(id){
+  if (A.community_ids.includes(id)) A.community_ids = A.community_ids.filter(x => x !== id); else A.community_ids.push(id);
+  A.community_mode = A.community_ids.length ? "selected" : "skipped";
+  resetAfter("communities"); UI.showErr = false;
+}
+
 $("#main").addEventListener("click", e => {
+  if (e.target.closest("#ddtoggle") && !e.target.closest("button")){ ddSet(!UI.ddOpen); return; }   // the field itself opens / closes the list
   const b = e.target.closest("button"); if (!b) return;
+  if (b.dataset.untag){ ddToggleCommunity(b.dataset.untag); ddRerender(); return; }
+  if (b.dataset.clear){ A.community_ids = []; A.community_mode = "skipped"; resetAfter("communities"); ddRerender(); $("#csearch")?.focus(); return; }
+  if (b.dataset.done){ ddSet(false); return; }
   if (b.dataset.nav === "first"){ UI.step = QUESTION_STEPS()[0]; render(-1); return; }
   if (b.dataset.nav){ go(b.dataset.nav === "back" ? -1 : 1); return; }
   if (b.id === "back"){ clearTimeout(advanceTimer); go(-1); return; }
@@ -906,17 +999,15 @@ $("#main").addEventListener("click", e => {
     if (JSON.stringify(A) !== before) resetAfter(UI.step);
     UI.showErr = false; rerender(); if (autoAdvance(b.dataset.field, b.dataset.val)) advanceSoon(); return;
   }
-  if (b.dataset.community){
-    const id = b.dataset.community;
-    if (A.community_ids.includes(id)) A.community_ids = A.community_ids.filter(x => x !== id); else A.community_ids.push(id);
-    A.community_mode = A.community_ids.length ? "selected" : "skipped";
-    resetAfter("communities");                                   // ← new
-    rerender(); $("#csearch")?.focus(); return;
-  }
+  if (b.dataset.community){ ddToggleCommunity(b.dataset.community); ddRerender(); return; }   // the list stays open for further picks
+});
+/* clicking anywhere outside the dropdown closes it */
+document.addEventListener("click", e => {
+  if (UI.ddOpen && UI.step === "communities" && !e.target.closest("#dd")) ddSet(false);
 });
 $("#main").addEventListener("input", e => {
   const t = e.target;
-  if (t.id === "csearch"){ UI.search = t.value; const pos = t.selectionStart; rerender(); const s = $("#csearch"); if (s){ s.focus(); try { s.setSelectionRange(pos, pos); } catch (e) {} } return; }
+  if (t.id === "csearch"){ UI.search = t.value; const pos = t.selectionStart; ddRerender(); const s = $("#csearch"); if (s){ s.focus(); try { s.setSelectionRange(pos, pos); } catch (e) {} } return; }
   if (t.dataset.text){ A[t.dataset.text] = t.value; if (t.dataset.text === "phone_num"){ const lbl = $(".tick span"); if (lbl) lbl.innerHTML = lbl.innerHTML.replace(/by email( and WhatsApp)?\./, "by email" + (t.value.trim() ? " and WhatsApp" : "") + "."); } }
 });
 $("#main").addEventListener("change", e => {
@@ -927,10 +1018,19 @@ $("#main").addEventListener("change", e => {
     resetAfter("budget");                                        // ← new
     UI.showErr = false; $("#err")?.classList.remove("on"); if (budgetOk()) advanceSoon(); return;
   }  
+  if (t.dataset.plan){
+    const before = JSON.stringify(A);
+    set("purchase_route", t.value || null);
+    if (JSON.stringify(A) !== before) resetAfter("route");
+    UI.showErr = false; $("#err")?.classList.remove("on"); if (valid("route")) advanceSoon(); return;
+  }
   if (t.dataset.text === "phone_cc"){ A.phone_cc = t.value; return; }
   if (t.id === "optin"){ A.marketing_opt_in = t.checked; return; }
 });
 document.addEventListener("keydown", e => {
+  if (e.target.id === "ddtoggle" && (e.key === "Enter" || e.key === " ")){ e.preventDefault(); ddSet(!UI.ddOpen); return; }
+  if (e.key === "Escape" && UI.ddOpen){ ddSet(false); return; }
+  if (e.key === "Enter" && UI.ddOpen){ e.preventDefault(); return; }                   // Enter inside the open list never submits the step
   if (e.key === "Enter" && !e.target.matches("button,select")){ e.preventDefault(); go(1); }
 });
 
@@ -942,7 +1042,7 @@ function buildPayload(){
     submitted_at: now, ...VERSIONS,
     market: A.market, city_scope: d.city_scope, community_mode: A.community_mode, community_ids: A.community_ids,
     goal_choice: A.goal_choice, goal_selection_mode: d.goal_selection_mode, main_goal: d.main_goal, additional_goals: d.additional_goals,
-    purchase_route: A.purchase_route, own_use_stage: A.purchase_route === "personal_use" ? A.own_use_stage : null,
+    stage_choice: A.stage, purchase_route: A.purchase_route,
     timing_variant: d.timing_variant, timing_code: d.timing_code, timing_anchor: d.timing_anchor,
     budget_mode: A.budget_mode, budget_min_aed: A.budget_mode === "range" ? A.budget_min : null, budget_max_aed: A.budget_mode === "range" ? A.budget_max : null,
     funding_plan: A.funding_plan, experience_status: d.experience_status, experience_codes: A.experience_codes,
@@ -968,7 +1068,7 @@ function guideHash(p){
   q.set("goal", p.result_copy_key);
   if (p.additional_goals.length) q.set("goals", p.additional_goals.join(","));
   q.set("route", p.purchase_route);
-  if (p.own_use_stage) q.set("stage", p.own_use_stage);
+  q.set("stage", p.stage_choice);
   if (p.timing_code) q.set("timing", p.timing_code);
   q.set("budget", p.budget_mode);
   if (p.budget_min_aed !== null && p.budget_min_aed !== undefined) q.set("bmin", p.budget_min_aed);

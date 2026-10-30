@@ -9,6 +9,14 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<!-- Microsoft Clarity -->
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "z5t3r1eo3h");
+</script>
 <style>
 /* ============================================================
    FONTS — IvyMode (display) ships in /fonts; DM Sans (text) from Google Fonts.
@@ -478,6 +486,11 @@ body:not(.is-intro) .page{ display:none; }
    over in the URL hash, which app.js already reads into state.
    ============================================================ */
 const GUIDE_URL = "index.html";
+/* Paste your webhook URL here. Every submission is POSTed to it as JSON (the full payload from buildPayload()).
+   Leave it empty to skip the webhook; the handoff to the guide still happens. */
+const WEBHOOK_URL = "https://engageteam.app.n8n.cloud/webhook/investment-form1";
+/* Origin that receives the Facebook/Pixel postMessage once a lead is saved. */
+const TRACKING_ORIGIN = "https://investment-guide.bhomes.com";
 const VERSIONS = { form_version:"form_v1.0", algorithm_version:"goal_share_v1.0", copy_version:"lp_result_source_v1.0", guide_content_version:"guide_content_v1.0", consent_text_version:"consent_v1.0" };
 const SHARES = { single:100, main:70, pool:30, maxAdditional:2 };
 
@@ -936,6 +949,7 @@ function go(delta){
   const list = steps(), i = list.indexOf(UI.step);
   if (delta > 0){
     if (!valid(UI.step)){ UI.showErr = true; if (UI.step === "contact") rerender(); else showError(); return; }
+    if (UI.step === "contact") saveLead();             // last question answered → send the lead now, don't wait for "Open my guide"
     if (UI.step === "result"){ submit(); return; }
   }
   const j = i + delta; if (j < 0 || j >= list.length) return;
@@ -1111,16 +1125,44 @@ function guideHash(p){
   q.set("sid", p.submission_id);
   return "#/cover?" + q.toString();
 }
-/* Hook for CRM / webhook delivery. Replace the body; keep it idempotent on submission_id. */
+/* Webhook delivery: POSTs the full payload (all answers + derived result + contact details) as JSON.
+   Resolves true when the webhook accepted it, false when there is no URL or the request failed.
+   Idempotent on submission_id — the same payload object is reused if submit() runs again. */
 async function deliver(payload){
   console.info("handbook submission", payload);
+  if (!WEBHOOK_URL) return false;
+  const res = await fetch(WEBHOOK_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+    keepalive: true                                   // lets the request finish even though we navigate away right after
+  });
+  if (!res.ok) throw new Error("Webhook responded " + res.status);
   return true;
 }
-async function submit(){
+/* Facebook tracking: tell the parent page a lead was saved, so it can fire its pixel event. */
+function notifyParent(){
+  try { window.parent.postMessage({ type: "investment_guide_submit" }, TRACKING_ORIGIN); } catch (e) { console.error(e); }
+}
+/* saveLead(): runs when the contact step (the last question) is submitted, before the result screen renders.
+   It never blocks the UI — the result shows immediately while the webhook request runs in the background.
+   If the person goes back, changes nothing and submits again, the same lead is not sent twice; if they change
+   any answer or contact detail, a fresh submission (new submission_id) is sent. */
+let lastSent = null;
+async function saveLead(){
+  const fresh = buildPayload();
+  const answers = JSON.stringify({ ...fresh, submission_id: null, submitted_at: null, consent_recorded_at: null, landing_url: null });
+  if (submission && lastSent === answers) return;      // identical to what was already sent
+  submission = fresh; lastSent = answers;
+  try { sessionStorage.setItem("bh_handbook_submission", JSON.stringify(submission)); } catch (e) {}
+  let saved = false;
+  try { saved = await deliver(submission); } catch (e) { console.error(e); }
+  if (saved) notifyParent();                          // only after the webhook confirmed the lead
+}
+/* submit(): "Open my guide" on the result screen. The lead is already saved; this just hands over to the guide. */
+function submit(){
   document.querySelectorAll("#next,[data-nav=next]").forEach(b => b.disabled = true);
   submission = submission || buildPayload();
-  try { sessionStorage.setItem("bh_handbook_submission", JSON.stringify(submission)); } catch (e) {}
-  try { await deliver(submission); } catch (e) { console.error(e); }
   location.href = GUIDE_URL + guideHash(submission);
 }
 window.addEventListener("pageshow", e => {

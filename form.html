@@ -300,6 +300,7 @@ body:not(.is-intro) .page{ display:none; }
   .page .content{ padding:110px 40px 56px; }
   .page .title{ font-size:52px; line-height:56px; }
   .page .track{ flex-basis:240px; width:240px; }
+  .rmain > section{margin-top: 100px}
 }
 
 /* ---------- Mobile layout ---------- */
@@ -339,6 +340,12 @@ body:not(.is-intro) .page{ display:none; }
 
 /* ============================================================ RESPONSIVE */
 @media (max-width:1100px){
+  #main > div > div.board > header{
+    left: 0 !important;
+  }
+  .result .card{
+    min-width: auto;
+  }
   :root{ --pad:1.8rem; }
   html{ font-size:13px; }
   .stage{ grid-template-columns:1fr; grid-template-rows:auto 1fr; }
@@ -352,7 +359,7 @@ body:not(.is-intro) .page{ display:none; }
   .panel.result{ overflow-y:auto; padding:0 16px 32px; }
   .result .hero{ position:fixed; object-position:50% 50%; }
   .result .board{ position:relative; left:auto; top:auto; width:auto; height:auto; transform:none!important; max-width:560px; margin:0 auto; }
-  .result .rh{ position:relative; display:flex; align-items:center; gap:14px; height:64px; }
+  .result .rh{ position:relative; display:flex; align-items:start; gap:14px; height:64px; flex-direction: column; }
   .result .rh .wm{ position:static; width:140px; height:auto; flex:none; }
   .result .rh .rule{ position:static; flex:1; }
   .result .rh .review{ position:static; font-size:10px; flex:none; }
@@ -370,7 +377,7 @@ body:not(.is-intro) .page{ display:none; }
   .result .card{ flex:none; min-height:0; padding:22px 28px; }
   .result .card .l{ font-size:14px; }
   .result .card .v{ font-size:24px; white-space:normal; }
-  .result .laptop{ position:relative; left:auto; top:auto; width:80%; height:auto; aspect-ratio:1037.86/571; margin-top:19px; }
+  .result .laptop{ position:relative; left:auto; top:auto; width:80%; height:auto; aspect-ratio:1037.86/571; margin-top:19px; margin-bottom: 50px; }
   .result .laptop .shot{ left:11.16%; top:7.55%; width:77.68%; height:83.02%; }
   .result .raside{ position:static; width:auto; margin-top:28px; }
   .result .raside .t{ font-size:20px; line-height:26px; }
@@ -504,7 +511,7 @@ const AMOUNTS = [500000,750000,1000000,1500000,2000000,3000000,5000000,7500000,1
 /* Question 06. Developer payment plans only apply to off-plan homes, so `stages` says which property types (from 04) see each option. */
 const FUNDING = [["own_funds","Pay in cash"],["own_funds_mortgage","Use a mortgage alongside my own funds"],["developer_payment_plan","Pay in stages through a developer payment plan",["off_plan","undecided"]],["developer_plan_then_mortgage","Use a developer payment plan, then consider a mortgage at handover",["off_plan","undecided"]],["multiple_options","I’m considering more than one option"],["undecided","I haven’t decided yet"]];
 const fundingOptions = () => FUNDING.filter(([, , stages]) => !stages || stages.includes(A.stage || "undecided"));
-const EXPERIENCE = [["uae","Yes, in the UAE"],["outside_uae","Yes, outside the UAE"],["first_investment","This would be my first property investment"],["prefer_not_to_say","Prefer not to say"]];
+const EXPERIENCE = [["first_investment","No, this would be my first"],["uae","Yes, in the UAE only"],["outside_uae","Yes, outside the UAE only"],["uae_and_outside","Yes, in the UAE and elsewhere"],["prefer_not_to_say","Prefer not to say"]];
 /* Community names MUST mirror communities.js (`name` field) so the guide can pick them up by name. IDs are derived.
    When a community is added, renamed or removed in communities.js, update this list too. */
 const COMMUNITIES = {
@@ -761,7 +768,7 @@ const PANELS = {
 
   funding: () => head("How do you plan to pay for the property?") + `<p class="anchor">Select one</p><div class="opts timing">${fundingOptions().map(([id, t]) => opt("funding_plan", id, t, A.funding_plan === id)).join("")}</div>`,
 
-  experience: () => head("Have you invested in property before?", "Select all that apply.") + `<div class="opts" role="group">${EXPERIENCE.map(([id, t]) => opt("experience_codes", id, t, A.experience_codes.includes(id), "multi")).join("")}</div>`,
+    experience: () => head("Have you invested in property before?", "Select one") + `<div class="opts" role="radiogroup">${EXPERIENCE.map(([id, t]) => opt("experience_codes", id, t, A.experience_codes.includes(id))).join("")}</div>`,
 
   contact: () => {
     const d = derive(), e = UI.showErr ? contactOk().errs : {};
@@ -897,7 +904,7 @@ function autoAdvance(field, val){
     case "funding_plan": return true;
     case "goal_choice": return val === "exploring";                                     // otherwise up to two more goals may follow
     case "additional_goals": return A.additional_goals.length >= SHARES.maxAdditional;  // cap reached
-    case "experience_codes": return ["first_investment","prefer_not_to_say"].includes(val) && A.experience_codes.includes(val); // exclusive answers
+    case "experience_codes": return true;
     case "community_mode": return A.community_mode === "open_to_suggestions";
     default: return false;
   }
@@ -975,12 +982,7 @@ function set(field, val){
     case "budget_mode":
       A.budget_mode = val; if (val !== "range"){ A.budget_min = undefined; A.budget_max = undefined; } break;
     case "funding_plan": A.funding_plan = val; break;
-    case "experience_codes": {
-      const excl = ["first_investment","prefer_not_to_say"];
-      if (A.experience_codes.includes(val)) A.experience_codes = A.experience_codes.filter(x => x !== val);
-      else if (excl.includes(val)) A.experience_codes = [val];
-      else A.experience_codes = [...A.experience_codes.filter(x => !excl.includes(x)), val];
-      break; }
+    case "experience_codes": A.experience_codes = [val]; break;
   }
 }
 

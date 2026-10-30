@@ -100,9 +100,14 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ o
 .opts.compact .opt{ padding:.8rem .9rem .8rem .4rem; font-size:.95rem; }
 .opts .opt .sub{ display:block; font-weight:400; font-size:.82rem; color:var(--ink-2); margin-top:.15rem; }
 
-/* communities — a multi-select dropdown: the field shows the chosen communities as removable tags;
-   the panel holds a search box and the communities grouped by city, each toggling on click. */
-.dd{ position:relative; margin-top:1.6rem; max-width:62rem; }
+/* communities — one multi-select dropdown per city in scope (two side by side when both cities are in play):
+   the field shows that city's chosen communities as removable tags; the panel holds a search box and that
+   city's communities, each toggling on click. */
+.ddgrid{ display:grid; gap:1rem 1.6rem; margin-top:1.6rem; max-width:62rem; }
+.ddgrid.two{ grid-template-columns:1fr 1fr; }
+.dd{ position:relative; }
+.dd[data-open="true"]{ z-index:11; }
+.dd .lbl{ display:block; font-size:.78rem; font-weight:600; margin-bottom:.4rem; }
 .dd.disabled{ opacity:.35; pointer-events:none; }
 .dd .trigger{ position:relative; display:flex; flex-wrap:wrap; gap:.45rem; align-items:center; width:100%; min-height:3.3rem; padding:.5rem 2.8rem .5rem .6rem; background:#fff; border:1px solid var(--line); border-radius:3px; cursor:pointer; transition:border-color .2s; }
 .dd .trigger:hover,.dd[data-open="true"] .trigger{ border-color:var(--slate); }
@@ -376,6 +381,7 @@ body:not(.is-intro) .page{ display:none; }
   html{ font-size:12.5px; }
   .counter{ display:none; } .top{ grid-template-columns:auto 1fr; padding:0 1.4rem; }
   .range{ grid-template-columns:1fr; } .range .to{ display:none; }
+  .ddgrid.two{ grid-template-columns:1fr; }
   .form .phone{ grid-template-columns:8rem 1fr; }
 }
 </style>
@@ -507,6 +513,7 @@ const COMMUNITIES = {
 };
 const slug = (city, name) => city + "_" + name.toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_|_$/g, "");
 const CATALOGUE = Object.entries(COMMUNITIES).flatMap(([city, names]) => names.map(name => ({ id: slug(city, name), name, city })));
+const CITY_NAME = { dubai:"Dubai", abudhabi:"Abu Dhabi" };
 const PHONE_CODES = [["+971","United Arab Emirates"],["+44","United Kingdom"],["+1","United States / Canada"],["+91","India"],["+92","Pakistan"],["+966","Saudi Arabia"],["+974","Qatar"],["+965","Kuwait"],["+973","Bahrain"],["+968","Oman"],["+20","Egypt"],["+961","Lebanon"],["+962","Jordan"],["+7","Russia / Kazakhstan"],["+86","China"],["+33","France"],["+49","Germany"],["+39","Italy"],["+34","Spain"],["+31","Netherlands"],["+41","Switzerland"],["+61","Australia"],["+27","South Africa"],["+234","Nigeria"],["+90","Türkiye"],["+98","Iran"],["+880","Bangladesh"],["+63","Philippines"],["+65","Singapore"],["+852","Hong Kong"]];
 
 /* Result copy (Investor Direction screen).
@@ -535,7 +542,7 @@ const A = {
   funding_plan:null, experience_codes:[],
   full_name:"", email:"", phone_cc:"", phone_num:"", marketing_opt_in:false
 };
-const UI = { step:"intro", dir:1, search:"", showErr:false, ddOpen:false };   // ddOpen: the communities dropdown is open
+const UI = { step:"intro", dir:1, search:"", showErr:false, ddOpen:null };   // ddOpen: the city ("dubai" / "abudhabi") whose communities dropdown is open, or null
 let submission = null;
 
 /* ============================================================ FLOW */
@@ -695,24 +702,27 @@ const PANELS = {
 
   communities: () => {
     const cities = A.market === "dubai" ? ["dubai"] : A.market === "abu_dhabi" ? ["abudhabi"] : ["dubai","abudhabi"];
-    const q = UI.search.trim().toLowerCase();
-    const open = A.community_mode === "open_to_suggestions", dd = UI.ddOpen && !open, n = A.community_ids.length;
-    const groups = cities.map(city => {
+    const open = A.community_mode === "open_to_suggestions", two = cities.length > 1;
+    /* One dropdown per city. When both cities are in scope each gets its own labelled field, so a Dubai pick
+       and an Abu Dhabi pick never sit in the same list. */
+    const field = city => {
+      const name = CITY_NAME[city], dd = UI.ddOpen === city && !open, q = dd ? UI.search.trim().toLowerCase() : "";
       const items = CATALOGUE.filter(c => c.city === city && (!q || c.name.toLowerCase().includes(q)));
-      if (!items.length) return "";
-      return `<div class="city">${city === "dubai" ? "Dubai" : "Abu Dhabi"}</div>` + items.map(c => { const on = A.community_ids.includes(c.id);
-        return `<button type="button" class="item" role="option" data-community="${c.id}" aria-selected="${on}"><span class="d"></span><span>${h(c.name)}</span></button>`; }).join("");
-    }).join("");
-    const tags = A.community_ids.map(id => { const c = CATALOGUE.find(x => x.id === id); return c ? `<span class="tag">${h(c.name)}<button type="button" class="x" data-untag="${c.id}" aria-label="Remove ${h(c.name)}">×</button></span>` : ""; }).join("");
-    return head("Any areas already in mind?", "Choose the communities you are considering from the list, or tell us you’re open to suggestions.") +
-      `<div class="dd ${open ? "disabled" : ""}" id="dd" data-open="${dd}">
-         <div class="trigger" id="ddtoggle" role="button" tabindex="${open ? -1 : 0}" aria-haspopup="listbox" aria-expanded="${dd}" aria-label="Communities">${tags || `<span class="ph">Select one or more communities</span>`}</div>
+      const chosen = A.community_ids.map(id => CATALOGUE.find(c => c.id === id)).filter(c => c && c.city === city), n = chosen.length;
+      const list = items.map(c => `<button type="button" class="item" role="option" data-community="${c.id}" aria-selected="${A.community_ids.includes(c.id)}"><span class="d"></span><span>${h(c.name)}</span></button>`).join("");
+      const tags = chosen.map(c => `<span class="tag">${h(c.name)}<button type="button" class="x" data-untag="${c.id}" aria-label="Remove ${h(c.name)}">×</button></span>`).join("");
+      return `<div class="dd ${open ? "disabled" : ""}" data-city="${city}" data-open="${dd}">
+         ${two ? `<span class="lbl">${name}</span>` : ""}
+         <div class="trigger" role="button" tabindex="${open ? -1 : 0}" aria-haspopup="listbox" aria-expanded="${dd}" aria-label="${name} communities">${tags || `<span class="ph">Select one or more ${two ? name + " " : ""}communities</span>`}</div>
          <div class="menu">
-           <div class="search"><input type="search" id="csearch" placeholder="Search for a community" value="${h(UI.search)}" aria-label="Search for a community"></div>
-           <div class="list" id="ddlist" role="listbox" aria-multiselectable="true">${groups || `<div class="empty">No communities match that search.</div>`}</div>
-           <div class="foot"><span>${n ? `${n} selected` : "Nothing selected yet"}</span><span class="spacer"></span>${n ? `<button type="button" data-clear="1">Clear all</button>` : ""}<button type="button" class="done" data-done="1">Done</button></div>
+           <div class="search"><input type="search" class="csearch" placeholder="Search ${name} communities" value="${dd ? h(UI.search) : ""}" aria-label="Search ${name} communities"></div>
+           <div class="list" role="listbox" aria-multiselectable="true">${list || `<div class="empty">No communities match that search.</div>`}</div>
+           <div class="foot"><span>${n ? `${n} selected` : "Nothing selected yet"}</span><span class="spacer"></span>${n ? `<button type="button" data-clear="${city}">Clear all</button>` : ""}<button type="button" class="done" data-done="1">Done</button></div>
          </div>
-       </div>
+       </div>`;
+    };
+    return head("Any areas already in mind?", two ? "Choose the communities you are considering in each city, or tell us you’re open to suggestions." : "Choose the communities you are considering from the list, or tell us you’re open to suggestions.") +
+      `<div class="ddgrid ${two ? "two" : ""}">${cities.map(field).join("")}</div>
        <div class="opts compact openchip">${opt("community_mode", "open_to_suggestions", "I’m open to suggestions", open)}</div>`;
   },
 
@@ -720,7 +730,7 @@ const PANELS = {
     const main = A.goal_choice, named = main && main !== "exploring";
     return head("What matters most to you in this purchase?", "Choose your main priority, then add up to two other goals that matter to you.") +
       `<div class="group-t">Main priority</div><div class="opts" role="radiogroup">${GOALS.map(([id, t]) => opt("goal_choice", id, t, main === id)).join("")}${opt("goal_choice", "exploring", "I’m still exploring my options", main === "exploring")}</div>
-       ${named ? `<div class="group-t">Other priorities <small>Optional · up to two</small></div><div class="opts compact" role="group" style="animation:fade .35s var(--ease)">${GOALS.filter(([id]) => id !== main).map(([id, t]) => opt("additional_goals", id, t, A.additional_goals.includes(id), "multi" + (A.additional_goals.length >= 2 && !A.additional_goals.includes(id) ? " disabled" : ""))).join("")}</div>` : ""}`;
+       ${named ? `<div class="group-t" id="others">Other priorities <small>Optional · up to two</small></div><div class="opts compact" role="group" style="animation:fade .35s var(--ease)">${GOALS.filter(([id]) => id !== main).map(([id, t]) => opt("additional_goals", id, t, A.additional_goals.includes(id), "multi" + (A.additional_goals.length >= 2 && !A.additional_goals.includes(id) ? " disabled" : ""))).join("")}</div>` : ""}`;
   },
 
   route: () => {
@@ -804,7 +814,7 @@ const PANELS = {
 function render(dir = 1){
   const step = UI.step, isResult = step === "result", isIntro = step === "intro";
   const main = $("#main"), prev = $(".panel", main);
-  UI.ddOpen = false; UI.search = "";                   // the communities dropdown starts closed on every visit
+  UI.ddOpen = null; UI.search = "";                    // the communities dropdowns start closed on every visit
   const el = document.createElement("div");
   el.className = `panel ${isResult ? "result" : ""} ${dir < 0 ? "back" : ""} enter`;
   el.innerHTML = PANELS[step]() + `<div class="err" id="err"></div>` + navHtml(step);
@@ -892,6 +902,15 @@ function autoAdvance(field, val){
     default: return false;
   }
 }
+/* Step 03: once a main priority is chosen, the "Other priorities" group appears below it. On a phone it sits
+   below the fold with nothing hinting it exists, so the panel scrolls to put that heading at the top. */
+function revealOthers(){
+  const panel = $(".panel:not(.exit)", $("#main")), target = panel && $("#others", panel); if (!target) return;
+  const p = panel.getBoundingClientRect(), t = target.getBoundingClientRect(), hidden = t.bottom > p.bottom - 40 || t.top < p.top;
+  if (!hidden) return;                                                                 // already in view (desktop) — leave the page alone
+  const top = panel.scrollTop + (t.top - p.top) - 16;
+  setTimeout(() => panel.scrollTo({ top, behavior: matchMedia("(prefers-reduced-motion:reduce)").matches ? "auto" : "smooth" }), 80);
+}
 let advanceTimer = null;
 function advanceSoon(){
   clearTimeout(advanceTimer);
@@ -936,7 +955,7 @@ function set(field, val){
       if (kept.length !== A.community_ids.length){ A.community_ids = kept; if (!kept.length && A.community_mode === "selected") A.community_mode = "skipped"; }
       break; }
     case "community_mode":
-      if (A.community_mode === "open_to_suggestions") A.community_mode = "skipped"; else { A.community_mode = "open_to_suggestions"; A.community_ids = []; UI.ddOpen = false; UI.search = ""; }
+      if (A.community_mode === "open_to_suggestions") A.community_mode = "skipped"; else { A.community_mode = "open_to_suggestions"; A.community_ids = []; UI.ddOpen = null; UI.search = ""; }
       break;
     case "goal_choice":
       A.goal_choice = val;
@@ -965,17 +984,19 @@ function set(field, val){
   }
 }
 
-/* Communities dropdown helpers: rerender while keeping the list scrolled where it was, and open / close it. */
+/* Communities dropdown helpers: rerender while keeping the open list scrolled where it was, and open / close one city's list. */
+const ddOpenEl = () => $(".dd[data-open='true']");
 function ddRerender(){
-  const list = $("#ddlist"), top = list ? list.scrollTop : 0;
+  const list = $(".list", ddOpenEl() || document.createElement("div")), top = list ? list.scrollTop : 0;
   rerender();
-  const l = $("#ddlist"); if (l) l.scrollTop = top;
+  const l = $(".list", ddOpenEl() || document.createElement("div")); if (l) l.scrollTop = top;
 }
-function ddSet(open){
-  if (UI.ddOpen === open) return;
-  UI.ddOpen = open; if (!open) UI.search = "";
+function ddSet(city){                      // city id to open that list, null to close whichever is open
+  if (UI.ddOpen === city) return;
+  const was = UI.ddOpen;
+  UI.ddOpen = city; UI.search = "";
   ddRerender();
-  if (open) $("#csearch")?.focus(); else $("#ddtoggle")?.focus();
+  if (city) $(".csearch", ddOpenEl())?.focus(); else if (was) $(`.dd[data-city="${was}"] .trigger`)?.focus();
 }
 function ddToggleCommunity(id){
   if (A.community_ids.includes(id)) A.community_ids = A.community_ids.filter(x => x !== id); else A.community_ids.push(id);
@@ -984,11 +1005,16 @@ function ddToggleCommunity(id){
 }
 
 $("#main").addEventListener("click", e => {
-  if (e.target.closest("#ddtoggle") && !e.target.closest("button")){ ddSet(!UI.ddOpen); return; }   // the field itself opens / closes the list
+  const trig = e.target.closest(".dd .trigger");
+  if (trig && !e.target.closest("button")){ const city = trig.closest(".dd").dataset.city; ddSet(UI.ddOpen === city ? null : city); return; }   // the field itself opens / closes its list
   const b = e.target.closest("button"); if (!b) return;
   if (b.dataset.untag){ ddToggleCommunity(b.dataset.untag); ddRerender(); return; }
-  if (b.dataset.clear){ A.community_ids = []; A.community_mode = "skipped"; resetAfter("communities"); ddRerender(); $("#csearch")?.focus(); return; }
-  if (b.dataset.done){ ddSet(false); return; }
+  if (b.dataset.clear){                                                                  // clears that city's picks only
+    const city = b.dataset.clear;
+    A.community_ids = A.community_ids.filter(id => CATALOGUE.find(c => c.id === id)?.city !== city);
+    A.community_mode = A.community_ids.length ? "selected" : "skipped";
+    resetAfter("communities"); ddRerender(); $(".csearch", ddOpenEl())?.focus(); return; }
+  if (b.dataset.done){ ddSet(null); return; }
   if (b.dataset.nav === "first"){ UI.step = QUESTION_STEPS()[0]; render(-1); return; }
   if (b.dataset.nav){ go(b.dataset.nav === "back" ? -1 : 1); return; }
   if (b.id === "back"){ clearTimeout(advanceTimer); go(-1); return; }
@@ -997,17 +1023,19 @@ $("#main").addEventListener("click", e => {
     const before = JSON.stringify(A);
     set(b.dataset.field, b.dataset.val);
     if (JSON.stringify(A) !== before) resetAfter(UI.step);
-    UI.showErr = false; rerender(); if (autoAdvance(b.dataset.field, b.dataset.val)) advanceSoon(); return;
+    UI.showErr = false; rerender(); if (autoAdvance(b.dataset.field, b.dataset.val)) advanceSoon();
+    if (b.dataset.field === "goal_choice" && b.dataset.val !== "exploring") revealOthers();   // the second question appears below; bring it into view
+    return;
   }
   if (b.dataset.community){ ddToggleCommunity(b.dataset.community); ddRerender(); return; }   // the list stays open for further picks
 });
 /* clicking anywhere outside the dropdown closes it */
 document.addEventListener("click", e => {
-  if (UI.ddOpen && UI.step === "communities" && !e.target.closest("#dd")) ddSet(false);
+  if (UI.ddOpen && UI.step === "communities" && !e.target.closest(".dd")) ddSet(null);
 });
 $("#main").addEventListener("input", e => {
   const t = e.target;
-  if (t.id === "csearch"){ UI.search = t.value; const pos = t.selectionStart; ddRerender(); const s = $("#csearch"); if (s){ s.focus(); try { s.setSelectionRange(pos, pos); } catch (e) {} } return; }
+  if (t.classList.contains("csearch")){ UI.search = t.value; const pos = t.selectionStart; ddRerender(); const s = $(".csearch", ddOpenEl()); if (s){ s.focus(); try { s.setSelectionRange(pos, pos); } catch (e) {} } return; }
   if (t.dataset.text){ A[t.dataset.text] = t.value; if (t.dataset.text === "phone_num"){ const lbl = $(".tick span"); if (lbl) lbl.innerHTML = lbl.innerHTML.replace(/by email( and WhatsApp)?\./, "by email" + (t.value.trim() ? " and WhatsApp" : "") + "."); } }
 });
 $("#main").addEventListener("change", e => {
@@ -1028,8 +1056,8 @@ $("#main").addEventListener("change", e => {
   if (t.id === "optin"){ A.marketing_opt_in = t.checked; return; }
 });
 document.addEventListener("keydown", e => {
-  if (e.target.id === "ddtoggle" && (e.key === "Enter" || e.key === " ")){ e.preventDefault(); ddSet(!UI.ddOpen); return; }
-  if (e.key === "Escape" && UI.ddOpen){ ddSet(false); return; }
+  if (e.target.matches(".dd .trigger") && (e.key === "Enter" || e.key === " ")){ e.preventDefault(); const city = e.target.closest(".dd").dataset.city; ddSet(UI.ddOpen === city ? null : city); return; }
+  if (e.key === "Escape" && UI.ddOpen){ ddSet(null); return; }
   if (e.key === "Enter" && UI.ddOpen){ e.preventDefault(); return; }                   // Enter inside the open list never submits the step
   if (e.key === "Enter" && !e.target.matches("button,select")){ e.preventDefault(); go(1); }
 });

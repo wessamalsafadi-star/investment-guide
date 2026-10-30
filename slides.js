@@ -643,7 +643,7 @@ window.DECK = {
        Personalised from the form (goal=, market=, budget=, route=) — see app.js → focus. */
     { id: "s3-open", section: "s3", tpl: "focus", bg: "img/page 25.png", num: "03", title: "Your investment focus",
       goalLabels: { A1: "Rental income", A2: "Capital growth", A3: "UAE residency", A4: "Personal use", A5: "Portfolio diversification" },
-      routes: { completed_rent: "Completed property to rent out", completed_resell: "Completed property to resell", off_plan_sell_before_handover: "Off-plan, sell before handover", off_plan_rent_after_handover: "Off-plan, rent out after handover", off_plan_resell_after_handover: "Off-plan, resell after handover", personal_use: "A home for my own use", undecided: "Still deciding" },
+      routes: { completed_rent: "Ready property to rent out", completed_resell: "Ready property to resell", off_plan_sell_before_handover: "Off-plan, sell before handover", off_plan_rent_after_handover: "Off-plan, rent out after handover", off_plan_resell_after_handover: "Off-plan, resell after handover", undecided: "Still deciding" },
       cta: { label: "Explore what to check before you buy",jump: "s4-open"},
       variants: {
         A1: { lede: "A property with an income case you can examine.",

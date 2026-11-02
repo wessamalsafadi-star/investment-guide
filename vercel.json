@@ -1,0 +1,16 @@
+{
+  "redirects": [
+    {
+      "source": "/form.html",
+      "has": [
+        { "type": "query", "key": "utm_source", "value": "internal" },
+        { "type": "query", "key": "utm_medium", "value": "organic" }
+      ],
+      "destination": "/launch?utm_source=internal&utm_medium=organic",
+      "permanent": false
+    }
+  ],
+  "rewrites": [
+    { "source": "/launch", "destination": "/form.html" }
+  ]
+}

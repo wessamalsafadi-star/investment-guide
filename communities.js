@@ -130,7 +130,7 @@ window.COMMUNITIES = {
       connectivity: "Beachfront; The Walk & The Beach retail; tram; next to Marina",
       strengths: "Direct beach; deep short-let demand; established footfall",
       risks: "High service charge; older stock; heavy short-let competition",
-      source: "Waterfront-apt band (Sands Jun 2026); confirm area figure" },
+      source: "Waterfront-apt band; confirm area figure" },
 
     { name: "Tecom / Greens", short: "Tecom / Greens", fit: {}, map: [0.420, 0.845], photo: "", // TODO — in the list but not in the doc: no profile, no grid row. Remove or complete.
       overview: "",
@@ -156,7 +156,7 @@ window.COMMUNITIES = {
       connectivity: "Remote (former Akoya Oxygen), off Jebel Ali–Lehbab Rd; car-reliant",
       strengths: "Lowest villa entry; high headline yields",
       risks: "Very remote; smaller plots; thin resale; amenity build-out ongoing",
-      source: "Oliva/DLD context Apr 2026; confirm area figure" },
+      source: "DLD, Apr 2026; confirm area figure" },
 
     { name: "Mira / Mira Oasis / Serena", short: "Mira / Serena", fit: { A3: 1 }, map: [0.700, 0.925], photo: "",
       overview: "",
@@ -176,7 +176,7 @@ window.COMMUNITIES = {
       connectivity: "E311 & E611; ~22–28 min to Downtown; Trump golf; Jebel Ali School in-gate",
       strengths: "Golf; mid-tier pricing; yield + amenity mix",
       risks: "Build quality varies by cluster — cluster-level diligence needed",
-      source: "Oliva/DLD Q1 2026 (Apr 2026)" },
+      source: "DLD, Q1 2026 (Apr 2026)" },
 
     /* CONFIRM: the highlight grid lists "TAG (The Villa area group)" but the
        profile data lists "Tilal Al Ghaf" and has no TAG entry. Treated as the
@@ -290,7 +290,7 @@ window.COMMUNITIES = {
       connectivity: "Central (Al Khail/SMBZ Rd); Circle Mall; bus (no metro)",
       strengths: "Wide completed stock; high rent share; accessible entry",
       risks: "Quality/running costs vary tower by tower; heavy supply pipeline",
-      source: "DLD/REIDIN via Sands Jun 2026; guide yield" },
+      source: "DLD, Jun 2026; guide yield" },
 
     { name: "Dubai South / Emaar South / Expo City", short: "Dubai South", fit: { A1: 1, A2: 2 }, map: [0.290, 0.985], photo: "",
       overview: "",
@@ -300,7 +300,7 @@ window.COMMUNITIES = {
       connectivity: "Around Al Maktoum Airport (DWC) & Expo City",
       strengths: "Lowest entry; long-term airport & Expo growth story",
       risks: "Large concurrent supply; infrastructure maturing; slowest recent growth",
-      source: "DLD/REIDIN via Sands Jun 2026" },
+      source: "DLD, Jun 2026" },
 
     { name: "Al Furjan / Jebel Ali", short: "Al Furjan", fit: { A1: 2, A3: 2 }, map: [0.370, 0.975], photo: "",
       overview: "",
@@ -320,7 +320,7 @@ window.COMMUNITIES = {
       connectivity: "E311 & E611; ~22–28 min Downtown; schools nearby; parks-led",
       strengths: "Highest villa yield of the Dubailand three; newer build; rentable design",
       risks: "No in-gate school; slimmer resale liquidity than Arabian Ranches",
-      source: "Oliva/DLD Q1 2026 (Apr 2026)" },
+      source: "DLD, Q1 2026 (Apr 2026)" },
 
     { name: "DIFC", short: "DIFC", fit: { A5: 1 }, map: [0.575, 0.555], photo: "", // map: TODO — not on the original list; position is a guess
       overview: "",
@@ -340,7 +340,7 @@ window.COMMUNITIES = {
       connectivity: "Burj Khalifa, Dubai Mall, Dubai Opera; two metro stations",
       strengths: "Address-driven demand holds through summer; overseas buyers steady price",
       risks: "Top-of-range service charge; more paid per sq ft for less space; large units slower",
-      source: "DLD/Knight Frank via Sands Jun 2026" },
+      source: "DLD, Jun 2026" },
 
     { name: "Business Bay / SZR / Satwa", short: "Business Bay", fit: { A1: 2, A2: 2, A3: 2, A4: 2 }, map: [0.580, 0.610], photo: "",
       overview: "",

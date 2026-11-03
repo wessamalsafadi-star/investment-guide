@@ -9,6 +9,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-K9RTFQD');</script>
+<!-- End Google Tag Manager -->
 <!-- Microsoft Clarity -->
 <script type="text/javascript">
     (function(c,l,a,r,i,t,y){
@@ -402,6 +409,10 @@ body:not(.is-intro) .page{ display:none; }
 </style>
 </head>
 <body>
+  <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K9RTFQD"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
 <div class="page">
 
   <header class="header">
@@ -1144,6 +1155,11 @@ async function deliver(payload){
 function notifyParent(){
   try { window.parent.postMessage({ type: "investment_guide_submit" }, TRACKING_ORIGIN); } catch (e) { console.error(e); }
 }
+/* GTM: push the lead event to the dataLayer once the lead is saved. */
+function pushLeadEvent(){
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({ event: 'lead_investment_guide', form_name: 'investment_guide', lead_source: 'investment_guide' });
+}
 /* saveLead(): runs when the contact step (the last question) is submitted, before the result screen renders.
    It never blocks the UI — the result shows immediately while the webhook request runs in the background.
    If the person goes back, changes nothing and submits again, the same lead is not sent twice; if they change
@@ -1157,7 +1173,7 @@ async function saveLead(){
   try { sessionStorage.setItem("bh_handbook_submission", JSON.stringify(submission)); } catch (e) {}
   let saved = false;
   try { saved = await deliver(submission); } catch (e) { console.error(e); }
-  if (saved) notifyParent();                          // only after the webhook confirmed the lead
+  if (saved){ notifyParent(); pushLeadEvent(); }                          // only after the webhook confirmed the lead
 }
 /* submit(): "Open my guide" on the result screen. The lead is already saved; this just hands over to the guide. */
 function submit(){

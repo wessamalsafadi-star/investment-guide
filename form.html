@@ -845,7 +845,9 @@ const PANELS = {
 /* ============================================================ RENDER */
 function render(dir = 1){
   const step = UI.step, isResult = step === "result", isIntro = step === "intro";
-  const main = $("#main"), prev = $(".panel", main);
+  const main = $("#main");
+  main.querySelectorAll(".panel.exit").forEach(p => p.remove());   // anything still sliding out leaves now, so it can never be mistaken for the live panel
+  const prev = $(".panel:not(.exit)", main);                         // the panel actually on screen, never a stale one
   UI.ddOpen = null; UI.search = "";                    // the communities dropdowns start closed on every visit
   const el = document.createElement("div");
   el.className = `panel ${isResult ? "result" : ""} ${dir < 0 ? "back" : ""} enter`;
@@ -957,6 +959,7 @@ function showError(){
 
 /* ============================================================ NAVIGATION */
 function go(delta){
+  clearTimeout(advanceTimer);                          // any pending auto-advance is cancelled by whichever navigation happens first
   const list = steps(), i = list.indexOf(UI.step);
   if (delta > 0){
     if (!valid(UI.step)){ UI.showErr = true; if (UI.step === "contact") rerender(); else showError(); return; }
